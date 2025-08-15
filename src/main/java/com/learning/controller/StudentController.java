@@ -1,8 +1,8 @@
-package org.school.controller;
+package com.learning.controller;
 
+import com.learning.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
-import org.school.entity.Student;
-import org.school.service.StudentService;
+import com.learning.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;

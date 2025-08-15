@@ -1,8 +1,8 @@
-package org.school.controller;
+package com.learning.controller;
 
 
+import com.learning.service.StudentService;
 import lombok.AllArgsConstructor;
-import org.school.service.StudentService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

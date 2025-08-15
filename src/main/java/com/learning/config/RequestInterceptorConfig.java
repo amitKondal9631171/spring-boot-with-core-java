@@ -1,9 +1,8 @@
-package org.school.config;
+package com.learning.config;
 
- import org.school.interceptor.RequestInterceptor;
+ import com.learning.interceptor.RequestInterceptor;
  import org.springframework.context.annotation.Configuration;
- import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration

@@ -1,7 +1,7 @@
-package org.school.config;
+package com.learning.config;
 
 
-import org.school.entity.Student;
+import com.learning.entity.Student;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

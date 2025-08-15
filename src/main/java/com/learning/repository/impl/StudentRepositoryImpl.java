@@ -1,12 +1,11 @@
-package org.school.repository.impl;
+package com.learning.repository.impl;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.school.entity.Student;
-import org.school.repository.StudentRepository;
+import com.learning.entity.Student;
+import com.learning.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 

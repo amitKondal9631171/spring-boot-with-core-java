@@ -1,6 +1,6 @@
-package org.school.repository;
+package com.learning.repository;
 
-import org.school.entity.Student;
+import com.learning.entity.Student;
 
 import java.util.List;
 

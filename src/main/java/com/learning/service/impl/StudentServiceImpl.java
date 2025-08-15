@@ -1,18 +1,16 @@
-package org.school.service.impl;
+package com.learning.service.impl;
 
-import org.school.entity.Student;
-import org.school.repository.StudentRepository;
-import org.school.service.StudentService;
+import com.learning.repository.StudentRepository;
+import com.learning.entity.Student;
+import com.learning.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @Transactional

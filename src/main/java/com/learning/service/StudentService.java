@@ -1,6 +1,6 @@
-package org.school.service;
+package com.learning.service;
 
-import org.school.entity.Student;
+import com.learning.entity.Student;
 
 import java.util.Comparator;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.school.interceptor;
+package com.learning.interceptor;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
