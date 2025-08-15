@@ -1,0 +1,199 @@
+Spring core feature is Dependency Injection and Aspect Oriented Programing.
+Spring can be used to create core projects to use Dependency Injection.
+
+Spring Advantages:
+    JDBC is simplified due to dependency injection and inversion of control.
+    Spring is open source.
+Spring Features:
+    Inversion of control: container which takes the responsibility to initialize and manage the object life cycle.
+    Aspect Oriented Programing.
+    MVC
+    Transaction Management
+    JDBC Exception handling
+
+Name some of the important Spring Modules?
+	Some of the important Spring Framework modules are:
+	Spring Context – for dependency injection.
+	Spring AOP – for aspect oriented programming.
+	Spring JMS – for for providing messaging service.
+	Spring JDBC – for JDBC and DataSource support.
+	Spring ORM – for ORM tools support such as Hibernate
+	Spring Web Module – for creating web applications.
+
+IOC container: is the mechanism to achieve loose-coupling between Objects dependencies by creating the object, wire them together and manages their life cycle.
+                The container receives the instructions from the configuration. configuration can be provided by using xml
+                file or annotations.
+	Types of IOC:
+					Bean vs application context
+	Bean: Use lazy loading of beans means create beans whenever required.
+	Application: use eager loading of beans.
+	Application: Has more features like Internalization, Annotation based configuration.
+	Bean : supports only singleton and prototype scope of bean where as Application supports Singletone, Prototype, session,
+	        request type scope
+
+
+Dependency Injection: is a design pattern allows us to remove the hard-coded dependencies and make our application loosely
+                        coupled and manageable. Which makes application easily testable and maintainable.
+
+    Types:
+        Constructor: used for mandatory dependencies.
+                    <bean id = "bulkMessageDestination" class = "org.apache.activemq.command.ActiveMQQueue">
+                    	<constructor-arg value="${jms.incomingBulkMessage}" />
+                    </bean>
+        Setter: we can do it with @Autowire annotation on Setter or on property. Also, below is the case of xml configuration
+                <bean id = "collectionOutgoingMessageSender" class = "org.springframework.jms.core.JmsTemplate">
+                	<property name = "connectionFactory"><ref bean = "cachedConnectionFactory"/></property>
+                	<property name = "defaultDestination" ref="collectionOutgoingMessageQueue"/>
+                </bean>
+        Interface
+
+
+    Also, we have webapplication context which is the extension of application context and has more features related web
+        applications like used to resolved themes.
+
+Bean wiring:
+    when beans are wired together by IoC container then they are called bean wiring.
+
+Different modes of dependency injection:
+    no: This is default setting which means no auto wiring. Explicit bean reference should be used for wiring.
+    byName: It injects the object dependency according to name of the bean. It matches and wires its properties with the beans
+            defined by the same names in the XML file.
+    byType: It injects the object dependency according to type. It matches and wires a property if its type matches with exactly
+            one of the beans name in XML file.
+    constructor: It injects the dependency by calling the constructor of the class. It has a large number of parameters.
+    autodetect: First the container tries to wire using autowire by constructor, if it can’t then it tries to autowire by byType.
+    @Autowired annotation - We can use Spring @Autowired annotation for spring bean autowiring. @Autowired annotation can be applied on variables and methods for autowiring byType. We can also use @Autowired annotation on constructor for constructor based spring autowiring. For @Autowired annotation to work, we also need to enable annotation based configuration in spring bean configuration file. This can be done by context:annotation-config element or by defining a bean of type org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.
+    @Qualifier annotation - This annotation is used to avoid conflicts in bean
+                            mapping and we need to provide the bean name that will be used for autowiring.
+                            This way we can avoid issues where multiple beans are defined for same type.
+                            This annotation usually works with the @Autowired annotation.
+                            For constructors with multiple arguments, we can use this annotation with the
+                            argument names in the method.
+Autowiring is configured by using:
+    <context:annotation-config/>
+
+@RequestMapping annotation:
+    used for mapping a particular HTTP request method to a specific class/ method in controller that will be handling the respective request.
+    This annotation can be applied at both levels:
+        Class level : Maps the URL of the request
+        Method level: Maps the URL as well as HTTP request method
+
+
+Using Annotation @Autowire IoC is asked to inject the bean when eever it is required.
+
+Spring Container----Manages---->Bean-----Defined in config file or annotation------>Classes defined with annotations/XML configuration
+
+Servlet Container----Manages---->Servlet Classes-----Defined in config file or annotation------> implementing interface Servlet
+
+Advantages of Spring:
+	Light weight and very little overhead to use spring framework.
+	Dependency injection and IoC.
+	Spring works with beans.
+	Spring IoC container manages the bean lifecycle.
+	Spring framework is used to create Web application as well as Rest services which return xml as well as xml response.
+	Support for transaction management, File upload, Java Messaging Service is with very little configuration either by Annotation or configuration file.
+	
+What are the new features in Spring 5?
+	Spring 5 runs on Java 8+ .
+	Spring Framework 5.0 comes with its own Commons Logging bridge; spring-jcl 
+
+
+What is a Spring Bean?
+	Any normal java class that is initialized by Spring IoC container is called Spring Bean.
+	We use Spring ApplicationContext to get the Spring Bean instance.
+	When we create the instance of Spring ApplicationContext, it reads the spring bean XML file and initializes all of them.
+	
+What are different ways to configure a class as Spring Bean?
+	XML Configuration:
+	Annotation
+	
+What are different scopes of Spring Bean?
+	singleton: Only one instance of the bean will be created for each container. This is the default scope for the spring beans.
+	prototype: A new instance will be created every time the bean is requested.
+	request: This is same as prototype scope, however it’s meant to be used for web applications. A new instance of the bean will be created for each HTTP request.
+	session: A new bean will be created for each HTTP session by the container.	
+	
+What is Spring Bean life cycle?
+	Spring Beans are initialized by Spring Container and all the dependencies are also injected. 
+	When the context is destroyed, it also destroys all the initialized beans. 
+	
+What is Bean wiring and @Autowired annotation?
+	The process of injecting spring bean dependencies while initializing it called Spring Bean Wiring.	
+	This can be done by context:annotation-config element.
+	
+What are different types of Spring Bean autowiring?
+	There are four types of autowiring in Spring framework.
+	autowire byName
+	autowire byType
+	autowire by constructor
+	autowiring by @Autowired and @Qualifier annotations
+
+Does Spring Bean provide thread safety?
+	The default scope of Spring bean is singleton, so there will be only one instance per context.
+	That means that all the having a class level variable that any thread can update will lead to inconsistent data. 
+	Hence in default mode spring beans are not thread-safe.
+	However, we can change spring bean scope to request, prototype
+	
+@Component is used to indicate that a class is a component. 	
+			These classes are used for auto-detection and configured as bean when annotation based configurations are used.
+			@Component
+			public class RandomNameGenerator {
+
+				public String generate() {
+
+					var names = List.of("Peter", "Roland", "Lucy", "Robert", "Jane");
+
+					var r = new Random();
+					int i = r.nextInt(names.size());
+
+					return names.get(i);
+				}
+			}	
+				
+@Controller is a specific type of component, 
+			used in MVC applications and mostly used to handle http requests with RequestMapping annotation.
+@Repository annotation is used to indicate that a component is used as repository and a mechanism to store/retrieve/search data.
+@Service is used to indicate that the class is holding the business logic.
+
+As a conclusion, it's always a good idea to choose the annotation-based on their layer conventions.
+			
+What is DispatcherServlet and ContextLoaderListener?
+	DispatcherServlet is the front controller in the Spring MVC application and it loads the spring bean configuration file and initialize all 
+	the beans that are configured.
+	If annotations are enabled, it also scans the packages and configure any bean annotated with 
+	@Component, @Controller, @Repository or @Service annotations.
+	
+ContextLoaderListener: loads the different context files and work to manage the
+                        applicant context lifecycle. It is defined in the Web.xml
+
+What is ViewResolver in Spring?
+	ViewResolver implementations are used to resolve the view pages by name. 
+	
+How to handle exceptions in Spring MVC Framework?
+	Spring MVC Framework provides the following ways to help us achieving robust exception handling.
+	Controller Based – We can define exception handler methods in our controller classes. All we need is to annotate these methods
+	with @ExceptionHandler annotation.
+	Global Exception Handler – Exception Handling is a cross-cutting concern and Spring provides @ControllerAdvice annotation that we can use with any class to define our global exception handler.
+
+How to create ApplicationContext in a Java Program?
+	There are following ways to create spring context in a standalone java program.
+		AnnotationConfigApplicationContext: If we are using Spring in standalone java applications and using annotations for Configuration,
+			then we can use this to initialize the container and get the bean objects.
+		ClassPathXmlApplicationContext: If we have spring bean configuration xml file in standalone application, then we can use this class to
+			load the file and get the container object.
+		FileSystemXmlApplicationContext: This is similar to ClassPathXmlApplicationContext except that the xml configuration file can be 
+			loaded from anywhere in the file system.
+			
+What are the minimum configurations needed to create Spring MVC application?
+	Add spring-context and spring-webmvc dependencies in the project.
+	Configure DispatcherServlet in the web.xml file to handle requests through spring container.
+	Spring bean configuration file to define beans.
+	Controller class with request mappings defined to handle the client requests.
+
+Spring Transaction Management:
+	Need to define the transaction bean by assign the sessionfactory bean then using @Transaction annotation.
+	
+DB indexes are used to increase the performance to fetch data from database.
+	Types of Indexes: 
+		Clustered:which sorts the data on there primary key values. There is only one clustered index on a single table.
+		https://www.interviewbit.com/sql-interview-questions/

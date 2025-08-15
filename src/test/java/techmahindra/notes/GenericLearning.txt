@@ -1,0 +1,129 @@
+Methods forms the bases of object to object communication.
+Hiding internal state and requiring all interaction to be performed through an object's methods is known as data encapsulation
+ — a fundamental principle of object-oriented programming.
+
+Object which has state and behaviour.
+
+Object: In programming language a object is a unit of state and behaviour.
+Dog: 
+	state: color, height, name, breed, hungry at a time.
+	behaviour: barking, running
+Human:
+	State: color, height, name
+	behaviour: eating , sleeping, walking
+Bicycles:
+	state: current gear, speed, rpm
+	behaviour: changing gear, blow horn, changing gear, applying breaks.
+
+Class: prototype from which objects are created.
+
+Package is a namespace that organizes set of classes and interfaces,
+Primitive type do not share state with other primitive types
+Integer literal is of type long if it ends with L otherwise it is of int type.
+Floating type literal is of type float if it ends with F otherwise of double type optionally ends with D or d.
+Literals: variables used to initialized without objects are called literals.
+Array is container objects contains the fixed no. of objects.
+
+
+E:\akondal\Interview\access>javac  ./pack1/Test.java
+
+E:\akondal\Interview\access>java -cp  ./pack1 Test
+Yes, you are in
+
+
+lambda expression can be defined as a annonymous functions that allows users to pass methods as arguments
+use to remove lots of boilerplate code don't need to defined return type no name no access specifier 
+default methods are the methods defined in the interfaces which has body and defined with keyword default.
+
+Byte stream works on bytes and parent of all is InputStream and output stream.
+	CopyBytes uses FileInputStream and FileOutputStream.
+	In CopyBytes, the int variable holds a byte value in its last 8 bits.
+	Each read or write request is handled directly by the underlying OS. 
+	This can make a program much less efficient, since each such request often triggers disk access, network activity, 
+		or some other operation that is relatively expensive.
+Character streams works on character and parent of all is Reader and Writer
+	CopyCharacters uses FileReader and FileWriter
+	In CopyCharacters, the int variable holds a character value in its last 16 bits
+	The Java platform stores character values using Unicode conventions. 
+	Each read or write request is handled directly by the underlying OS. 
+	This can make a program much less efficient, since each such request often triggers disk access, network activity, 
+		or some other operation that is relatively expensive.
+		
+To reduce  kind of overhead, the Java platform implements buffered I/O streams.
+Buffered input streams read data from a memory area known as a buffer; the native input API is called only when the buffer is empty. 
+Similarly, buffered output streams write data to a buffer, and the native output API is called only when the buffer is full.
+
+A program can convert an unbuffered stream into a buffered stream using the wrapping :
+inputStream = new BufferedReader(new FileReader("xanadu.txt"));
+outputStream = new BufferedWriter(new FileWriter("characteroutput.txt"));
+
+There are four buffered stream classes used to wrap unbuffered streams: 
+	BufferedInputStream and BufferedOutputStream create buffered byte streams.
+	BufferedReader and BufferedWriter create buffered character streams.
+	
+It often makes sense to write out a buffer at critical points, without waiting for it to fill. This is known as flushing the buffer.
+Some buffered output classes support autoflush, specified by an optional constructor argument. When autoflush is enabled.
+
+
+Data streams support binary I/O of primitive data type values (boolean, char, byte, short, int, long, float, and double) as well as String values. 
+	All data streams implement either the DataInput interface or the DataOutput interface. 
+	
+Object Streams
+	Just as data streams support I/O of primitive data types, object streams support I/O of objects.
+	Most, but not all, standard classes support serialization of their objects. Those that do implement the marker interface Serializable.
+	The object stream classes are ObjectInputStream and ObjectOutputStream. These classes implement ObjectInput and ObjectOutput, 
+		which are sub interfaces of DataInput and DataOutput.
+	That means that all the primitive data I/O methods covered in Data Streams are also implemented in object streams. 
+		So an object stream can contain a mixture of primitive and object values. 
+		
+What Is a Glob?
+	Two methods in the Files class accept a glob argument, but what is a glob?
+	You can use glob syntax to specify pattern-matching behavior.
+	*.html – Matches all strings that end in .html
+	??? – Matches all strings with exactly three letters or digits
+	*[0-9]* – Matches all strings containing a numeric value
+	
+Check diff b/w copy and move and renameTo
+
+In concurrent programming, there are two basic units of execution: processes and threads.
+A computer system normally has many active processes and threads. This is true even in systems that only have a single execution core, 
+	and thus only have one thread actually executing at any given moment. Processing time for a single core is shared among processes and 
+	threads through an OS feature called time slicing.
+	
+Processes
+	A process has a self-contained execution environment.
+Threads
+	Threads are sometimes called lightweight processes.
+	
+Both processes and threads provide an execution environment, but creating a new thread requires fewer resources than creating a new process.
+Threads exist within a process — every process has at least one.
+Threads share the process's resources, including memory and open files.
+Each thread is associated with an instance of the class Thread.
+
+Starvation
+	Starvation describes a situation where a thread is unable to gain regular access to shared resources and is unable to make progress. 
+	This happens when shared resources are made unavailable for long periods by "greedy" threads.
+	
+Livelock
+	A thread often acts in response to the action of another thread. If the other thread's action is also a response to the action of another thread, 
+	then livelock may result. As with deadlock, livelocked threads are unable to make further progress. However, the threads are not blocked — they are 
+	simply too busy responding to each other to resume work.
+	
+1) Access Specifier: public, private, protected, default.
+2) Access Modifier: static, abstract, final, 
+			transient: transient is a variables modifier used in serialization. At the time of serialization, 
+						if we don’t want to save value of a particular variable in a file, then we use transient keyword. 
+						When JVM comes across transient keyword, it ignores original value of the variable and save default value of that
+						variable data type.
+						It is good habit to use transient keyword with private confidential fields of a class during serialization.
+						  
+			volatile: volatile keyword is used to modify the value of a variable by different threads.
+			synchronized: use to acquire lock on the object.
+
+SOLID: is a acronym to the five principles:
+    Single responsibility: every class should have single responsibility to deal with.
+    Open for extension and close for modification : mean open to enhance the model and close to modify
+    Liskov principle : parent class should behave like child class.
+    Interface segregation: single interface contains similar operations like dao interface should and dao related operations and service introduce should have service based operations.
+    Dependency principle: should be loosely coupled.
+

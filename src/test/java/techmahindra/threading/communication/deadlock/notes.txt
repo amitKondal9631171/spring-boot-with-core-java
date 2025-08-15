@@ -1,0 +1,4 @@
+How do you ensure that the N thread can access N resources without deadlock? (answer)
+    The key point here is ordering, if you
+        acquire resources in a particular order and release resources in the reverse order
+        you can prevent deadlock.

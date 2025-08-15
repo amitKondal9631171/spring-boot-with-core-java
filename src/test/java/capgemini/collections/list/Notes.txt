@@ -1,0 +1,7 @@
+Why is there no TreeList implementation of the List interface?
+    Basically you need to understand what is the purpose of these implementation like both
+        these TreeMap and Treeset are implementation of SortedSet and SortedMap is used for
+        sorting purpose but we have Collections.sort(List) which can be implied on List for
+        sorting hence not TreeList is not required in List.
+    Because a list is an index-based data structure, and trees are no index-based data
+        structures. That's the most basic and clear reason.

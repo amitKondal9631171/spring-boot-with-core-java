@@ -1,0 +1,15 @@
+Externalization is Serialization using Externalize interface instead of Serializable.
+The externalize interface itself extends Serializable interface and has two methods: readExternal and writeExternal.
+These 2 methods give complete control over format and contents that you want to Serialize/deserialize and must be
+    implemented by the class.
+
+How to do Externalization :
+    1. The class must implement Externalize interface and override readExternal and writeExternal methods.
+    2. Inside writeExternal method, write the variables to stream/file using proper methods of ObjectOutput, like writeInt() for int and writeObject for objects, strings etc.
+    3. Similarly, while deserializing use the proper method of ObjectInput, inside readExternal method.
+    4. Rest of steps are same as Serialization, like creating ObjectOutputStream and invoking writeObject.
+
+ When an Externalizable object is reconstructed, a new instance is created using the public no-arg constructor of the
+     externalization class and then the readExternal method is invoked to restore the state.
+     That means the externalization class must have a public non-arg constructor.
+    Otherwise following exception will be thrown InvalidClassException .

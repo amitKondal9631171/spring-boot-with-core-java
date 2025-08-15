@@ -1,0 +1,15 @@
+Immutable class:
+    Make class as final.
+    declare mutable fields as final
+    only getters to get the values and don't expose setter to set the value.
+    When exposing methods which modify the state of the class, you must always return a new instance of the class.
+    If the class holds the mutable object:
+        --> Inside the constructor to initialize the object use deep copy of mutable object.
+
+Generics:
+    promises the type safety for row type of collection. Before generics there was an issue with collections as we can store different
+    type of objects in collection and if don't type cast the properly while iterating the collection then we will get type cast exception.
+    Types:
+        Generic Class
+        Generic Methods
+    WildCard: ? is defined as wildcard which defines collection can have any type of entry means used to make methods generics

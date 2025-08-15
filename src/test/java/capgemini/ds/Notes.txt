@@ -1,0 +1,151 @@
+
+Data Structures:
+    Is the way of data organisation. Java supports multiple data types by default:
+        Array
+        List
+        Stack
+        Queue
+        HashTable
+        Trees
+        Heaps
+        Graphs
+
+Space and Time complexity.
+
+There are two types of Data Structures:-
+    Primitive Data Structures
+    Non-primitive Data Structures
+
+Primitive data Structures:
+    Are also called Primitive Data Types. byte, short,  int, float, char, boolean, long,
+    and double are primitive Data types.
+
+Non-primitive data Structures:
+    Non-primitive Data Structures are of two types:-
+        Linear Data Structures
+        Non-linear Data Structures
+
+Linear Data Structures – The elements arranged in a linear fashion are called Linear Data Structures.
+                           Here, each element is connected to one other element only.
+                           Linear Data Structures are as follows:
+                               Arrays
+                               Stack
+                               Queue
+                               Linked List
+Non-Linear Data Structures – The elements arranged in a non-linear fashion are called Non-Linear
+                             Data Structures. Here, each element is connected to n-other elements.
+                             Trees
+                                 Binary Tree
+                                 Binary Search Tree
+                                 AVL Tree
+                                 Red-Black Tree
+                             Graph
+                             Heap
+                                 MaxHeap
+                                 MinHeap
+                             Hash
+                                 HashSet
+                                 HashMap
+
+Advantages of Data Structures in java
+    Efficiency
+    Re-usability
+    Processing Speed
+    Abstraction
+    Data Searching
+
+What is an Array?
+    An array is the simplest data structure where a collection of similar data elements takes place
+    and each data element can be accessed directly by only using its index number.
+    Array Advantages:
+        Random access
+        Easy sorting and iteration
+        Replacement of multiple variables
+    Array Disadvantages:
+        Size is fixed
+        Difficult to insert and delete
+        If capacity is more and occupancy less, most of the array gets wasted
+        Needs contiguous memory to get allocated
+    Applications
+        For storing information in a linear fashion
+        Suitable for applications that require frequent searching
+
+What is Linked List?
+    Linked list data structure helps the required objects to be arranged in a linear order.
+    Advantages:
+        Dynamic in size
+        No wastage as capacity and size is always equal
+        Easy insertion and deletion as 1 link manipulation is required
+        Efficient memory allocation
+    Disadvantages:
+        If head Node is lost, the linked list is lost
+        No random access is possible
+    Applications:
+        Suitable where memory is limited
+        Suitable for applications that require frequent insertion and deletion
+
+Features of Stack:
+    Linear Data Structures using Java
+        Follows LIFO: Last In First Out
+        Only the top elements are available to be accessed
+        Insertion and deletion takes place from the top
+        Eg: a stack of plates, chairs, etc
+        4 major operations:
+        push(ele) – used to insert element at top
+        pop() – removes the top element from stack
+        isEmpty() – returns true is stack is empty
+        peek() – to get the top element of the stack
+        All operation works in constant time i.e, O(1)
+    Advantages:
+        Maintains data in a LIFO manner
+        The last element is readily available for use
+        All operations are of O(1) complexity
+    Disadvantages:
+        Manipulation is restricted to the top of the stack
+        Not much flexible
+    Applications:
+        Recursion
+        Parsing
+        Browser
+        Editors
+
+Features of Queue
+    Linear Data Structure
+    Follows FIFO: First In First Out
+    Insertion can take place from the rear end.
+    Deletion can take place from the front end.
+    Eg: queue at ticket counters, bus station
+    4 major operations:
+    enqueue(ele) – used to insert element at top
+    dequeue() – removes the top element from queue
+    peekfirst() – to get the first element of the queue
+    peeklast() – to get the last element of the queue
+    All operation works in constant time i.e, O(1)
+    Advantages
+        Maintains data in FIFO manner
+        Insertion from beginning and deletion from end takes O(1) time
+    Applications
+        Scheduling
+        Maintaining playlist
+
+What is a Binary Tree?
+    In a binary tree, the branches of the tree are made up of up to two child nodes for
+    each node. The left and right nodes are the common names for the two youngsters.
+    Child nodes make references to their parents, whereas parent nodes are nodes with children.
+
+Features of Binary Tree
+    Hierarchical  Data Structure
+    The topmost element is known as the root of the tree
+    Every Node can have at most 2 children in the binary tree
+    Can access elements randomly using index
+    Eg: Organisation hierarchy
+    Common traversal methods:
+        preorder(root) : print-left-right
+        postorder(root) : left-right-print
+        inorder(root) : left-print-right
+    Advantages
+        Can represent data with some relationship
+        Insertion and search are much more efficient
+    Disadvantages
+        Sorting is difficult
+        Not much flexible

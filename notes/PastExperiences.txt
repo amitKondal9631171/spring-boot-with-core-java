@@ -1,0 +1,21 @@
+
+Bayatree:
+    1. File processing performance increased by refactoring the code with close with resources
+        implementation of java 7 feature.
+
+Fintek:
+    1. Design related suggestions with using spring boot applications to decouple the new feature
+        from monolith application.
+    2. Increase the reporting performance by using database materialize view and indexes.
+
+Tech mahindra:
+    1. Integration issues resolved with coordinating with respective microservice team.
+
+Capgemini:
+    1. Increased performance by using Feign client to make async calls to different provider instead of
+       Rest template.
+    2. Implemented cache
+    3.  Suggested Webflux approach to provide non blocking response to consumer. But for that
+        client needs to update and discussion is in progress.
+    4. Suggested to implement contract based testing as our application is interacting with different
+        providers.

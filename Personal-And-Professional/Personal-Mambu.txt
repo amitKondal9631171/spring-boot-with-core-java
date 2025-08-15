@@ -1,0 +1,27 @@
+Good Evening Stavros,
+First of all I want thank you for inviting me and it's my pleasure to introduce myself to you !
+My name is Amit kondal and belongs to Northern region of India.
+I am married.
+I have done Engineering in computer Science from one of the renowned university named Guru Nanak Dev University
+    established 1969.
+After my engineering I started my career as Software Developer and It's been 11 years now working
+        as software engineer.
+My strengths includes:
+    Commitment & Dedication towards my personal and professional goals.
+    Quick learner.
+My hobbies are doing outdoor activities (Cycling, basketball, trekking etc.).
+    But playing cricket is what I like the most.
+My goal is to become a software architect.
+Since from last 4 years I am working with banking domain which motivates to work in the same domain.
+So, Presently looking to get an Opportunity in company with banking domain, where I can use my expertise for
+  the growth of organization and acquire higher position in the same.
+
+That's all about me !!!
+Thank you !
+
+
+===
+TDD: https://www.youtube.com/watch?v=h26wrTxF94k
+
+HLD Vs LLD
+https://www.youtube.com/watch?v=H703ErIrby8

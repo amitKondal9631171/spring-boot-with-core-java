@@ -1,0 +1,12 @@
+In-Order: gives the ordered list
+
+to sort the array first convert it into the Binary tree and do the traversal.
+
+In order:
+    left > root > right
+
+Pre Order:
+    root > left > right
+
+Post Order:
+    left > right > root

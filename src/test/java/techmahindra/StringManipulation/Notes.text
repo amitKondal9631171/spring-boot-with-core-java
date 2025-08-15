@@ -1,0 +1,29 @@
+1) String is a Class in java and defined in java.lang package. It’s not a primitive data type like int and long.
+2) String class represents character Strings.
+3) String is a Final class; i.e once created the value cannot be altered. Thus String objects are called immutable.
+    The Java Virtual Machine(JVM) creates a memory location especially for Strings called String Constant Pool.
+    That’s why String can be initialized without ‘new’ keyword.
+4) JVM uses String Pool to store all the String objects.
+5) String uses operator overloading for string concatenation.
+6) We can create String object using new operator like any normal java class or we can use double quotes to create a String object.
+7) There are several constructors available in String class to get String from char array, byte array, StringBuffer and
+StringBuilder.
+8) When we create a String using double quotes, JVM looks in the String pool to find if any other String is stored with
+    same value. If found, it just returns the reference to that String object else it creates a new String object with given
+    value and stores it in the String pool.
+9)  When we use new operator, JVM creates the String object but don’t store it into the String Pool. It stores it into heap.
+10) We can use intern() method to store the String object into String pool or return the reference if there is
+    already a String with same value present in the pool.
+
+
+    String s1 = "Javatpoint";
+    String s2 = s1.intern();// will not create object in pool
+    String s3 = new String("Javatpoint");
+    String s4 = s3.intern(); // will add object into pool
+
+    System.out.println(s1==s3); // False
+    System.out.println(s1==s4); // True
+    System.out.println(s2==s3); // False
+    System.out.println(s1==s2); // True
+    System.out.println(s2==s4); // True
+    System.out.println(s3==s4); // False

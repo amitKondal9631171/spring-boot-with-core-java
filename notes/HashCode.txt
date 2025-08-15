@@ -1,0 +1,7 @@
+Recall that hash codes are not unique.
+The only requirement as per Java documentation is for hash codes of equal objects to be the same.
+        System.out.println("Aa hash code: " + "Aa".hashCode()); //2112
+        System.out.println("BB hash code: " + "BB".hashCode()); //2112
+
+If two strings hashCode() is equal, it does not mean they are equal.
+If equals() is true for two strings, their hashCode() will be the same.

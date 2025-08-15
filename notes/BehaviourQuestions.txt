@@ -1,0 +1,53 @@
+How do you mange time, when user story is assigned to you ?
+    1. I use to follow some step to deliver the US with testing.
+    2. Clarify the doubts from PO or BA early.
+    3. Check out the any dependency for the US.
+    4. Prioritize the story tasks.
+    5. Dev + testing
+    6 Code review
+    7 Bug fixing.
+    8 Learn the things during the US completion has share the insights during the Retro to share the knowledge.
+    Create the subtask and update on regularly bases. TO keep the US status updated.
+
+
+    If I have multiple stories the I use to verify the priority with scrum master.
+
+    What if we get blocker during the sprint.
+        Identity and ack the blocker immediately
+        update the story task with blocked status with exact cause of impact.
+        Raise the blocker in stand up or early.
+        Collaborate to unblock:
+            I use to handle the blocker proactivly -- talk the dependent team or esclate through the scrum master if needed.
+        Switch to parrellel  work.
+
+    App scaling
+    Vertical scaling: increase cpu and memory e.gL legacy applications
+    Horizontal scaling: add more instance of your application to handle traffic : state less applications and webapps
+    Application level stratergies:
+        Make apps stateless
+            Avoid saving session data in memory
+            Use distributed cache
+
+Deployment steps:
+    Compile code , run test
+    create executable jar, war or docker image
+    Package the artifact: jar was or docker
+    Push to artifact
+    deploy to target env.
+        AKS
+        App service
+    post deployment verification
+        health check endpount eg. actuator
+        automated smoke test
+    Rollback strategy
+         Maintian previous version of artifcat
+         use blue/green env.
+            Blue: current production
+            green: new version
+                Deploy new version to freen
+                run test, validations on green
+                switch from blue to green
+                if success then green becomes live
+                if fails then rollback by pointing back to blue
+
+         rollback via ci/cd

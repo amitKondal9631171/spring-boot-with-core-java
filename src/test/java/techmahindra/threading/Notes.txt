@@ -1,0 +1,74 @@
+The basic difference between preemptive and non-preemptive scheduling is that in preemptive scheduling
+the CPU is allocated to the processes for the limited time. While in Non-preemptive scheduling, the CPU is
+    allocated to the process till it terminates or switches to waiting state.
+
+yield(): Suppose there are three threads t1, t2, and t3. Thread t1 gets the processor and starts its
+    execution and thread t2 and t3 are in Ready/Runnable state. Completion time for thread t1 is 5 hour
+    and completion time for t2 is 5 minutes. Since t1 will complete its execution after 5 hours, t2 has to
+     wait for 5 hours to just finish 5 minutes job. In such scenarios where one thread is taking too much
+     time to complete its execution, we need a way to prevent execution of a thread in between if
+     something important is pending. yield() helps us in doing so.
+yield() basically means that the thread is not doing anything particularly important and if any other
+    threads or processes need to be run, they should run. Otherwise, the current thread will continue to run.
+
+    Use of yield method:
+
+    Whenever a thread calls java.lang.Thread.yield method, it gives hint to the thread scheduler that it is ready to
+     pause its execution. Thread scheduler is free to ignore this hint.
+    If any thread executes yield method , thread scheduler checks if there is any thread with same or high priority
+     than this thread. If processor finds any thread with higher or same priority then it will move the current thread
+     to Ready/Runnable state and give processor to other thread and if not – current thread will keep executing.
+
+
+     Note:
+     Once a thread has executed yield method and there are many threads with same priority is waiting for processor,
+            then we can't specify which thread will get execution chance first.
+     The thread which executes the yield method will enter in the Runnable state from Running state.
+     Once a thread pauses its execution, we can't specify when it will get chance again it depends on thread scheduler.
+     Underlying platform must provide support for preemptive scheduling if we are using yield method.
+
+Both ExecutorService and ScheduledExecutorService are interfaces, with ScheduledExecutorService extending ExecutorService.
+    Executor service and schedule ExecutorService provides the functionality to execute the runnable and callable task
+    concurrently.
+ScheduledExecutorService is an extension of an ExecutorService, so it provides the same functionality with the
+                        addition of several methods that deal with scheduling execution.
+
+Sleep method takes the currently executing thread to sleep for defined time.
+Wait method takes the thread to wait for some resource until some other thread invoke notify method or the notifyAll method for same resource.
+    wait method is applied on the resource object..
+
+Synchronize method acquire lock on the object and block will block the block of statements. This means no other thread can
+    use any synchronized method in the whole object while the method is being run by one thread.
+
+Thread States:
+    New: When a new thread is created, it is in the new state.
+    Runnable: A thread that is ready to run is moved to a runnable state.
+               In this state, a thread might actually be running or it might be ready to run
+               at any instant of time. It is the responsibility of the thread scheduler to give
+               the thread, time to run.
+    Blocked / Waiting: When a thread is temporarily inactive.
+    Terminated: A thread terminates.
+
+DEADLOCK PREVENTION VS DEADLOCK AVOIDANCE
+    Deadlock prevention: is a technique used to ensure that deadlocks, which are situations
+                        where two or more processes are unable to proceed because each is waiting
+                        for the other to release a resource, do not occur.
+                        Aims to eliminate the possibility of deadlocks.
+                        Eliminate Mutual Exclusion
+                        Eliminate Hold and wait
+                        Eliminate Circular Wait
+                        Detection and Recovery: Another approach to dealing with deadlocks is to
+                                                detect and recover from them when they occur.
+                                                This can involve killing one or more of the processes
+                                                involved in the deadlock or releasing some of the .
+                                                resources they hold.
+    Deadlock avoidance: is another technique used to deal with deadlocks.
+                        Banker’s Algorithm:
+                                Inputs to Banker’s Algorithm
+                                    Max needs of resources by each process.
+                                    Currently, allocated resources by each process.
+                                    Max free available resources in the system
+                                The request will only be granted under the below condition
+                                    If the request made by the process is less than equal to the max needed for that process.
+                                    If the request made by the process is less than equal to the freely available resource in
+                                    the system.

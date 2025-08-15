@@ -1,0 +1,63 @@
+What are the intermediate operations in Java 8?
+In this article, we will discuss the Intermediate operation in Java 8.
+    By use of Stream, you can perform various operations.
+    Some operations that return a new stream is called intermediate operation.
+    This operation is lazy in nature.
+
+1. By use of intermediate operation, you can perform the various operations in a row.
+    Because intermediate operation produces a stream and sends next to operation.
+2. The intermediate operations could not able to produce the final result.
+3. Intermediate operation in java 8, is used by the terminal operation as an input.
+
+    Let’s discuss some intermediate operations:
+    1. Stream.filter()
+    2. Stream.map()
+    3. Stream.sorted()
+    4. Stream.distinct()
+
+How Stream is lazy?
+    It is an important characteristic of streams because the operation on the source data is only
+    performed when the terminal operation is initiated. It does’t consume the source elements as
+    in eager loading, the source elements are consumed only on demand.
+    As you have seen in Stream operations:
+        1. The intermediate stream doesn't produce the result. They create a new Stream
+        only.
+        2. The terminal operation produces the result.
+
+How do intermediate operations and terminal operations work together with Lazy evaluation?
+    1. The intermediate operations are lazy in nature and only executed when a result of
+        processing is needed.
+    2. Intermediate operations don’t produce the result. It creates a new stream.
+    3. Intermediate operations are not evaluated until the terminal operations are not
+        initiated.
+    4. When a terminal operation is initiated, the traversal of streams starts, and the
+        associated function is performed one by one.
+
+
+ Terminal operations:
+ ForEach:
+     forEach() method is used to iterate over the resultant collection, same as that of the traditional for loop.
+     List listOfCountries = Arrays.asList("India", "Indonesia", "Nepal", "Afghanistan");
+     listOfCountries.stream()
+              .filter(x-> x.toString().startsWith("I"))
+              .forEach(System.out::println);
+
+AnyMatch:
+    As compared to the allMatch() anyMatch() helps to check if either one of the elements in the stream matched the condition.
+    List listOfCountries = Arrays.asList("India", "Indonesia", "Nepal", "Afghanistan");
+    boolean areAllElementsStartingWithI = listOfCountries.stream()
+            .anyMatch(x -> x.toString().startsWith("I"));
+
+Count:
+    count() terminal operation helps us to find the count of the processed collection.
+    List listOfCountries = Arrays.asList("India", "Indonesia", "Nepal", "Afghanistan");
+    long output = listOfCountries.stream()
+            .filter(x-> x.toString().startsWith("I"))
+            .count();
+
+Collect:
+    collect() operation helps to collect the stream into a collection. This method takes a Collector implementation that provides useful reduction operations.
+    List listOfCountries = Arrays.asList("India", "Indonesia", "Nepal", "Afghanistan");
+    List output = (List) listOfCountries.stream()
+            .filter(x-> x.toString().startsWith("I"))
+            .collect(Collectors.toList());

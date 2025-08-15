@@ -1,0 +1,35 @@
+What is the aim when you do code review?
+    1) Add value to System:
+           Maintainability
+           Operations
+           Scalability
+           Performance
+    2) Add value to People
+           Help them learn new things
+    3) Add to Best Practices:
+            Identify common mistakes
+
+When do you do code review ?
+    New developer joins the team?
+    New technology change is being implemented?
+
+What are the good practices in doing Code Reviews?
+    1) Ideally Pair Programming Reviews
+         Fixing comments directly discussing with developers
+    2) Use static analysis tools - SONAR
+    3) Quality of Junit is a great guide to the quality of system
+    4) Check Readability of code
+
+What are the things you look for in:
+    1) Architecture:
+        Frameworks choice
+        Communication with other systems
+        Testability
+        Components
+        Reuse
+
+    2) Design:
+        Interactions between classes
+        Layer Responsibilities
+        OOPS principles
+        Unit Tests

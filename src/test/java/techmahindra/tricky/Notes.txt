@@ -1,0 +1,39 @@
+What is garbage collection in java?
+    Garbage collection is the process of identifying used and unused objects on java heap and removing
+    unused object from the heap.
+    A live object means object is still being referred to some part of program.
+    Unused object means object is not being referred by any part of program and is eligible for garbage collection.
+    Programmer does not have to do manual garbage collection like C or C++. JAVA TAKES CARE OF :)
+
+What is difference between Collection.synchronizedMap(map) and ConcurrentHashMap?
+    When you make map thread safe by using Collection.synchronizedMap(map), it locks whole map object.
+    ConcurrentHashMap does not lock the whole map, it just locks part of it(Segment).
+
+Which design pattern you have used in your project?
+    You can name few design patterns such as Singleton, Observer etc. which you might have used in your project.
+
+What is double level locking in singleton design pattern?
+     public static Singleton getInstance()
+     	{
+     		if (_instance == null) { // Single Checked
+     		    //T2 is waiting here after checking that object exist or not.
+     			synchronized (Singleton.class)
+     			{
+     			//T1 is inside the block and creating object..now T1 creates object while t2 is waiting and now t2 aquire the lock in this case t2 will again check for null.
+     			//so that it will make sure the while he was waiting no other thread has created the object.
+     				if (_instance == null)// Double checked
+
+     				{
+     					_instance = new Singleton();
+     				}
+     			}
+     		} return _instance;
+     	}
+
+     Let’s say two threads(T1 and T2) checked for null and both reached at synchronized (Singleton.class) .
+     T1 gets the lock and create instance of Singleton and return.Now T2 enters in synchronized block, as we
+     have checked for null again,it will not create object again.
+
+Have you worked on Java 8? Can you share major changes in Java 8?
+    If you have worked on Java 8, you can share major changes such Stream, lambada expression,
+    defaults method in interface etc.

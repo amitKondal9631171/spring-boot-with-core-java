@@ -1,0 +1,17 @@
+JNDI: Java Namespace Directory Interface:
+
+1. The most common use case is to set up a database connection pool on a Java EE application server.
+2. Provide Database credentials in server (Webserver like tomcat or JBoss) configuration file.
+3. Configure the DB Connection name in J2EE application context file (e.g. <jee:jndilookup>)
+
+This has several advantages:
+    If you have a deployment sequence where apps move from devl->int->test->prod
+        environments, you can use the same JNDI name in each environment and hide
+        the actual database being used. Applications don't have to change as they
+        migrate between environments.
+    You can minimize the number of folks who need to know the credentials for accessing
+        a production database. Only the Java EE app server needs to know if you use JNDI.
+
+
+
+Reference: https://www.youtube.com/watch?v=y-RYUMXSRyk

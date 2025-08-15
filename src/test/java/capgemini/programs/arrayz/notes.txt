@@ -1,0 +1,21 @@
+Why is the complexity of fetching from an Array be O(1)?
+    In an Array, objects are stored in continuous memory location.
+    So, if you know the address of the base object then you will be able to find
+    the address of the ith object.
+
+How can you get the index of an array element? e.g. index of 10 from {4,2,3,5,6,10,12,32}
+    You can find the index of an element through a linear or binary search.
+        A linear search is a function in which you loop through each and every
+        element of an array until it finds the match of the desired element.
+        When it finds the matching element, it returns the index.
+        Therefore time complexity of the linear search is O(n).
+        Linear search can be applied to sorted as well as an unsorted array.
+
+    If the array is sorted, you can use a binary search that repeatedly splits the
+        array in half until the median of the interval matches the desired element
+        and returns the index. Therefore time complexity of the binary search
+        is O(log n)
+
+Can a Negative number be passed in Array size?
+    No, a negative number cannot be passed as array size. If you pass a negative number in
+        Array size then you will get the NegativeArraySizeException at run time

@@ -1,0 +1,2 @@
+
+Heap is special type of binary tree.

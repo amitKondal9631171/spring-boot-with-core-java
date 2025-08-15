@@ -1,0 +1,21 @@
+Serialization is a mechanism of converting the state of an object into a byte stream.
+This mechanism is used to persist the object.
+Case 1: If superclass is serializable then subclass is automatically serializable automatically.
+Case 2: If super class is serializable and subclass is not and don't want to serialize sub class then need to override
+        readObject and writeObject method to throw serializable exception.
+Case 3: If Sub class implements serializable interface and parent is not then jvm will not serialize parent class object
+          but need default constructor during deserialization.
+Association:If a class has a reference to another class, all the references must be Serializable otherwise serialization process will
+                not be performed. In such case, NotSerializableException is thrown at runtime.
+
+What’s wrong with the default serialVersionUID?
+If no serialVersionUID is declared, JVM will use its own algorithm to generate a default SerialVersionUID,
+    you can check the algorithm here.
+
+The default serialVersionUID computation is highly sensitive to class details
+    and may vary from different JVM implementation,
+    and result in an unexpected InvalidClassExceptions during the deserialization process.
+
+
+The ObjectOutputStream class is used to write primitive data types, and Java objects to an OutputStream.
+    Only objects that support the java.io.Serializable interface can be written to streams.

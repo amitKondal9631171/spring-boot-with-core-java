@@ -1,0 +1,10 @@
+1) Oops program for overload,override constructor over load.
+
+
+Oops points: 1) If class A is extended by B and B is extended by C also A and B has the overridden function but C don't have
+                any overridden function. Now we are creating Object of C with is being referred by A. A anc C don't have any connection
+                but c is a sub class of B and B is sub class of A so indirectly C is a subclass of A... Now A is referred to Object c and
+                method is being called by reference A so it will call method of B class because B is super class of C and always child class
+                function is called first as C don't have that function so B's function will be called...
+
+2) Upcasting downcasting

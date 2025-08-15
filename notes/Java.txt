@@ -1,0 +1,25 @@
+Spring-boot
+Spring-basics
+Threading
+java-8 to 17
+Hibernate
+Rest-API
+Security
+Data-Structure
+Design-Patterns
+
+1.) What is a Lambda Expression, and why use them?
+	It’s a function that can be referenced and shared as an object. Lambda Expressions require less coding.
+
+What is a functional interface?
+    A functional interface is an interface that contains just one abstract method.
+
+How are functional interfaces and Lambda Expressions related ?
+	Lambda expressions are applied only to the functional interface’s abstract method.
+
+What is a stream, and how does it differ from a collection?
+	A stream is an iterator whose function is to accept a set of actions and apply them to each of the elements it contains.
+
+Java 17 is the latest LTS(Long Term Support) version of the Java programming language,
+    released on September 14, 2021. If you're currently using Java 11, it may be time to
+    consider migrating to Java 17 to take advantage of its new features and improvements.

@@ -1,0 +1,30 @@
+How to achieve performance in Java?
+    Minimise number of objects created:
+        Avoid String Concatenation : Use StringBuffer.
+        Avoid creating objects in Loops.
+        Consider patterns like Flyweight. Flyweight pattern is primarily used to reduce the number
+                 of objects created and to decrease memory footprint and increase performance.
+    Use correct data structures.
+    Reduce web application overhead:
+        Small session size.
+        Use Caching where appropriate.
+        Close connections and Streams.
+    Tune you database:
+        Have indexes.
+        Tune your queries.
+        If you are using hibernate, understand the internals of hibernate. Avoid N+1 Selects Problem.
+        Enable statistics on Databases.
+
+What are the best practices in Load & Performance Testing?
+    1) Have clear performance objectives. That’s the single most important objective.
+        Decide Peak Load, Expected Response Time, Availability Required before hand.
+    2) An application does not work on its own. It connects with a number of external
+        interfaces. Establish clear performance expectations with the Interface Services
+    3) Validate early : Do performance testing as early as possible.
+
+What are the actions to reduce bottlenecks in an application?
+    Introduce Caching.
+    Tuning Java Code.
+    Tuning Database. (Indexing, Optimizing Queries, Optimize Hibernate settings)
+    Tuning Application Server Configuration and Settings (Connection, Memory, GC etc).
+    Increase More Memory

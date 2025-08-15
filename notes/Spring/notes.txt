@@ -1,0 +1,366 @@
+When beans are combined together within the Spring container,
+    they are said to be wired or the phenomenon is called bean wiring.
+The Spring container should know what beans are needed and how the beans are dependent
+    on each other while wiring beans. This is given by means of XML / Annotations / Java code-based configuration.
+
+***https://www.baeldung.com/circular-dependencies-in-spring
+
+https://mkyong.com/spring/spring-bean-scopes-examples/
+What are the bean scopes available in Spring?
+    Singleton: The scope of bean definition while using this would be a single instance per IoC container.
+                Singleton bean is stateless because it is shared .
+    Prototype: Here, the scope for a single bean definition can be any number of object instances.
+                Prototype bean is stateful because it is not shared among other components.
+                @Configuration
+                @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+    Request: The scope of the bean definition is an HTTP request.
+             Request basically is the client's request which is passed to the server for processing.
+             For example: suppose a user wants to know some information like total bill amount
+             (shopping website) then the request is send to server, business logics are applied
+             processing is done and then the response is shown back to user.
+    Session: Here, the scope of the bean definition is HTTP-session.
+             Sessions are the entire conversation that occurs between a server and a client.
+             It can be tracked through cookies or through url rewriting. The moment client forwards
+             a request the session begins and continues until a response is send back to the client.
+             Or it can continue until a time period specified.
+    Global-session: The scope of the bean definition here is a Global HTTP session
+
+In which scenario, you will use singleton and prototype scope?
+    Use Singleton Scope:
+        when you want to have only one instance shared across the entire application.
+        When we don't need to maintain the user session.
+    Use Prototype Scope:
+        when you want a new instance created every time it’s requested,
+            providing independence for each part of the application.
+        when user session needs to maintain.
+
+Data types restriction: Primitive data types, Strings, and wrapper Classes can’t be autowired.
+What is auto wiring and name the different modes of it?
+    The IoC container auto wires relationships between the application beans.
+    Different modes of this process are:
+        No: This means no auto wiring and is the default setting.
+            Explicit bean reference should be used for wiring. e.g.: Constructor and setter injection
+        byName: The bean dependency is injected according to the name of the bean.
+                This matches and wires its properties with the beans defined by the same names as per the configuration.
+        byType: This injects the bean dependency based on type.
+        constructor: Here, it injects the bean dependency by calling the constructor of the class.
+                     Auto wiring by constructor is similar to byType but it applies to constructor arguments.
+                     It will look for the class type of constructor arguments, and then do an auto wire byType
+                     on all constructor arguments.
+        autodetect: By default uses constructor or byType injection.
+
+    By default, Spring resolves @Autowired entries by type. If more than one bean of the same type is available in the container, the framework will throw a fatal exception.
+    @Component("fooFormatter")
+    public class FooFormatter implements Formatter {
+        public String format() {
+            return "foo";
+        }
+    }
+    @Component("barFormatter")
+    public class BarFormatter implements Formatter {
+        public String format() {
+            return "bar";
+        }
+    }
+
+    //Now Formatter has two beans and we autowire as below then it will look based on
+    //type and trow NoUniqueBeanDefinitionException.
+    public class FooService {
+        @Autowired
+        private Formatter formatter;
+    }
+    //To resolve above issue need to use qualifier annotation
+    public class FooService {
+        @Autowired
+        @Qualifier("fooFormatter")
+        private Formatter formatter;
+    }
+
+What do you understand by the term 'Spring Boot'?
+    Spring Boot is an open-source, java-based framework that provides support for Rapid Application Development
+    and gives a platform for developing stand-alone and production-ready spring applications with a need for
+    very few configurations.
+    Spring Boot helps to create stand-alone applications which can be started using java.jar
+    Auto-Configuration: Provides a way to automatically configure an application based on the dependencies present on the classpath.
+    Lessening the lines of code.
+
+What are the possible sources of external configuration?
+    Command-line properties – Spring Boot provides support for command-line arguments and converts these arguments to properties and then adds them to the set of environment properties.
+    Application Properties – By default, Spring Boot searches for the application properties file or its YAML file in the current directory of the application, classpath root, or config directory to load the properties.
+    Profile-specific properties – Properties are loaded from the application-{profile}.properties file or its YAML file. This file resides in the same location as that of the non-specific property files and the {profile} placeholder refers to an active profile or an environment.
+
+Can the default web server in the Spring Boot application be disabled?
+    Yes! application.properties is used to configure the web application type,
+    by mentioning spring.main.web-application-type=none
+
+Can you create a controller without using @Controller or @RestController annotations?
+    Yes! You can create a controller without @Controller or @RestController annotations
+    by annotating the Spring MVC Controller classes using the @Component annotation.
+    In this case, the real job of request mapping to handler method is done using the
+    @RequestMapping annotation
+
+@Component vs @Bean
+    @Component auto detects and configures the beans using classpath scanning whereas @Bean explicitly declares a single bean, rather than letting Spring do it automatically.
+    @Component is a class level annotation whereas @Bean is a method level annotation and name of the method serves as the bean name.
+    @Component need not to be used with the @Configuration annotation where as @Bean annotation has to be used within the class which is annotated with @Configuration.
+    We cannot create a bean of a class using @Component, if the class is outside spring container whereas we can create a bean of a class using @Bean even if the class is present outside the spring container.
+    @Component has different specializations like @Controller, @Repository and @Service whereas @Bean has no specializations.
+    You can use @Bean -annotated methods with any Spring @Component . However, they are most often used with @Configuration beans.
+
+
+How is the root application context in Spring MVC loaded?
+    The root application context in Spring MVC is loaded automatically during web
+    application startup by the ContextLoaderListener.
+    It handles overall configuration and bean management for the application,
+        while the DispatcherServlet handles web-specific components and request handling.
+
+What are the differences between @RequestParam and @PathVariable annotations?
+    The @RequestParam is used to extract query parameters that is anything after “?” in the URL.
+        For example, if the given URL is
+                        http://localhost:8080/InterviewBit/Spring/SpringMVC/?format=json,
+                        then you can access the query parameter “format” using the
+                        @RequestParam annotation
+
+    The @PathVariable is used to extract the data present as part of the URI itself.
+        e.g. :-> /student/{id} using the @PathVariable
+
+What is the role of @ModelAttribute annotation?
+    The annotation plays a very important role in binding method parameters to the
+    respective attribute that corresponds to a model. No need to write @Para annotation
+    for each parameter to map in the controller.
+    @ModeAttribute will map all the parameters to a single object.
+
+What is the importance of the web.xml in Spring MVC?
+    web.xml is also known as the Deployment Descriptor.
+    Web.xml is used for configuring the DispatcherServlet, defining servlets and their
+    mappings, filters. It is also used for configuring the ContextLoaderListener.
+    Whenever the application is deployed, a ContextLoaderListener instance is created by Servlet container like tomcat
+      which leads to a load of WebApplicationContext
+
+What is the importance of session scope?
+    Session scopes are used to create bean instances for HTTP sessions.
+    This would mean that a single bean can be used for serving multiple HTTP requests.
+    @Component
+    @SessionScope
+    public class UserBean {
+       //some methods and properties
+    }
+
+What is the importance of @Required annotation?
+    The annotation is used for indicating that the property of the bean should be
+    populated via auto wiring during the bean definition at the configuration time.
+
+What is a CDI Java?
+    CDI (Contexts and Dependency Injection) is a standard dependency injection
+    framework included in Java EE 6 and higher. e.g.: @Inject
+
+Are singleton beans thread-safe?
+    No, the singleton beans are not thread-safe because the concept of thread-safety
+    essentially deals with the execution of the program and the singleton is simply a
+    design pattern meant for the creation of objects.
+
+How can you achieve thread-safety in beans?
+    The thread safety can be achieved by changing the scope of the bean to request,
+    session or prototype but at the cost of performance.
+    This is purely based on the project requirements.
+
+What is the significance of @Repository annotation?
+    @Repository annotation indicates that a component is used as the repository that
+    acts as a means to store, search or retrieve data.
+
+How is the dispatcher servlet instantiated?
+    The dispatcher servlet is instantiated by means of servlet containers such as
+    Tomcat. The Dispatcher Servlet should be defined in web.xml The DispatcherServlet
+    is instantiated by Servlet containers like Tomcat.
+     <!-- Define Dispatcher Servlet -->
+     <servlet>
+       <servlet-name>appServlet</servlet-name>
+       <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+       <init-param>
+         <param-name>contextConfigLocation</param-name>
+         <param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+       </init-param>
+       <load-on-startup>1</load-on-startup>
+     </servlet>
+
+How is the root application context in Spring MVC loaded?
+    The root application context is loaded using the ContextLoaderListener that
+    belongs to the entire application.
+    Spring MVC allows instantiating multiple DispatcherServlet
+    and each of them have multiple contexts specific to them.
+    They can have the same root context too.
+
+To handle millions of requests per second, prioritize a distributed architecture with load balancing, caching, and horizontal scaling.
+While horizontal scaling refers to adding additional nodes, vertical scaling describes adding more power to your current machines.
+
+<context:annotation-config> = Scan and activate annotations in pre-registered beans.
+<context:component-scan> = Register Bean + Scan and activate annotations in package
+
+What do you understand by MultipartResolver?
+    The MultipartResolver is used for handling the file upload scenarios in the
+    Spring web application.
+
+Beans Supported by DispatcherServlet ?
+    HandlerMapping
+    ViewResolver
+    ThemeResolver
+
+DispatcherServlet in Spring Boot
+    In a Spring Boot application, the DispatcherServlet is automatically configured
+    and initialized when the spring-boot-starter-web dependency is found in the
+    classpath.
+    By default, the spring-boot-starter-web starter configures DispatcherServlet to the URL pattern “/”.
+        So, we don’t need to complete any additional configuration for the above DispatcherServlet example
+        in the web.xml file.
+
+How is the dispatcher servlet instantiated?
+    The DispatcherServlet is automatically instantiated and initialized by the Servlet
+    container during web application startup. It acts as the front controller for Spring MVC applications,
+    managing the entire request-response lifecycle.
+
+@Pattern(regexp = "^[^\\/:*?\\\"<>|]+$", message = "Not valid")
+private String title;\
+
+Spring @Controller annotation is also a specialization of @Component annotation.
+The @Controller annotation indicates that a particular class serves the role of a controller.
+
+Differentiate between a Bean Factory and an Application Context.
+    BeanFactory
+        BeanFactory is the root interface for accessing a Spring bean container. It provides basic Inversion of Control (IoC) and Dependency Injection (DI) features.
+        BeanFactory is lazy-initiated, which means it only creates a bean when you call getBean() method.
+        It supports bean instantiation/wiring and allows you to read bean definitions and access them using the getBean() method.
+        BeanFactory is lighter and has less functionality compared to ApplicationContext.
+    ApplicationContext
+        ApplicationContext extends the BeanFactory interface and has all features of BeanFactory. It adds more enterprise-specific functionality.
+        It provides additional features such as easier integration with Spring’s AOP features, message resource handling (for use in internationalization), event propagation, and application-layer specific contexts such as WebApplicationContext for web applications.
+        The beans in ApplicationContext are singleton and are initiated at the time of loading the context, not when getBean() is called.
+        It supports internationalization for text messages, event propagation, and various contexts.
+        ApplicationContext also provides a way to resolve text messages, which is a useful feature for internationalization.
+
+
+
+What is the role of @ModelAttribute annotation?
+    The @ModelAttribute annotation in Spring MVC is used to bind method parameters or
+        method return values to model attributes. It plays a crucial role in the
+        Model-View-Controller (MVC) architecture, where it helps transfer data between
+        the Controller and the View.
+    The key role of @ModelAttribute is to facilitate data transfer between the Controller
+        and the View. It allows you to pre-populate form data when displaying forms to users
+        and automatically bind user inputs to model attributes when processing form
+        submissions. Additionally, it helps in adding common attributes (like reference data)
+        to the model across multiple controller methods.
+
+
+Why do we need BindingResults?
+    BindingResult is used in Spring MVC for data binding and validation.
+    It captures errors during form submission, helps prevent exceptions,
+    and allows you to handle errors gracefully by displaying error messages to the user.
+
+What are Spring Interceptors?
+    Spring Interceptors are components in the Spring MVC framework that allow you to
+        intercept and process HTTP requests and responses.
+     They provide a way to perform pre-processing and post-processing tasks before and
+        after the actual request is handled by a controller or after the response is generated.
+    Step 1: define interceptor as component:
+        @Component
+        public class RequestInterceptor implements HandlerInterceptor
+
+
+Explain inner beans in Spring.
+    A bean can be declared as an inner bean only when it is used as a property of
+        another bean.
+
+    e.g.
+        @Component
+        public class OuterBean{
+
+          @Bean
+          private InnerBean getInnerBean(){
+            return new InnerBean();
+          }
+
+        }
+
+What are the limitations with auto wiring?
+    Primitive data type: Simple properties such as primitives, Strings and Classes can’t be autowired.
+    Overriding possibility: You can always specify dependencies using <constructor-arg> and <property>
+                settings which will override auto wiring.
+
+@Component: This marks a java class as a bean. It is a generic stereotype for any Spring-managed component.
+            The component-scanning mechanism of spring now can pick it up and pull it into the application
+            context.
+@Controller: This marks a class as a Spring Web MVC controller. Beans marked with it are automatically
+             imported into the Dependency Injection container.
+@Service: This annotation is a specialization of the component annotation. It dose not provide any additional
+            behavior over the @Component annotation. You can use @Service over @Component in service-layer
+            classes as it specifies intent in a better way.
+@Repository: This annotation is a specialization of the @Component annotation with similar use and
+            functionality. It provides additional benefits specifically for DAOs. It imports the DAOs into
+            the DI container and makes the unchecked exceptions eligible for translation into Spring
+            DataAccessException.
+
+What do you understand by @Qualifier annotation?
+    When you create more than one bean of the same type and want to wire only one of them with a property
+    you can use the @Qualifier annotation along with @Autowired to remove the ambiguity by specifying which
+    exact bean should be wired.
+    e.g. If we want to configure multiple email addresses for our application then
+        we can have multiple beans with different names.
+
+What do you understand by @RequestMapping annotation ?
+    @RequestMapping annotation is used for mapping a particular HTTP request method
+        to a specific class method in controller that will be handling the respective request.
+    This annotation can be applied at both levels:
+        Class level : Maps the URL of the request
+        Method level: Maps the URL as well as HTTP request method
+
+Name the types of transaction management that Spring supports ?
+    Two types of transaction management are supported by Spring. They are:
+        Programmatic transaction management: In this, the transaction is managed with the help of programming.
+                                    It provides you extreme flexibility, but it is very difficult to maintain.
+        Declarative transaction management: In this, the transaction management is separated from the business code.
+                                    Only annotations or XML based configurations are used to manage the transactions.
+
+Authorization:
+    https://www.youtube.com/watch?v=udTU4kmii8A
+
+To create a custom endpoint in Spring Boot 2.x, you can use the @Endpoint annotation.
+
+What are the Spring Boot key components?
+
+Here are the key components of Spring Boot:
+    Auto-configuration: One of the most attractive features of Spring Boot is its ability to
+                        automatically configure your application based on the dependencies you’ve
+                        added to your project. For example, if you have a MySQL database driver on
+                        your classpath, Spring Boot auto-configures a DataSource.
+    Starter Dependencies: Spring Boot provides a set of starter projects to simplify your build
+                          configuration. These starters bring in all the dependencies you’ll need
+                          for a specific type of application. For instance, if you are developing
+                          a web application, you can add the spring-boot-starter-web dependency to
+                          your project, and it will include all necessary dependencies.
+    Embedded Servers: Spring Boot has embedded Tomcat, Jetty, and Undertow servers, meaning you
+                      don’t need to deploy WAR files. Your Spring Boot application can be a
+                      standalone application with an embedded server.
+    Actuator: The Spring Boot Actuator module provides production-ready features to help you
+                monitor and manage your application. It includes features like health checks,
+                metrics gathering, HTTP tracing, etc.
+    CLI (Command Line Interface): This is another key component of Spring Boot, which is optional.
+                The CLI allows you to develop Spring Boot applications using Groovy. It simplifies
+                the code structure by automatically adding all the necessary annotations and imports.
+
+Why Spring Boot over Spring?
+
+Due to the following reasons:
+    Simplicity & Speed: Spring Boot simplifies the bootstrapping and development process of
+                        Spring applications. It’s easier and quicker to set up a new Spring
+                        application with Spring Boot, which makes it ideal for beginners and
+                        for situations where speed of development is important.
+    Auto-configuration: Spring Boot offers ‘auto-configuration’ which takes the guesswork out
+                        of configuring Spring applications. It can automatically provide
+                        configuration properties based on what it sees on your application’s
+                        classpath. For example, if Spring Boot detects HSQLDB on your classpath,
+                        it will automatically configure an in-memory database for you.
+    Embedded Servers: Spring Boot applications can include an embedded servlet container
+                        (like Tomcat, Jetty, or Undertow), allowing them to be packaged as
+                        standalone executable JARs. This is very convenient for microservice
+                        architectures and for cloud-based deployment, as there is no need for
+                        external servlet containers.
