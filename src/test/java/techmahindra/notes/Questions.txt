@@ -65,4 +65,28 @@ A Java Classloader is of three types:
 	System/Application ClassLoader: It loads the Application type classes found in the environment
 						variable CLASSPATH, -classpath or -cp command line option. The Application ClassLoader is a child class of 
 						Extension ClassLoader.
-	
+
+	| Part                 | Location      | Role                                                      |
+    | -------------------- | ------------- | --------------------------------------------------------- |
+    | Bootstrap (rt.jar)   | Office HQ     | Core employees (essential classes)                        |
+    | ExtensionClassLoader | Branch Office | Optional staff (extensions) you can hire/remove as needed |
+    | System ClassLoader   | Your project  | Your team (application classes)                           |
+
+
+The question is: why javax.xml.* is considered “optional” or loaded by the Extension (Platform) ClassLoader, not the Bootstrap ClassLoader.
+
+1️⃣ Historical Context
+    In early Java versions (Java 1.2 → 1.8), the core Java classes (like java.lang.*, java.util.*) were essential for the JVM and shipped in rt.jar.
+    Some libraries, like javax.xml.*, javax.crypto.*, or JDBC drivers, were not strictly required for running the JVM.
+    Your JVM could function perfectly without XML parsing, for example.
+    These “optional” APIs were packaged in separate JARs under lib/ext (like jaxp.jar, xml-apis.jar) and loaded by the ExtensionClassLoader.
+
+2️⃣ Why Optional?
+    Not mandatory for JVM startup
+    java.lang, java.util, java.io → required to run any Java program
+    javax.xml → only needed if your program uses XML parsing
+    Could be updated independently
+        You might want to upgrade XML libraries without touching the JVM core.
+    Keeping them separate allowed JVM vendors and users to replace/update implementations easily.
+    Supports modularity and extensions
+    The JVM design allowed users to add/remove optional APIs via the lib/ext folder.

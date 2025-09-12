@@ -20,10 +20,11 @@ public class FlatMapEg {
         System.out.println("The Structure before flattening is : " +
                 listOfListofInts);
 
+        //Suppose you have a map() that turns each element into a list (or a stream)
         //Flat map is combination of map and mapper function.
         //In this example first it is filtering meaning performing map operation and then flattering the results.
          List<Integer> listofInts  = listOfListofInts.stream()
-                .flatMap(list -> list.stream().filter(item -> item>7))
+                .flatMap(list -> list.stream().filter(item -> item > 2))
                 .collect(Collectors.toList());
 
         System.out.println("The Structure after flattening is : " +

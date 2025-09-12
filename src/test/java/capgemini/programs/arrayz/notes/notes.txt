@@ -1,0 +1,35 @@
+Arrays are contiguous in memory because of how they are designed at a low level in almost all programming languages, including Java, C, and C++.
+1. Array is a fixed-size block
+    When you create an array:
+        int[] arr = new int[5];
+        the JVM (or OS memory manager) allocates a single continuous block of memory large enough to store 5 integers in a row.
+
+    Base Address → 1000
+        int size    → 4 bytes
+
+        Index  | Address
+        -------|---------
+        0      | 1000
+        1      | 1004
+        2      | 1008
+        3      | 1012
+        4      | 1016
+    Fast random access
+        Because of contiguous allocation, the address of any element can be calculated using this formula:
+        address = base_address + (index * size_of_element)
+        So accessing arr[3] is just one arithmetic calculation, making arrays O(1) for indexing.
+    Efficiency
+        Cache-friendly: CPUs fetch memory in blocks (cache lines), so consecutive elements are often preloaded.
+        Low overhead: No extra pointers or object references for each element.
+        Predictable: Memory layout stays the same until array resizing or deallocation.
+    Why HashMap is different
+        In a HashMap, the internal array of buckets is contiguous like an array, but the objects stored at those buckets (linked nodes or tree nodes) are scattered in heap memory because:
+        Their number is dynamic.
+        Linked structures need pointers to connect elements.
+
+        | Feature          | **Array**             | **HashMap bucket chain**                   |
+        | ---------------- | --------------------- | ------------------------------------------ |
+        | Memory layout    | Contiguous            | Non-contiguous                             |
+        | Access time      | O(1) direct via index | O(1) for bucket + O(n) in worst-case chain |
+        | Allocation       | Fixed size            | Dynamic allocation for nodes               |
+        | Cache efficiency | High                  | Low to medium                              |

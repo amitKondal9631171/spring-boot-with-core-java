@@ -5,10 +5,11 @@ package techmahindra.programs;
  */
 public class Recursion {
     static int factorial(int n){
-        System.out.println("Stack size: "+Thread.currentThread().getStackTrace().length);
+        System.out.println("Stack size: "+Thread.currentThread().getStackTrace().length + ", value is: "+ n);
         int output;
 
         if(n==1){
+            System.out.println("return value: " + n);
             return 1;
         }
 
@@ -19,8 +20,8 @@ public class Recursion {
     }
 
     public static void main(String[] args) {
-        int v = factorial(5);
+         factorial(5);
 
-        System.out.println("Factorial of 5 is: "+v);
+
     }
 }

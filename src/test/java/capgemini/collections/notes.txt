@@ -70,3 +70,16 @@ We are not allowed to create generic arrays because array carry type information
 
 for (;;) // Infinite loop
             System.out.println("Test");
+
+
+ArrayDeque Works
+    Internally: uses a resizable circular array (like a ring buffer).
+    Operations are O(1) for adding/removing at both ends.
+    Provides methods to work at front and rear.
+
+| Feature           | `LinkedList`                            | `ArrayDeque`                 |
+| ----------------- | --------------------------------------- | ---------------------------- |
+| **Performance**   | Slightly slower due to node allocations | Faster (array-based)         |
+| **Memory**        | More overhead (object for each node)    | Compact array structure      |
+| **Thread Safety** | No                                      | No                           |
+| **Usage**         | General-purpose list/queue              | High-performance stack/queue |

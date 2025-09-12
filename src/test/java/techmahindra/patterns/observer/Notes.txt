@@ -6,3 +6,56 @@ Observer pattern uses three actor classes. Subject, Observer and Client.
     Subject is an object having methods to
     attach and detach observers to a client object. We have created an abstract class Observer and a concrete
      class Subject that is extending class Observer.
+
+1️⃣ What is the Observer Pattern?
+    The Observer Pattern is a behavioral design pattern where:
+    An object, called the Subject (Observable), maintains a list of dependents (Observers).
+    When the state of the subject changes, it notifies all observers automatically.
+
+2️⃣ Real-World Analogy
+    Think of a YouTube Channel:
+    Channel = Subject
+    Subscribers = Observers
+    When the channel uploads a video, all subscribers get notified.
+
+5️⃣ Observer Pattern in REST API
+    Imagine a REST API where:
+    New events are pushed to clients (like notifications).
+    The Observer pattern is the internal design used for decoupling publishers and subscribers.
+    Example Spring Boot scenario:
+        Subject = Event Service publishing new orders.
+        Observers = Email Service, Notification Service, Audit Logger.
+
+
+| **Advantage**      | **Explanation**                                           |
+| ------------------ | --------------------------------------------------------- |
+| **Loose Coupling** | Subject and observers interact through interfaces only.   |
+| **Scalability**    | Easy to add new observers without changing existing code. |
+| **Reusability**    | Observers can be reused across different subjects.        |
+
+
+
+| **Disadvantage**          | **Explanation**                                            |
+| ------------------------- | ---------------------------------------------------------- |
+| **Memory Leaks**          | If observers aren’t unregistered, they may stay in memory. |
+| **Notification Overhead** | Too many observers can impact performance.                 |
+| **Order of Updates**      | No guaranteed order for notifications.                     |
+
+
+| Feature          | **Pure Java Observer**              | **Kafka-based Observer**                       |
+| ---------------- | ----------------------------------- | ---------------------------------------------- |
+| **Architecture** | In-process                          | Distributed, event-driven                      |
+| **Coupling**     | Tight                               | Loose                                          |
+| **Scalability**  | Limited                             | Horizontal scaling possible                    |
+| **Reliability**  | Observer crash can impact publisher | Kafka ensures durability and retries           |
+| **Latency**      | Near-zero                           | Low but not zero                               |
+| **Best for**     | Monoliths or small systems          | Microservices, distributed, high-scale systems |
+
+
+When to Use Which
+    Use Java Observer Pattern:
+        For monoliths or small applications.
+        When low latency and simplicity matter more than scalability.
+    Use Kafka-based Observer:
+        For microservices or distributed systems.
+        When asynchronous, scalable, fault-tolerant event processing is required.

@@ -1,20 +1,15 @@
 package techmahindra.threading.communication.exampleone;
 
+//yield() is just a hint, not a guarantee — behavior depends on the OS thread scheduler and JVM implementation.
 public class YieldThread implements Runnable{
 
     @Override
     public void run() {
 
-        for (int i = 1; i<=10000; i++){
-            System.out.println("Yield thread is in progress");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
+        for (int i = 1; i<=20; i++){
+            System.out.println(Thread.currentThread().getName()+ " running the process");
             if (i%5 == 0){
-                System.out.println("Thread wants to wait: "+i);
+                System.out.println(Thread.currentThread().getName()+ " called the yield method");
                 Thread.yield();
             }
         }
@@ -25,6 +20,9 @@ public class YieldThread implements Runnable{
         Thread t = new Thread(runnable, "Yield Thread");
         t.start();
 
+        Runnable runnable1 = new YieldThread();
+        Thread t1 = new Thread(runnable1, "Yield Thread 1");
+        t1.start();
     }
 
 }

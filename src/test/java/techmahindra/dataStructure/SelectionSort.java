@@ -10,13 +10,14 @@ public class SelectionSort {
 
              int elementIndex = i;
 
-             //start comparing with elementIndex value with array and get the smallest value from array.
+             //find smallest element
              for (int j=i+1; j < arr.length;j++){
                  if(arr[j] < arr[elementIndex]){
-                     elementIndex = j;
+                     elementIndex = j; //get the smallest value index
                  }
              }
-            //swap values with values.
+
+            //place smallest element in the begenning
              int temp = arr[elementIndex];
              arr[elementIndex] = arr[i];
              arr[i] = temp;

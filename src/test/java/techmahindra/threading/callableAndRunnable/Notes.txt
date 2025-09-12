@@ -1,0 +1,10 @@
+
+
+| Feature                  | **Runnable**                                                                                | **Callable**                                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| **Return Value**         | Cannot return a value (only `void run()`).                                                  | Can return a value of any type (`V call()`), wrapped in `Future<V>`.                             |
+| **Checked Exceptions**   | Cannot throw checked exceptions directly. Must handle them inside `run()`.                  | Can throw checked exceptions, which can be caught when retrieving the result via `Future.get()`. |
+| **Functional Interface** | `@FunctionalInterface` with `void run()` method.                                            | `@FunctionalInterface` with `V call()` method.                                                   |
+| **Introduced In**        | Java **1.0**                                                                                | Java **5** (with `java.util.concurrent` framework).                                              |
+| **Use Case**             | Best for tasks that **don’t need to return results** or **don’t throw checked exceptions**. | Best for tasks that **return results** or **might throw exceptions**.                            |
+| **Execution**            | Can be executed by `Thread`, `Executor`, or `ExecutorService`.                              | Must be submitted to `ExecutorService` or similar framework to retrieve result.                  |

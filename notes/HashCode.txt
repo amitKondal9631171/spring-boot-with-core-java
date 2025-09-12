@@ -1,3 +1,6 @@
+
+Ref: capgemini.collections.map.Hashcode
+
 Recall that hash codes are not unique.
 The only requirement as per Java documentation is for hash codes of equal objects to be the same.
         System.out.println("Aa hash code: " + "Aa".hashCode()); //2112
@@ -5,3 +8,82 @@ The only requirement as per Java documentation is for hash codes of equal object
 
 If two strings hashCode() is equal, it does not mean they are equal.
 If equals() is true for two strings, their hashCode() will be the same.
+
+Why hashcode() is not unique?
+    hashCode() returns an int (32 bits), so it can have only ~4.29 billion possible values.
+    The number of possible objects is much larger, so multiple objects can map to the same integer value.
+    Hash functions don’t guarantee uniqueness — they just try to distribute values evenly.
+
+Why java use hashcode if can't provide unique values?
+    The key is: hashCode is not meant to be unique — it's designed for performance optimization, not identity.
+    To speed up lookups:
+        Imagine searching for an object in a collection like HashMap or HashSet.
+        Without hashCode, you’d have to check every element one by one → O(n) time.
+        With hashCode, Java can quickly find the bucket where the object should be → O(1) average time.
+        Example:
+            Map<String, String> map = new HashMap<>();
+            map.put("Amit", "Developer");
+            System.out.println(map.get("Amit"));  // Direct bucket lookup, very fast
+        Here, hashCode helps the map jump directly to the bucket instead of looping over every key.
+
+Collisions are acceptable
+    Even if multiple keys share the same hashCode:
+    Java still finds the correct object by checking equals() within that bucket.
+    The hash only narrows the search — like looking in the right room before finding the exact person.
+
+Summary
+Aspect	            With hashCode	            Without hashCode
+Lookup time	        O(1) average	            O(n) linear
+Collisions	        Handled using equals	    N/A
+Performance	        High	                    Low
+Uniqueness	        Not guaranteed	            Not needed
+
+
+How HashMap works internally:
+    Think of a HashMap like a row of lockers in a school hallway.
+    1️⃣ Adding an object
+        You calculate hashCode → it tells you which locker number to use.
+        If the locker is empty → put your item in.
+        If there’s already something → stack them inside (a linked list or tree).
+    2️⃣ Retrieving an object
+        You calculate the same hashCode → go to the same locker.
+        If there’s one object, you grab it.
+        If there are multiple items in the same locker (collision), check each by equals() until you find the right one.
+    3️⃣ Visual example
+    hashCode % capacity -> Bucket index
+    -----------------------------------
+    hash("Apple") -> 5 -> Locker 5 -> [Apple]
+    hash("Mango") -> 9 -> Locker 9 -> [Mango]
+    hash("Grapes") -> 5 -> Locker 5 -> [Apple, Grapes]
+
+    Now, to find "Grapes":
+    Compute hash, go to locker 5.
+    Check items:
+    Apple ❌
+    Grapes ✅ → Found.
+    4️⃣ Key points
+    Fast access → O(1) average time.
+    Collisions → Stored together and resolved with equals.
+    HashCode isn’t unique → but still helps narrow down to a small group.
+
+
+What’s wrong
+    Generics require reference types, not primitives.   int is a primitive.
+    Java’s generic type parameters (Map<K,V>) must be reference types because of type erasure (the generic type info is erased at runtime and all type args are treated as Object).
+    Primitives can’t be used where an Object is expected.
+    Autoboxing/unboxing creates temporary Integer objects. Overusing it in tight loops can impact performance.
+    int a   = 10;
+    Object b = a;    // Autoboxing
+
+    array or bucket --> index = (hash(key) ^ (hash(key) >>> 16)) & (capacity - 1)
+
+General Rules for a Good hashCode()
+    ✔ Consistency – Every time you call hashCode() on the same object (without changes to fields), it must return the same number.
+    ✔ Equal objects → Same hash – If obj1.equals(obj2) is true, then obj1.hashCode() == obj2.hashCode() must be true.
+    ✔ Performance – Distribute values well to avoid collisions, but keep computation simple.
+    ✔ Use immutable fields – Base your hash on fields that don’t change after object creation.
+
+** Arrays have contiguous memory allocation, but HashMap is different because it uses hashing with an internal array + linked structures (or tree in some cases).\
+    int hash = (key.hashCode()) ^ (key.hashCode() >>> 16); e.g 5 ^ (5 >>> 16) = 5 ^ 0 = 5.
+    index = hash & (table.length - 1); e.g 5 & (16 - 1) = 5 & 15 = 5. //16 is size of map
+

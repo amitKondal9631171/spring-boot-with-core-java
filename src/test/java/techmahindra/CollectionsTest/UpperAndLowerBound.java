@@ -79,7 +79,6 @@ public class UpperAndLowerBound {
         myList = ints;
 
         List<? super Number> l = new ArrayList<>();
-        l.add(new Integer(3));  //OK
-        l.add(new Double(3.3)); //OK
+
     }
 }

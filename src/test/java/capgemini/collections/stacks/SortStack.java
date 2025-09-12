@@ -33,3 +33,8 @@ public class SortStack {
     }
 
 }
+/**
+ * Legacy Stack<E> Class
+ * Java provides a built-in java.util.Stack, which is a subclass of Vector.
+ * But it’s legacy, not recommended for new code because it’s synchronized and slower.
+ */

@@ -5,7 +5,7 @@ package com.learning.config;
  import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
+//@Configuration
 public class RequestInterceptorConfig implements WebMvcConfigurer {
 
     // Register an interceptor with the registry, Interceptor name : RequestInterceptor

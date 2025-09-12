@@ -1,0 +1,33 @@
+//SOLID Principal:
+
+1. Single Responsibility Principle (SRP):
+   A class should have one and only one reason to change.
+
+2. Open/Closed Principle (OCP):
+   Software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification.
+
+3. Liskov Substitution Principle (LSP):
+   Objects in a program should be replaceable with instances of their subtypes without altering the correctness of that program.
+
+4. Interface Segregation Principle (ISP):
+   No client should be forced to depend on methods it does not use.
+   example:
+    interface University {
+        void conductExams();
+        void manageSports();
+        void manageLibrary();
+        void organizeCulturalEvents();
+    }
+
+    class EngineeringCollege implements University {
+        public void conductExams() { System.out.println("Engineering exams"); }
+        public void manageSports() { /* Not needed but must implement */ }
+        public void manageLibrary() { System.out.println("Engineering library"); }
+        public void organizeCulturalEvents() { /* Not needed but must implement */ }
+    }
+    Problems:
+        EngineeringCollege is forced to implement sports and cultural events even if it doesn’t care.
+        Violates ISP → clients are forced to depend on methods they don't use.
+
+
+

@@ -58,6 +58,7 @@ Association: defines the relationship between the object.
                 one-to-many
                 many-to-one
                 many-to-many
+
 Aggregation: defines the type of association in which both entities can exist individually.
              like in teacher and student relationship if we delete student or teacher then both can exist individually.
 Composition: defines the type of association in which objects don't have there own life cycle.

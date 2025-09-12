@@ -86,5 +86,17 @@ public class ACNBController {
 
 
     }
+    @GetMapping("/testing-gatling")
+    public String testingGatling(){
+        System.out.println(Thread.currentThread().getName() + " received the request...........");
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(Thread.currentThread().getName() + " returned the response...........");
+        return "Amit kondal";
+    }
+
 
 }

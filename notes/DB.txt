@@ -1,0 +1,168 @@
+ACID:
+    A: Atomicity defines that all the operations executed successfully.
+    C: Consistency defines that system must be in consistent. Like in a bank If A -> transfer money to -> b then -> total balance in the bank must be -> same.
+    I: Isolation  defines other transactions can't see the changes made by the transaction.
+    D: Durability defines change from the transaction must be persisted.
+
+  @Transactional
+    1. Atomicity → “All or nothing”
+        When you mark a method with @Transactional, Spring creates a proxy around it.
+        If everything inside executes fine → transaction commits.
+        If an exception occurs (unchecked/runtime by default, or checked if configured) → transaction rolls back.
+        ✅ This ensures either all DB operations succeed or none are applied.
+
+            Example:
+            @Transactional
+            public void transferMoney(Long fromAcc, Long toAcc, double amount) {
+                accountRepository.debit(fromAcc, amount);
+                accountRepository.credit(toAcc, amount);
+                // If debit succeeds but credit fails → rollback both
+            }
+
+    2. Consistency → “Valid state before & after transaction”
+        You define constraints in your DB (foreign keys, unique keys, not null, etc.).
+        Within a transaction, Spring ensures your code runs as one unit.
+        If constraints fail → exception → rollback.
+        ✅ The database never ends up in a half-baked, invalid state.
+
+    3. Isolation → “Transactions don’t step on each other’s toes”
+        Spring lets you configure isolation levels via @Transactional(isolation = Isolation.SERIALIZABLE) etc.
+        Default depends on the DB (Postgres default = READ_COMMITTED).
+        Controls visibility of uncommitted changes (dirty reads, non-repeatable reads, phantom reads).
+        ✅ Ensures that concurrent transactions don’t corrupt each other’s data.
+
+    4. Durability → “Once committed, it sticks”
+        Durability is mostly the job of the database engine (redo logs, WAL in Postgres, redo/undo logs in Oracle).
+        Spring doesn’t do the low-level durability but ensures commit happens properly.
+        ✅ Once Spring commits, DB guarantees persistence even after crashes.
+
+
+👉 Locking:
+    "Spring Data JPA supports both optimistic (@Version) and pessimistic (@Lock) locking.
+        Optimistic Locking (with @Version)
+                    How it works:
+                        No DB lock is taken.
+                        Hibernate makes use of @Version and append AND version = ?
+                        On commit → check version. If mismatch → OptimisticLockException.
+                    When to Use ✅
+                        High read-to-write ratio (e.g., 90% reads, 10% writes).
+                        Conflicts are rare.
+                        Systems need high scalability (e.g., microservices, REST APIs, event-driven apps).
+                        Stateless systems (APIs updating small sets of data).
+                    Pros
+                        Lightweight, scalable.
+                        Doesn’t block other transactions.
+                        Perfect for distributed environments.
+                    Cons
+                        If conflicts are frequent → too many retries.
+
+        Pessimistic Locking
+                    How it works:
+                        DB takes a lock (row/table) when you read data.
+                        Other transactions trying to update → blocked until lock is released.
+                        Example in Hibernate:
+                            em.find(Employee.class, 1L, LockModeType.PESSIMISTIC_WRITE);
+                    When to Use ✅
+                        High probability of conflicts (many writers).
+                        Business rules where data correctness > performance (e.g., bank transfers, inventory stock updates).
+                        You cannot afford retries — must ensure exclusive access.
+                    Pros
+                        Guarantees no conflicts.
+                        Good for critical sections.
+                    Cons
+                        Blocks threads → can cause deadlocks.
+                        Less scalable.
+
+         | Lock Type        | When Exception Happens     | Exception Name                                      |
+         | ---------------- | -------------------------- | --------------------------------------------------- |
+         | Optimistic Lock  | Version mismatch on update | `StaleObjectStateException`                         |
+         | Pessimistic Lock | Lock cannot be acquired    | `LockTimeoutException` / `PessimisticLockException` |
+
+
+          ✅ No locks → optimistic → stale object exception.
+          ✅ Locks held → pessimistic → lock exceptions.
+
+
+    Real-World Decision
+            Optimistic Locking →
+                Microservices, SaaS apps, shopping cart updates, profile changes.
+                Example: Two people editing the same profile — one will fail, but retries are cheap.
+            Pessimistic Locking →
+                Banking, payment systems, stock decrement (e.g., "only 1 ticket left").
+                Example: Airline ticket booking → must avoid overselling seats.
+
+    Why DB must detect deadlocks
+        If two (or more) transactions are waiting on each other forever, the system would just freeze.
+        DBs can’t let that happen because it violates progress (transactions must eventually commit or rollback).
+        So DBs run deadlock detection algorithms in the background.
+
+    How DB detects deadlocks
+        Think of locks as a graph problem:
+        Each transaction = node.
+        If Transaction T1 is waiting on a row held by Transaction T2 → draw an arrow T1 → T2.
+        If there’s a cycle in this wait-for graph, boom 💥 — deadlock detected.
+
+    DB response
+        Once a cycle is found, the DB chooses a victim (usually the one that did the least work or will be cheapest to rollback).
+        That transaction is killed with a deadlock error.
+        In Hibernate/Spring, this bubbles up as LockAcquisitionException (or SQL error code like ORA-00060 in Oracle, 40P01 in Postgres).
+
+
+
+Exception Translation
+    One of the biggest powers of @Repository.
+    Spring’s PersistenceExceptionTranslationPostProcessor intercepts exceptions from JDBC/Hibernate/JPA and translates them into Spring’s unified DataAccessException hierarchy.
+    Example:
+    SQLException → DataIntegrityViolationException
+    PersistenceException → JpaSystemException
+    This makes exception handling consistent across different DB technologies.
+
+    @Repository not only marks the bean as a DAO but also enables automatic exception translation for persistence-related exceptions, making it database-technology agnostic.
+
+    # Hikari specific
+    spring.datasource.hikari.maximum-pool-size=10
+    spring.datasource.hikari.minimum-idle=5
+    spring.datasource.hikari.idle-timeout=600000   # 10 mins
+    spring.datasource.hikari.max-lifetime=1800000  # 30 mins
+    spring.datasource.hikari.connection-timeout=30000 # 30 secs
+
+Spring helps optimize DB performance:
+    1. Connection Pooling (HikariCP)
+    2. Batching
+    3. Lazy Loading vs Eager Loading
+        Eager fetch: loads all related entities in one go (can blow memory if relationships are huge).
+        Lazy fetch: loads related data only when accessed.
+        In Spring Data JPA, use @OneToMany(fetch = FetchType.LAZY) wisely.
+    4. Pagination
+        Avoid loading millions of rows into memory.
+    5. Caching
+        Common backends: EhCache,Redis
+        Repeated calls for the same ID won’t hit DB again.
+    6. Read-Only Transactions
+        @Transactional(readOnly = true)
+        Tells Hibernate to skip dirty checking → fewer performance costs.
+    7. Proper Index Usage
+        Spring Boot schema generation can create indexes via annotations:
+        @Entity
+        @Table(indexes = @Index(name = "idx_emp_dept", columnList = "department"))
+    Interview-Ready Summary
+        Spring optimizes DB performance via:
+        ✅ Connection pooling (HikariCP)
+        ✅ Batching, pagination, and fetch strategies
+        ✅ Caching (first-level, second-level, application-level)
+        ✅ Transaction optimizations (readOnly)
+        ✅ DTO projections (fetch only what’s needed)
+
+
+JOIN without a prefix defaults to INNER JOIN in SQL.
+
+| Join Type    | Returns                                               |
+| ------------ | ----------------------------------------------------- |
+| INNER JOIN   | Only matching rows                                    |
+| LEFT JOIN    | All left + matched right + NULL if no match           |
+| RIGHT JOIN   | All right + matched left + NULL if no match           |
+| FULL JOIN    | All rows from both sides + NULL if no match           |
+| CROSS JOIN   | Cartesian product (all combinations)                  |
+| SELF JOIN    | Join within the same table (hierarchy, relationships) |
+| NATURAL JOIN | Auto-match by column name (avoid in strict designs)   |
+

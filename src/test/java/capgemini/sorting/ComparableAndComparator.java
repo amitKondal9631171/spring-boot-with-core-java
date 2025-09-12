@@ -33,7 +33,7 @@ public class ComparableAndComparator{
         studentList.add(s1);
         studentList.add(s2);
 
-        Comparator<Student> comparatorIncreasing = (student1, student2) -> Integer.compare(student1.getRollNumber(), student2.getRollNumber());
+        Comparator<Student> comparatorIncreasing = Comparator.comparingInt(Student::getRollNumber);
         System.out.println("=====After Increasing Comparator=====");
         studentList.sort(comparatorIncreasing);
         studentList.forEach(student -> System.out.println(student.getName()));

@@ -3,10 +3,10 @@ package techmahindra.concepts;
 
 /**
  * We can copy object with 3 ways:
- * 1. Shallow copy: copy only the reference.
+ * 1. Shallow copy: copy only the reference of nested object.
  * 2. Deep Copy: copy all properties of object manually.
  * 3. clone: need to override clone method of object class and implement cloneable marker interface.
- * Clone gives Shallow copy
+ *              Clone gives Shallow copy
  */
 public class CopyObject {
 

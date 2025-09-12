@@ -152,4 +152,9 @@ interface MathOperation {
     default boolean java8DefaultFunctionImplementation(int a, int b) {
         return  a > b ;
     }
+
+    static void staticFunction(){
+        Object obj = new Object();
+    }
+
 }

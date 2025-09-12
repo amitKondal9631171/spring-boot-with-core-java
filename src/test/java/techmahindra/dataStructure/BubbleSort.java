@@ -5,15 +5,11 @@ package techmahindra.dataStructure;
 //compare the elements with one by one.
 public class BubbleSort {
 
-    /**
-     * Sorts an array using the Bubble Sort algorithm.
-     *
-     * @param arr The array to be sorted.
-     * @return The sorted array.
-     */
     // Time Complexity: O(n^2)
     // Space Complexity: O(1)
     // Bubble sort is simple but inefficient for large datasets due to its quadratic time complexity.
+    // It is only applicable for small datasets.
+    // It is not suitable for large datasets.
     public int[] sort(int[] arr) {
         int n = arr.length;
         boolean swapped;

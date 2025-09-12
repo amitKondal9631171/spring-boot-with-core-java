@@ -7,9 +7,9 @@ package techmahindra.programs;
 public class Fibonacci {
 
     public static void main(String[] args) {
-        int num, a = 0,b=1, c =1;
+        int num, a = 0,b=1, c =0;
         num = 10;
-        System.out.println("Fibonacci Series of the number is:");
+        System.out.print("Fibonacci Series of the number is:" + a + " " + b + " ");
         for (int i=1; i<=num; i++) {
             c = a+b;
             a = b;

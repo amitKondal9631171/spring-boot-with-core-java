@@ -46,3 +46,12 @@ Linear search is a very simple search algorithm. In this type of search, a seque
     made over all items one by one.
     Every item is checked and if a match is found then that particular item is returned, otherwise the search continues till the end
     of the data collection.
+
+
+| Feature          | Bubble Sort                            | Selection Sort                               |
+| ---------------- | -------------------------------------- | -------------------------------------------- |
+| **How it works** | Swaps adjacent elements                | Selects min element, swaps once              |
+| **Swaps**        | Many swaps                             | At most (n-1) swaps                          |
+| **Best case**    | O(n) (if optimized)                    | O(n²) always                                 |
+| **Stability**    | Stable ✅                               | Not stable ❌                                 |
+| **Use case**     | Good for small lists, teaching sorting | Fewer swaps (useful where swap cost is high) |

@@ -1,9 +1,7 @@
 package techmahindra.CollectionsTest;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by HP-USER on 29-01-2019.
@@ -17,10 +15,8 @@ public class HashMapTable {
         map.put(102,"Eahul");
 
         Hashtable abc = new Hashtable();
-        Comparator<Integer> comparatorMayKeyInDecreasing = (Integer int1, Integer int2) -> int1 > int2 ? -1 : ((int1 == int2) ? 0 : 1);
+        Comparator<Integer> comparatorMayKeyInDecreasing = (int1, int2) -> int1 - int2 > 0 ? 1 : ((int1.equals(int2)) ? 0 : -1);
 
-
-        System.out.println("Print Map in increasing order by value");
         //Returns a Set view of the mappings contained in this map
         map.entrySet()
                 //Returns a sequential Stream with this collection as its source
@@ -33,9 +29,11 @@ public class HashMapTable {
         System.out.println("Print Map in increasing order by Key");
         //Sorting Map with Keys
         //map --> entry set --> stream --> sort(Map.Entry.com) --> forEach.
-        map.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(System.out::println);
+        Map<Integer,String> newMap = map.entrySet().stream().sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
+                , (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
-        System.out.println("Print Map in Decreasing order by key");
+        System.out.println("Print Map in increasing order by key using comparator"+ newMap);
         map.entrySet().stream().sorted(Map.Entry.comparingByKey(comparatorMayKeyInDecreasing)).forEach(System.out::println);
     }
 }

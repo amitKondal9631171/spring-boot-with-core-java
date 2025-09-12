@@ -11,7 +11,7 @@ public class FlipkartMobileResource {
 
         int count = 1;
 
-        while (true) {
+        for(int i =1 ; i < 101; i++) {
 
             synchronized (this) {
 
@@ -24,24 +24,20 @@ public class FlipkartMobileResource {
                 }
 
                 smartWatchCount.add(count);
-                System.out.println("Producer produced-" + count);
+                System.out.println("Producer produced: " + count);
                 count++;
                 //notify(); // may not wake up appropriate thread
                 notifyAll();
 
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException exception) {
 
-                }
             }
         }
 
     }
 
     void consumerSmartWatches() {
-        int count = 1;
-        while (true) {
+
+        for(int i =1 ; i < 101; i++){
 
             synchronized (this) {
 
@@ -56,13 +52,8 @@ public class FlipkartMobileResource {
 
                 System.out.println("Consumer consumed-" + val);
 
-                //notify(); // may not wake up appropriate thread
                 notifyAll();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException exception) {
 
-                }
             }
         }
     }

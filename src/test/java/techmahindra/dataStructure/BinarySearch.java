@@ -11,6 +11,7 @@ public class BinarySearch {
     // Time Complexity: O(log n)
     // Space Complexity: O(1)
     // Binary search is efficient for large datasets because it reduces the search space by half with each iteration.
+    // It is only applicable for sorted arrays.
     public int search(int[] arr, int target) {
         int left = 0;
         int right = arr.length - 1;

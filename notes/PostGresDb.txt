@@ -1,0 +1,109 @@
+CREATE SCHEMA company;
+
+SET search_path TO company;
+
+-- Drop tables if they already exist
+DROP TABLE IF EXISTS employees, departments, projects CASCADE;
+
+-- Departments table
+CREATE TABLE departments (
+    dept_id SERIAL PRIMARY KEY,
+    dept_name VARCHAR(100) NOT NULL
+);
+
+-- Employees table
+CREATE TABLE employees (
+    emp_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    department_id INT REFERENCES departments(dept_id),
+    salary NUMERIC(10,2),
+    hire_date DATE
+);
+
+-- Projects table (many-to-many relation via emp_projects)
+CREATE TABLE projects (
+    project_id SERIAL PRIMARY KEY,
+    project_name VARCHAR(100),
+    start_date DATE,
+    end_date DATE
+);
+
+-- Employee-Project mapping
+CREATE TABLE emp_projects (
+    emp_id INT REFERENCES employees(emp_id),
+    project_id INT REFERENCES projects(project_id),
+    role VARCHAR(50),
+    PRIMARY KEY (emp_id, project_id)
+);
+
+-- Insert Departments
+INSERT INTO departments (dept_name) VALUES
+('IT'),
+('HR'),
+('Finance'),
+('Marketing'),
+('CLOUD'),
+('OFFSHORE'),
+('ONSHORE');
+
+-- Insert Employees
+INSERT INTO employees (first_name, last_name, department_id, salary, hire_date) VALUES
+('Amit', 'Sharma', 1, 60000, '2020-01-15'),
+('Rohit', 'Verma', 1, 55000, '2021-03-10'),
+('Sita', 'Mehra', 2, 45000, '2019-07-01'),
+('Priya', 'Singh', 3, 70000, '2018-11-20'),
+('Karan', 'Patel', 4, 50000, '2022-06-05');
+
+-- Insert Projects
+INSERT INTO projects (project_name, start_date, end_date) VALUES
+('Migration to Cloud', '2023-01-01', '2023-12-31'),
+('HRMS Upgrade', '2022-05-01', '2022-10-30'),
+('Financial Audit', '2023-03-01', '2023-06-30'),
+('Marketing Campaign', '2023-07-01', '2023-12-31');
+
+-- Assign employees to projects
+INSERT INTO emp_projects (emp_id, project_id, role) VALUES
+(1, 1, 'Lead Developer'),
+(2, 1, 'Developer'),
+(3, 2, 'HR Analyst'),
+(4, 3, 'Finance Lead'),
+(5, 4, 'Marketing Specialist'),
+(1, 3, 'Tech Support');
+
+
+--Having works on groups--
+    WHERE filters rows before grouping
+    HAVING filters groups after grouping
+
+
+//Groups employees by project count
+select emp_id , count(project_id) as assigned_projects from emp_projects group by emp_id;
+
+
+//employees with multiple projects
+select emp_id , emp_name, count(project_id) as assigned_projects from emp_projects group by emp_id having count(project_id) > 1;
+    GROUP BY e.emp_id, e.emp_name → bucket employees.
+    COUNT(ep.project_id) → how many projects per bucket.
+    HAVING COUNT(...) > 1 → filter buckets so only employees with multiple projects remain.
+
+//employees with multiple projects using join. project details & employee details are in different tables. This sql gives employees with more than 1 project.
+SELECT e.emp_id,
+       e.first_name || ' ' || e.last_name AS emp_name,
+       COUNT(ep.project_id) AS assigned_projects
+FROM emp_projects ep
+JOIN employees e ON e.emp_id = ep.emp_id
+GROUP BY e.emp_id, e.first_name, e.last_name
+HAVING COUNT(ep.project_id) > 1;
+
+
+//Different aggregate functions
+SELECT dept_name,
+       COUNT(*) AS total_employees,
+       SUM(salary) AS total_salary,
+       AVG(salary) AS avg_salary,
+       MIN(salary) AS min_salary,
+       MAX(salary) AS max_salary
+FROM employees emp
+join departments d on emp.department_id = d.dept_id
+GROUP BY dept_name;

@@ -20,8 +20,7 @@ public class ProofStringIsImmutable {
     public static void main(String[] args) {
 
         /**
-         * String is mutable means whenever we are updating the reference
-         * It is creating new object
+         * String is mutable means whenever we are updating the reference, It is creating new object
          */
         String firstString = "Amit";
         String secondString = firstString;

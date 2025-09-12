@@ -1,14 +1,15 @@
 
 Data Structures:
     Is the way of data organisation. Java supports multiple data types by default:
-        Array
-        List
-        Stack
-        Queue
-        HashTable
-        Trees
-        Heaps
-        Graphs
+        Array (Fixed size)
+        List (Dynamic size)
+        Stack (LIFO)
+        Queue (FIFO)
+        HashTable (Key-Value pairs)
+        Trees (Hierarchy)
+        Heaps (Priority)
+        Graphs (Connections)
+        ConcurrentHashMap (Thread-safe)
 
 Space and Time complexity.
 

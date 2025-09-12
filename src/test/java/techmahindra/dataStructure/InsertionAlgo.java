@@ -24,8 +24,9 @@ public class InsertionAlgo {
 
         //moving the elements from the given location to right right
         //i = total - 1 => we added one extra free space during array initialization so, that we can add one more element
+
         for (int i = (totalElements - 1) ; i >= (pos - 1); i--){
-            elementArray[i+1] = elementArray[i] ;
+            elementArray[i+1] = elementArray[i] ; //shifting the elements to right
         }
 
         //Populate the given location with given value.

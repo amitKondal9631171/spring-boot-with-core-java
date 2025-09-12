@@ -16,13 +16,17 @@ public class StringOpreations {
         mobileNos.add("0986");
         mobileNos.add("64836438");
 
-        String test = "a,b,c,d,e,f,g,h,i";
-        List<String> stringList = Stream.of(test.split(","))
-                .map (String::new)
+        String test = "My name is Amit. I belong to Samela";
+        List<String> stringList = Stream.of(test.split(" "))
+                .map (String::new) // map is used to transform the stream into a list or array or any other collection. same here it is transforming the stream into a object stream.
                 .collect(Collectors.toList());
-        //System.out.println(stringList);
-        String testStringPool = "Amit";
-        String testString = new String("Amit");
-        System.out.println(testStringPool + ": Canonical representation: "+ testString.intern());
+        System.out.println(stringList);
+
+        String s1 = "Java";
+        String s2 = new String("Java");
+        String s3 = s2.intern(); // check in pool. If present return the reference else create and return.
+
+        System.out.println(s1 == s2); // false
+        System.out.println(s1 == s3); // true
     }
 }

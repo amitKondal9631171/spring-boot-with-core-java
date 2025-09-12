@@ -24,9 +24,10 @@ public class StringPalindrome {
 
         for(int i= 0 ; i < (stringCharacters.length) / 2 ; i++){
 
-                if(stringCharacters[0] != stringCharacters[(stringCharacters.length - 1) - i ]){
+                if(stringCharacters[0] != stringCharacters[(stringCharacters.length - 1) - i ]) {
                     System.out.println("not palindrome");
                 }
+
         }
 
 
@@ -38,8 +39,7 @@ public class StringPalindrome {
         long num=inputNo;
         while(num > 0){
             long remainder=num % 10; // 6 ; 5
-            long a = reverseNo*10; // 0 * 10 = 0 ; 6 *10 = 60
-            reverseNo= a+remainder; // 0+6=6 ; 60 + 5 = 65
+            reverseNo= reverseNo*10+remainder; // 0+6=6 ; 60 + 5 = 65
             num = num/10; // 12345 ; 1234
         }
         if(inputNo == reverseNo){

@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Component
+//@Component
 public class RequestInterceptor implements HandlerInterceptor {
 
     // Request is intercepted by this method before reaching the Controller

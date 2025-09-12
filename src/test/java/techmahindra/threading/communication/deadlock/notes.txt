@@ -1,4 +1,7 @@
-How do you ensure that the N thread can access N resources without deadlock? (answer)
-    The key point here is ordering, if you
-        acquire resources in a particular order and release resources in the reverse order
-        you can prevent deadlock.
+When it occurs:
+    Threads are waiting indefinitely for each other due to circular locking.
+
+Fix:
+    Maintain consistent lock ordering.
+    Use tryLock() with timeout from ReentrantLock.
+    Use tools like Java VisualVM or Thread dumps to debug.

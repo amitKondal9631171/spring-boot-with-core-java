@@ -1,32 +1,19 @@
 package capgemini.entities;
 
-public class Employee extends School{
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-    int empId;
+import java.util.List;
+
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
+public class Employee extends School {
+
+    Integer empId;
     String firstName;
-    String lastName;
-
-    public int getEmpId() {
-        return empId;
-    }
-
-    public void setEmpId(int empId) {
-        this.empId = empId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    String department;
+    Integer salary;
 }

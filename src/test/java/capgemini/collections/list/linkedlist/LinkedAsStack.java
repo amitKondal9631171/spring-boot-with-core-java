@@ -1,31 +1,85 @@
 package capgemini.collections.list.linkedlist;
 
+import java.util.Deque;
 import java.util.LinkedList;
 
+
 /**
- * LinkedList has default capability to work as stack because of push method by default.
- * Push method adds the element at the first location always.
+ * Demonstrates stack implementation using LinkedList
+ * Stack follows LIFO (Last In First Out) principle
  */
+
 public class LinkedAsStack {
 
     public static void main(String[] args) {
 
-        LinkedList<Integer> stack = new LinkedList<Integer>();
+        // Create a stack using LinkedList
+        Deque<Integer> stack = new LinkedList<>();
 
-        //pushing the elements into the stack
-        stack.push(10);
-        stack.push(20);
-        stack.push(30);
-        stack.push(40);
+        // Push elements onto the stack
+        System.out.println("Pushing elements onto stack:");
+        push(stack, 10);
+        push(stack, 20);
+        push(stack, 30);
+        System.out.println("Current stack: " + stack);
 
-        //Printing the elements of stack
-        System.out.println(stack);      //Output : [40, 30, 20, 10]
+        // Peek at the top element
+        System.out.println("\nTop element: " + peek(stack));
 
-        //Poping out the elements from the stack
-        System.out.println(stack.pop());    //Output : return 40 and removed from list
-        System.out.println(stack.pop());    //Output : return 30 and removed from list
+        // Pop elements from the stack
+        System.out.println("\nPopping elements from stack:");
+        while (!isEmpty(stack)) {
+            System.out.println("Popped: " + pop(stack));
+            System.out.println("Current stack: " + stack);
+        }
 
-        System.out.println(stack.peek());   //return last element
-        System.out.println(stack);
+        // Try to pop from empty stack
+        System.out.println("\nAttempting to pop from empty stack:");
+        System.out.println("Popped: " + pop(stack));
+    }
+
+    /**
+     * Push an element onto the stack
+     * @param stack The stack
+     * @param element The element to push
+     */
+    public static <T> void push(Deque<T> stack, T element) {
+        stack.push(element); // Adds to the beginning of the list
+    }
+
+    /**
+     * Pop an element from the stack
+     * @param stack The stack
+     * @return The popped element
+     * @throws java.util.NoSuchElementException if stack is empty
+     */
+    public static <T> T pop(Deque<T> stack) {
+        if (isEmpty(stack)) {
+            System.out.print("Stack is empty! ");
+            return null;
+        }
+        return stack.pop(); // Removes and returns the first element
+    }
+
+    /**
+     * Peek at the top element without removing it
+     * @param stack The stack
+     * @return The top element
+     */
+    public static <T> T peek(Deque<T> stack) {
+        if (isEmpty(stack)) {
+            System.out.print("Stack is empty! ");
+            return null;
+        }
+        return stack.peek(); // Returns the first element without removing it
+    }
+
+    /**
+     * Check if stack is empty
+     * @param stack The stack
+     * @return true if stack is empty, false otherwise
+     */
+    public static <T> boolean isEmpty(Deque<T> stack) {
+        return stack.isEmpty();
     }
 }

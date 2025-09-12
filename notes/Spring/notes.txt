@@ -1,3 +1,8 @@
+In the life of a Spring Boot app, the class marked with @SpringBootApplication (and therefore @SpringBootConfiguration) is the first configuration class Spring uses
+    to bootstrap the context. So, your app class is literally the entry point for building the bean factory.
+    i) Creates an ApplicationContext
+
+
 When beans are combined together within the Spring container,
     they are said to be wired or the phenomenon is called bean wiring.
 The Spring container should know what beans are needed and how the beans are dependent
@@ -306,6 +311,35 @@ What do you understand by @Qualifier annotation?
     e.g. If we want to configure multiple email addresses for our application then
         we can have multiple beans with different names.
 
+        interface PaymentService {
+            void pay(double amount);
+        }
+
+        @Component
+        class CreditCardPaymentService implements PaymentService {
+            public void pay(double amount) {
+                System.out.println("Paid with Credit Card: " + amount);
+            }
+        }
+
+        @Component("ppPayment")
+        class PayPalPaymentService implements PaymentService {
+            public void pay(double amount) {
+                System.out.println("Paid with PayPal: " + amount);
+            }
+        }
+
+        @Autowired
+        private PaymentService paymentService; // ❌ Error: two beans of type PaymentService
+
+        @Autowired
+        @Qualifier("creditCardPaymentService")
+        private PaymentService paymentService;
+
+        Use @Qualifier when:
+        Multiple beans of the same type exist
+        Example: Multiple PaymentService implementations.
+
 What do you understand by @RequestMapping annotation ?
     @RequestMapping annotation is used for mapping a particular HTTP request method
         to a specific class method in controller that will be handling the respective request.
@@ -364,3 +398,52 @@ Due to the following reasons:
                         standalone executable JARs. This is very convenient for microservice
                         architectures and for cloud-based deployment, as there is no need for
                         external servlet containers.
+
+
+@SpringBootApplication is basically a convenience annotation in Spring Boot. It combines three commonly used annotations into one,
+    so you don’t have to write them separately every time. Under the hood, it contains:
+
+    @SpringBootConfiguration
+        A specialization of @Configuration.
+        Marks the class as a source of bean definitions (like a Java-based Spring configuration).
+    @EnableAutoConfiguration
+        Tells Spring Boot to automatically configure beans depending on the classpath contents and defined beans.
+        For example, if you have spring-boot-starter-web, it auto-configures DispatcherServlet, Tomcat, Jackson, etc.
+    @ComponentScan
+        Scans the package of the class annotated with @SpringBootApplication (and its subpackages) for @Component, @Service, @Repository, and @Controller beans,
+                then registers them in the Spring context.
+
+1️⃣ @Controller
+    Definition: Marks a class as a Spring MVC controller.
+    Purpose: Typically used to return views (like JSP, Thymeleaf, HTML pages) or handle web requests.
+    @Controller
+    public class MyController {
+
+        @RequestMapping("/hello")
+        public String hello(Model model) {
+            model.addAttribute("message", "Hello World");
+            return "hello"; // Returns view name "hello.jsp" or "hello.html"
+        }
+    }
+    Here, return "hello" does not return raw data.
+    Spring resolves the view name to render HTML.
+
+    2️⃣ @RestController
+        Definition: Introduced in Spring 4+. It’s a shortcut for:
+        @Controller + @ResponseBody
+        Purpose: Used in REST APIs, returns JSON/XML data directly instead of a view.
+        @ResponseBody automatically serializes the return object to JSON or XML using MessageConverters.
+
+
+| Feature          | `@Configuration`                         | `@EnableAutoConfiguration`                            |
+| ---------------- | ---------------------------------------- | ----------------------------------------------------- |
+| Belongs to       | Core Spring                              | Spring Boot                                           |
+| Purpose          | Define beans manually                    | Import beans automatically                            |
+| Control          | Explicit (you write `@Bean`)             | Implicit (Boot decides based on conditions)           |
+| Flexibility      | High but verbose                         | Fast setup, can exclude/override configs              |
+| Example Use Case | Custom service beans, fine-grained setup | Web server setup, DataSource, Jackson, Security, etc. |
+
+
+So you can think of it like this:
+    @Configuration → “I can define beans.”
+    @SpringBootConfiguration → “I am the main configuration class for a Boot app. Treat me specially.”

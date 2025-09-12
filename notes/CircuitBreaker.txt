@@ -1,0 +1,31 @@
+How It Works:
+    Circuit Breaker Configuration:
+        The circuit will open after 50% of the last 10 calls fail
+        It will wait for 10 seconds before moving to half-open state
+        It needs at least 5 calls before it can calculate the failure rate
+    Fallback Mechanism:
+        If the service fails, the fetchStudentFallback method will be called
+        It returns a default student with ID -1 and name "Service Unavailable"
+    Monitoring:
+        The circuit breaker state can be monitored via Spring Boot Actuator endpoints
+        Access /actuator/health to see the circuit breaker status
+        Access /actuator/circuitbreakers to see all circuit breakers
+    Testing:
+        To test the circuit breaker, you can modify your StudentService implementation to throw an exception after a certain number of calls
+        After the failure threshold is reached, the circuit will open and the fallback method will be called
+
+
+| Aspect                      | **Spring Retry (`@Retryable`)**                                        | **Resilience4j Retry**                                                              |
+| --------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| **Library origin**          | Part of **Spring Retry** (Spring ecosystem only)                       | Independent fault-tolerance library (works with Spring Boot, Java SE, reactive)     |
+| **Annotation support**      | Yes: `@Retryable`, `@Recover` (declarative)                            | Yes: `@Retry` (with Spring Boot integration), or programmatic decorators            |
+| **Configuration**           | Annotations or `application.yml` (limited options)                     | Rich config via `application.yml`, programmatic APIs, supports profiles per service |
+| **Retry mechanism**         | Proxy-based AOP → method is re-invoked automatically                   | Decorator pattern (functional) → wraps calls with retry logic                       |
+| **Backoff policies**        | FixedDelay, ExponentialBackoff, RandomBackoff                          | Fixed, Exponential, Random, Custom, Jitter (more flexible)                          |
+| **Error handling**          | `@Recover` methods handle final failure after retries                  | Fallbacks can be defined using functional style (`recover`/`onErrorReturn`)         |
+| **Observability**           | Very limited, no built-in metrics                                      | Exposes detailed metrics via Micrometer (Prometheus, Grafana, etc.)                 |
+| **Integration**             | Tightly integrated with Spring (easy if you’re already in Spring Boot) | Works with Spring Boot **and** non-Spring apps, reactive streams too                |
+| **Other features**          | Pure retry handling                                                    | Retry + **CircuitBreaker**, **RateLimiter**, **Bulkhead** in one ecosystem          |
+| **Synchronous vs Reactive** | Works only with synchronous/blocking calls                             | Works with **synchronous & reactive** pipelines (Flux/Mono)                         |
+| **Learning curve**          | Very simple (just add annotation)                                      | Slightly higher (need to know decorators/config)                                    |
+| **Use cases**               | Database retries, simple REST API retries, batch jobs                  | Distributed microservices with need for retries + monitoring + resilience patterns  |

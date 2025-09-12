@@ -1,0 +1,60 @@
+Client
+  ↓
+Tomcat (Request received)
+  ↓
+[Filter 1] → [Filter 2] → [SpringSecurityFilterChain] → ...
+  ↓
+DispatcherServlet (Front Controller)
+  ↓
+HandlerMapping → Controller → ViewResolver
+  ↓
+Response
+  ↑
+Filters (in reverse order)
+  ↑
+Tomcat sends back to Client
+
+Interview Answer (short & crisp):
+    Filters are executed by Tomcat before the DispatcherServlet.
+    They form a chain of pre/post processors around servlet execution.
+    Inside Spring MVC, DispatcherServlet then maps request to controller.
+    Filters can block, modify, or wrap requests/responses — they’re great for cross-cutting concerns like logging, security, and encoding.
+
+
+When to Use Which?
+    Use Filters when:
+        You need to work with non-Spring components
+        You need to modify request/response before it reaches Spring
+        You need to handle static resources
+        If a request doesn’t meet certain criteria, block it immediately (e.g., IP blacklisting).Reason: If the request is invalid or unauthenticated, it should be blocked before entering Spring (no need to waste resources).
+    Use Interceptors when:
+        You need Spring context/beans
+        You need access to handler method info
+        You need to work with Spring's model attributes
+        Measure execution time of a request handler.
+        Check if user has permission to access a specific controller.
+
+
+
+Feature	                    Filter	                Interceptor
+Container	                Servlet	                Spring
+Dependency	                Servlet API	            Spring Framework
+Execution	                Before/After servlet	Around controller methods
+Access to	                Request/Response	    Request/Response + Handler + ModelAndView
+Dependency Injection	    No	                    Yes
+Order	                    Executes first	        Executes after Filters
+
+Authentication vs Authorization in Filters vs Interceptors
+
+👉 Authentication (Who are you?)
+    Typically done at the Filter level (before Spring MVC).
+    Example: A JWT filter extracts the token, validates it, and sets the SecurityContext.
+    Reason: If the request is invalid or unauthenticated, it should be blocked before entering Spring (no need to waste resources).
+    That’s why Spring Security is built on a filter chain (UsernamePasswordAuthenticationFilter, JwtAuthenticationFilter, etc.).
+👉 Authorization (What are you allowed to do?)
+    Often fits better in Interceptors.
+    Example: You’re authenticated, but before hitting @Controller, an interceptor checks if your role has permission to access that handler.
+    Since interceptors can access:
+    Handler mapping info (HandlerMethod)
+    Controller metadata (@RequestMapping, @RolesAllowed, etc.)
+    Spring beans (like UserService)

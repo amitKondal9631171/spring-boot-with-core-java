@@ -1,18 +1,30 @@
 package techmahindra.threading.testing;
 
-public class CreateThread implements Runnable{
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-    @Override
-    public void run() {
-        System.out.println("Run implementation");
-    }
+public class CreateThread {
 
+   static Runnable runnableCode = () -> {
+        System.out.println("withRunnable implementation");
+    };
     public static void main(String[] args) {
 
-       CreateThread ct = new CreateThread();
 
-       Thread t = new Thread(ct,"Custom Thread");
-       t.start();
+
+        Thread withoutRunnable = new Thread("withoutRunnable"){
+            @Override
+            public void run() {
+                System.out.println("withoutRunnable implementation");
+            }
+        };
+
+
+
+        Thread withRunnable = new Thread(runnableCode,"withRunnable");
+
+        withRunnable.start();
+        withoutRunnable.start();
 
     }
 }

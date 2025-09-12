@@ -1,0 +1,43 @@
+
+Collector take a stream of elements and fold them into a summary result: a collection, a map, a string, a single value… whatever shape you need.
+
+Collector operations:
+    1. Collect into collections
+        toList() → puts elements into a List.
+        toSet() → puts elements into a Set.
+        toCollection(Supplier<C>) → lets you pick the exact collection type (e.g. LinkedList, TreeSet).
+
+    2. Collect into maps
+        toMap(keyMapper, valueMapper) → creates a Map<K,V>.
+        toMap(keyMapper, valueMapper, mergeFunction) → resolves duplicate keys.
+        toMap(keyMapper, valueMapper, mergeFunction, mapSupplier) → also controls the map type (e.g. LinkedHashMap).
+        toConcurrentMap(...) → concurrent version for parallel streams.
+
+    3. Grouping and partitioning
+        groupingBy(classifier) → groups elements by a key into Map<K, List<T>>.
+        groupingBy(classifier, downstream) → group and then apply another collector (like counting, summing).
+        partitioningBy(predicate) → splits into two groups: true and false.
+        partitioningBy(predicate, downstream) → partition with further reduction.
+
+    4. Reductions & summaries
+        counting() → counts number of elements.
+        summingInt / summingLong / summingDouble → sum of a numeric field.
+        averagingInt / averagingLong / averagingDouble → average of a numeric field.
+        summarizingInt / summarizingLong / summarizingDouble → gives count, sum, min, max, average in one shot.
+
+    5. String joining
+        joining() → concatenates strings.
+        joining(delimiter) → with delimiter.
+        joining(delimiter, prefix, suffix) → also adds prefix/suffix.
+
+    6. Find min/max
+        minBy(comparator) → smallest element by comparator.
+        maxBy(comparator) → largest element by comparator.
+
+    7. Mapping / reducing inside collect
+        mapping(mapper, downstream) → transform elements before passing to downstream collector.
+        flatMapping(mapper, downstream) (added in Java 9, but handy to know).
+        reducing(identity, mapper, accumulator) → general reduction.
+
+    8. Special ones
+        collectingAndThen(downstream, finisher) → run a finisher after collection. For example, collect into a list and then make it unmodifiable.
