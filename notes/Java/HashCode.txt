@@ -77,13 +77,13 @@ What’s wrong
 
     array or bucket --> index = (hash(key) ^ (hash(key) >>> 16)) & (capacity - 1)
 
-General Rules for a Good hashCode()
-    ✔ Consistency – Every time you call hashCode() on the same object (without changes to fields), it must return the same number.
-    ✔ Equal objects → Same hash – If obj1.equals(obj2) is true, then obj1.hashCode() == obj2.hashCode() must be true.
-    ✔ Performance – Distribute values well to avoid collisions, but keep computation simple.
-    ✔ Use immutable fields – Base your hash on fields that don’t change after object creation.
 
 ** Arrays have contiguous memory allocation, but HashMap is different because it uses hashing with an internal array + linked structures (or tree in some cases).\
     int hash = (key.hashCode()) ^ (key.hashCode() >>> 16); e.g 5 ^ (5 >>> 16) = 5 ^ 0 = 5.
     index = hash & (table.length - 1); e.g 5 & (16 - 1) = 5 & 15 = 5. //16 is size of map
+            Let’s calculate it step by step:
+                        5 in binary → 0101
+                        15 in binary → 1111
+                        Bitwise AND (&) → 0101 → which equals 5 in decimal.
 
+                        ✅ So yes: 5 & 15 = 5 is correct in bitwise logic.

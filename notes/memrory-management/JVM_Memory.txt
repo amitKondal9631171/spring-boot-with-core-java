@@ -1,0 +1,70 @@
+
+
+| Java Version | Default GC  | Reason                                                 |
+| ------------ | ----------- | ------------------------------------------------------ |
+| **Java 8**   | Parallel GC | Best throughput, multi-threaded stop-the-world GC      |
+| **Java 11**  | G1 GC       | Balanced throughput & latency, region-based, less STW  |
+| **Java 17**  | G1 GC       | Matured, safe general-purpose GC. ZGC & Shenandoah are strong options.                       |
+| **Java 21**  | G1 GC       | Still default, but ZGC & Shenandoah are strong options |
+
+
+Heap area is one of the most important memory areas of JVM.
+    Here, all the java objects are stored. The heap is created when the JVM starts.
+    The heap is generally divided into two parts.
+    That is:
+        1. Young Generation: All the new objects are allocated in this memory.
+                             Whenever this memory gets filled, the garbage collection is
+                             performed. This is called as Minor Garbage Collection.
+        2. Old Generation: All the long lived objects which have survived many rounds of
+                            minor garbage collection in young generation then those are stored in this area. Whenever this
+                            memory gets filled, the garbage collection is performed.
+                            This is called as Major Garbage Collection.
+
+🔹 Why static variables can cause leaks
+    Static variables live for the lifetime of the classloader
+          They are stored in the method area / metaspace (depending on JVM version).
+          GC does not collect objects referenced by static variables until the class itself is unloaded.
+    Scenario:
+        public class Cache {
+            public static Map<String, Object> cacheMap = new HashMap<>();
+        }
+        Every object you put into cacheMap is strongly referenced by the static map.
+        Even if nothing else references those objects, GC cannot reclaim them, because cacheMap is static.
+        Over time, if you keep adding objects (like caching user sessions) without removing old entries, the heap grows → memory leak.
+
+“Even though Java has garbage collection, static variables and long-lived collections can cause memory leaks because GC cannot reclaim objects that are strongly
+    referenced. For example, a static HashMap storing objects indefinitely prevents GC from collecting those objects. To avoid this, we either clear entries,
+    use weak references, or avoid static long-lived collections altogether. In production microservices, unintentional memory retention can cause OutOfMemoryErrors,
+    so careful design and monitoring are crucial.”
+
+
+Serial GC
+    How it works: Uses a single thread for both minor and major garbage collection.
+    Pause behavior: When it runs, it stops the world (application threads pause) until GC is done.
+    Overhead: Very small footprint, very predictable, but scales poorly.
+    Use case: Small applications or single-CPU systems (like desktop apps, dev tools, IoT).
+
+ Parallel GC (a.k.a. Throughput collector)
+     How it works: Multiple threads for young/old gen collections. Focus is throughput (finish work fast).
+     Pause behavior: Still stop the world, but faster because threads run in parallel.
+     Overhead: Uses more CPU; pause times can still be noticeable, but total GC time is reduced.
+     Use case: Apps where throughput matters more than low latency (batch jobs, data crunching).
+
+G1 GC (Garbage First)
+    How it works: Splits the heap into small regions instead of contiguous young/old generations. Collects regions with most garbage first.
+    Pause behavior: Designed to give predictable pause times, since you can set a pause-time target (-XX:MaxGCPauseMillis=200).
+                    Performs concurrent marking/sweeping while app is running.
+    Overhead: More complex, slightly higher memory overhead than Parallel.
+    Use case: Large heaps, applications needing balance between throughput and predictable latency (server apps, web backends, enterprise systems).
+
+
+| GC Type        | Latency           | Throughput | Heap Size               | Typical Use Case                |
+| -------------- | ----------------- | ---------- | ----------------------- | ------------------------------- |
+| **Serial**     | High              | Low        | Small (<1GB)            | Simple apps, small tools        |
+| **Parallel**   | Medium            | High       | Medium (1–8GB)          | Batch jobs, backend services    |
+| **G1GC**       | Low (\~200ms)     | High       | Medium–Large (4GB–32GB) | Web servers, APIs, load testing |
+| **ZGC**        | Ultra-low (<10ms) | Medium     | Huge (GB–TB)            | Financial systems, real-time    | it runs GC work alongside your app, using more CPU all the time
+| **Shenandoah** | Ultra-low (<10ms) | Medium     | Medium–Large            | Cloud-native apps               |
+| **Epsilon**    | None              | N/A        | Developer-chosen        | Benchmarking, testing           |
+
+

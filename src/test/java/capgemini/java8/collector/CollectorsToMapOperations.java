@@ -30,11 +30,11 @@ public class CollectorsToMapOperations {
 
         System.out.println(map);
 
-         listOfCountries = Arrays.asList("India", "Indonesia", "Nepal", "Afghanistan");
-        //Need to implement merge operation because there are duplicate keys.
+         listOfCountries = Arrays.asList("India", "Indonesia", "Nepal", "Afghanistan", "Delhi");
+        //Need to implement merge operation because there are keys with same length.
         keyFunction = String::length; //Function<String, Integer>  takes string and returns integer.
         valueFunction = Function.identity(); // Function<String, String> takes string and returns string.
-        BinaryOperator<String> mergeFunction = (value1, value2) -> "[" + value1 + ", " + value2 + "]";
+        BinaryOperator<String> mergeFunction = (value1, value2) ->  value1 + ", " + value2 ;
 
         Map<Integer, String> mergedMap = listOfCountries.stream()
                 .collect(Collectors.toMap(keyFunction, valueFunction, mergeFunction));
@@ -42,7 +42,7 @@ public class CollectorsToMapOperations {
 
 
         listOfCountries = Arrays.asList("India", "Indonesia", "Nepal", "Afghanistan");
-        //Need to convert to map with key as list value and value as length using linkedhas hmap.
+        //Need to convert to map with key as list value and value as length using linked hashmap.
         Function<String, String> keyFunction1 = Function.identity();
         Function<String, Integer> valueFunction1 = String::length;
         BinaryOperator<Integer> mergeFunctionInteger = (value1, value2) -> value1;

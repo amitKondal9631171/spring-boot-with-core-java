@@ -2,12 +2,6 @@ The basic difference between preemptive and non-preemptive scheduling is that in
 the CPU is allocated to the processes for the limited time. While in Non-preemptive scheduling, the CPU is
     allocated to the process till it terminates or switches to waiting state.
 
-yield(): Suppose there are three threads t1, t2, and t3. Thread t1 gets the processor and starts its
-    execution and thread t2 and t3 are in Ready/Runnable state. Completion time for thread t1 is 5 hour
-    and completion time for t2 is 5 minutes. Since t1 will complete its execution after 5 hours, t2 has to
-     wait for 5 hours to just finish 5 minutes job. In such scenarios where one thread is taking too much
-     time to complete its execution, we need a way to prevent execution of a thread in between if
-     something important is pending. yield() helps us in doing so.
 yield() basically means that the thread is not doing anything particularly important and if any other
     threads or processes need to be run, they should run. Otherwise, the current thread will continue to run.
 
@@ -80,7 +74,7 @@ DEADLOCK PREVENTION VS DEADLOCK AVOIDANCE
 | **Interface**            | Base abstraction             | Extension of `Executor`                              |
 | **Methods**              | Only `execute(Runnable)`     | `submit`, `invokeAll`, `invokeAny`, `shutdown`, etc. |
 | **Return Type**          | `void`                       | `Future<T>` for result tracking                      |
-| **Lifecycle Management** | ❌ No                         | ✅ Yes                                                |
+| **Lifecycle Management** | ❌ No                        | ✅ Yes                                                |
 | **Use Case**             | Simple fire-and-forget tasks | Complex task management, results, and pooling        |
 
 
@@ -90,7 +84,6 @@ How to Mitigate These Challenges:
 | ------------------ | -------------------------------------------------- |
 | Race Conditions    | Use `synchronized`, `Lock`, `Atomic` classes       |
 | Deadlocks          | Consistent lock ordering, try-lock with timeout    |
-| Starvation         | Use fair locks (`new ReentrantLock(true)`)         |
 | Memory Visibility  | Use `volatile` or proper synchronization           |
 | Debugging          | Use profilers like VisualVM, thread dumps, logging |
 | Performance Issues | Use thread pools wisely, avoid excessive locking   |

@@ -1,0 +1,6 @@
+What is Semantic Versioning?
+    Semantic versioning is a system for numbering software versions so you can understand compatibility and changes at a glance.
+    MAJOR.MINOR.PATCH → 2.5.1
+        MAJOR → Incompatible API changes (breaks backward compatibility).
+        MINOR → New features added, backward-compatible.
+        PATCH → Bug fixes, backward-compatible.

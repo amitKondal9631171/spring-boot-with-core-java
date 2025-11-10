@@ -26,10 +26,6 @@ public class StudentController {
 
     @GetMapping("/student/healthCheck")
     public ResponseEntity<String> healthCheck(){
-        log.info("Info logs for health Check End Point");
-        log.debug("Debug logs for health Check End Point");
-        log.warn("Warning logs for health Check End Point");
-        log.error("Error logs for health Check End Point");
         return new ResponseEntity<>("Student Controller Is Up & Running !!!", HttpStatus.OK);
     }
 

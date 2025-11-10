@@ -1,0 +1,99 @@
+
+1) TCP: transmission control protocol --> client server connection.
+2) TLS: server identity and data encryption.
+3) HTTPS 1/2: application layer protocol:
+           Text data for Http1
+           Single connection for multiple requests
+           Binary data for Http2
+           Single connection for multiple requests
+
+
+
+
+When a client hits a URL, here’s what happens step by step, tying it to the TCP 3-way handshake and TLS:
+
+    DNS Resolution
+            Browser or client library first resolves the URL to an IP address using DNS.
+            Example: https://example.com → 93.184.216.34
+    TCP Connection (3-Way Handshake)
+        Once the IP is known, the client opens a TCP connection to the server (usually port 443 for HTTPS):
+                    SYN: Client sends a packet with a sequence number to initiate connection.
+                    SYN-ACK: Server responds, acknowledging the client’s request.
+                    ACK: Client acknowledges server’s response.
+                    ✅ Now the TCP connection is established, and data can be sent.
+                    This happens immediately after the client “hits the URL” and before any HTTP or TLS communication.
+    TLS Handshake
+            After TCP is ready, the client sends ClientHello to start TLS negotiation.
+            The server responds with ServerHello, certificate, and key exchange information.
+            Both sides establish a shared symmetric session key.
+    4️⃣ HTTP Request
+        Only now the client sends the actual HTTP request (GET/POST/etc.)
+        The request is encrypted with the session key if it’s HTTPS.
+        Server decrypts, processes, and sends an encrypted response back.
+
+   *** URL hit → DNS resolve → TCP handshake → TLS handshake → Encrypted HTTP request → Response
+
+
+Services usually talk over TCP (Transmission Control Protocol).
+TCP is like a telephone line:
+    Handshake (SYN → SYN-ACK → ACK) = “Hello, can you hear me?”
+    Once established, data flows reliably in both directions.
+    When done, the connection is closed.
+    ➡️ This ensures that every packet arrives in order and without corruption.
+HTTP runs on top of TCP.
+
+Inside a Company (Microservices Networking)
+    Let’s say you have:
+        Service A (Order Service) at http://order-service:8080
+        Service B (Payment Service) at http://payment-service:9090
+    Flow:
+        Order Service (A) needs to charge payment → calls Payment Service (B).
+        It resolves the hostname (payment-service) to an IP (via DNS or service discovery).
+        TCP handshake happens (A opens a socket to B: IP:9090).
+        Over that connection, A sends an HTTP request → B processes and replies.
+
+Client - Server communication:
+
+| Stage              | Responsibility  | Notes                                |
+| ------------------ | --------------- | ------------------------------------ |
+| TCP Handshake      | Client & Server | Sets up basic connection             |
+| ClientHello        | Client          | Proposes TLS version & ciphers       |
+| ServerHello        | Server          | Selects protocol & cipher            |
+| Server Certificate | Server          | Proves identity, contains public key |
+| Key Exchange       | Client & Server | Establish symmetric session key      |
+| Data Exchange      | Both            | Encrypted using session key          |
+
+
+
+| Feature | HTTP/1.x                                        | HTTP/2                                          |
+| ------- | ----------------------------------------------- | ----------------------------------------------- |
+| Version | 1.0 / 1.1                                       | 2.0                                             |
+| Framing | **Text-based**: headers and body are plain text | **Binary**: headers and body are binary encoded |
+| Parsing | Slower (needs text parsing, string operations)  | Faster (binary parsing is machine-friendly)     |
+
+| TCP Connections  | Multiple connections typically used for parallel requests | Single connection for multiple requests (multiplexing) |
+| Request Handling | One request at a time per connection                      | Multiple requests concurrently over one connection     |
+| Keep-alive       | Optional; keeps a connection open for sequential requests | Implicit in single connection multiplexing             |
+
+
+| Feature            | HTTP/1.x                                                      | HTTP/2                                                          |
+| ------------------ | ------------------------------------------------------------- | --------------------------------------------------------------- |
+| Parallelism        | Achieved by opening multiple TCP connections per host         | True parallelism over a single TCP connection                   |
+| Latency            | Higher due to sequential requests and multiple TCP handshakes | Lower due to multiplexing and fewer handshakes                  |
+| Header Compression | None (headers repeated for every request)                     | **HPACK compression** reduces header size                       |
+| Server Push        | Not supported                                                 | Supported (server can proactively push resources to the client) |
+
+
+
+Microservices:
+    If your microservices talk to each other over HTTP/1.1, parallel downstream calls may require multiple TCP connections.
+    Switching to HTTP/2 can reduce connection overhead and improve latency when calling multiple services simultaneously.
+    Binary framing + header compression makes it efficient even in high-throughput environments.
+
+HTTP/2 is now a microservices performance enabler, not just a protocol upgrade.
+    It reduces latency, improves throughput, and handles multiple concurrent requests efficiently — exactly what modern distributed systems need.
+
+Key Points about HTTP/2 Streams (meaning request & Response)
+    Each request-response pair is a stream **
+    A client sends a request on a stream.
+    The server sends back a response on the same stream.

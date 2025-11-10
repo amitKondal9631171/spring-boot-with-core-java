@@ -29,5 +29,12 @@ public class ReductionOperation {
                 .max(Comparator.comparingInt(Employee::getSalary))
                 .get();
         System.out.println(maxSalaryEmp.getSalary());
+
+        List<String> words = List.of("Spring", "Boot", "Rocks");
+        String sentence = words.stream()
+                .reduce("", (a, b) -> a + "-" + b); // we can do the same with collectors.joining but that minimum flexiblity. Using reduce we can provide custom logic.
+        System.out.println(sentence);
+
+
     }
 }

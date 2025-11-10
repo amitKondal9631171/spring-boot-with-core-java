@@ -42,7 +42,7 @@ public class CollectorsToMapOperations {
 
 
         listOfCountries = Arrays.asList("India", "Indonesia", "Nepal", "Afghanistan");
-        //Need to convert to map with key as list value and value as length using linkedhas hmap.
+        //Need to convert to map with key as list value and value as length using linked has hmap.
         Function<String, String> keyFunction1 = Function.identity();
         Function<String, Integer> valueFunction1 = String::length;
         BinaryOperator<Integer> mergeFunctionInteger = (value1, value2) -> value1;

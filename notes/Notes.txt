@@ -1,8 +1,0 @@
-| GC Type        | Latency           | Throughput | Heap Size               | Typical Use Case                |
-| -------------- | ----------------- | ---------- | ----------------------- | ------------------------------- |
-| **Serial**     | High              | Low        | Small (<1GB)            | Simple apps, small tools        |
-| **Parallel**   | Medium            | High       | Medium (1–8GB)          | Batch jobs, backend services    |
-| **G1GC**       | Low (\~200ms)     | High       | Medium–Large (4GB–32GB) | Web servers, APIs, load testing |
-| **ZGC**        | Ultra-low (<10ms) | Medium     | Huge (GB–TB)            | Financial systems, real-time    |
-| **Shenandoah** | Ultra-low (<10ms) | Medium     | Medium–Large            | Cloud-native apps               |
-| **Epsilon**    | None              | N/A        | Developer-chosen        | Benchmarking, testing           |

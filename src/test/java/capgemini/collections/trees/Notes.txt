@@ -10,3 +10,12 @@ Pre Order:
 
 Post Order:
     left > right > root
+
+| Feature         | LinkedHashMap                       | TreeMap                               |
+| --------------- | ----------------------------------- | ------------------------------------- |
+| Backed by       | Hash table + linked list            | Red-Black Tree                        |
+| Order type      | Insertion order (or access order)   | Sorted by key                         |
+| Time complexity | O(1) avg for CRUD                   | O(log n) for CRUD                     |
+| Null keys       | 1 allowed                           | Not allowed (keys must be Comparable) |
+| Iteration order | As inserted                         | Sorted                                |
+| Best for        | Caches (LRU), predictable iteration | Sorted data, range queries            |

@@ -25,8 +25,8 @@ public class ProofStringIsImmutable {
         String firstString = "Amit";
         String secondString = firstString;
         firstString = firstString.concat(" Kondal");
-        System.out.println(firstString);
-        System.out.println(secondString);
+        System.out.println(firstString); // Amit Kondal
+        System.out.println(secondString); // Amit
 
         String firstStr = new String("Amit");
         String secStr = firstStr;

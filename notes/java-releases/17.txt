@@ -1,0 +1,91 @@
+
+Features:
+| Feature               | What It Solves                        | Why It Matters                      |
+| --------------------- | ------------------------------------- | ----------------------------------- |
+| Records               | Too much boilerplate for data objects | Cleaner, immutable code             |
+| Sealed Classes        | Uncontrolled inheritance              | Safer, designed type hierarchies    |
+| Pattern Matching      | Repetitive casting code               | Less code + fewer bugs              |
+| Enhanced Switch       | Verbose switch logic                  | Cleaner, safer, expression switches |
+| Text Blocks           | Messy multi-line strings              | Cleaner JSON/SQL templates          |
+| G1 & ZGC improvements | Latency issues                        | More predictable performance        |
+| Vector & Foreign APIs | JNI pain, performance                 | Opens door to high-perf Java        |
+
+
+
+=====================
+
+
+| Feature       | Record                           | Sealed Class                                    |
+| ------------- | -------------------------------- | ----------------------------------------------- |
+| Purpose       | Data carrier / DTO               | Controlled inheritance / hierarchy              |
+| Mutability    | Immutable                        | Mutable or immutable depending on subclass      |
+| Inheritance   | Cannot extend other classes      | Can extend other classes (but restricted)       |
+| Boilerplate   | Minimal (auto-generates methods) | Standard boilerplate needed                     |
+| Usage Example | Storing structured data          | Modeling fixed hierarchy (e.g., shapes, events) |
+
+
+        // Define a record for a Bank Transaction
+        public record BankTransaction(
+                String transactionId,
+                String accountNumber,
+                double amount,
+                String type
+        ) {
+            // Customized getter for amount
+            //This gives you the flexibility of immutable data with some controlled transformation logic when accessed.
+            public double amount() {
+                // Example: always return amount rounded to 2 decimal places
+                return Math.round(amount * 100.0) / 100.0;
+            }
+
+            // Customized getter for type
+            public String type() {
+                return type.toUpperCase(); // always return type in uppercase
+            }
+        }
+        Key points about this record:
+                    Fields are final and immutable.
+                    Constructor, getters (transactionId(), accountNumber()), equals(), hashCode(), and toString() are auto-generated.
+                    Ideal for DTOs, responses, or small data models.
+                    Cannot extend another class, but can implement interfaces.
+                    This is a clean, concise way to define structured, immutable data for backend processing.
+
+Equivalent to:
+    private final fields
+    constructor
+    getters
+    equals()
+    hashCode()
+    toString()
+    All auto-generated.
+    Use case: DTOs, Kafka events, REST models, etc.
+
+===============
+Sealed classes: limit the inheritance
+
+public sealed class Vehicle permits Car, Bike {}
+
+public final class Car extends Vehicle {}
+public final class Bike extends Vehicle {}
+
+=============
+
+if (obj instanceof String s) {
+    System.out.println(s.toUpperCase());
+}
+Before Java 17, you had to cast separately. Now the cast is built-in.
+
+=============
+
+String result = switch (status) {
+    case 200 -> "OK";
+    case 404 -> "Not Found";
+    default -> "Unknown";
+};
+
+===========
+String query = """
+    SELECT id, name
+    FROM users
+    WHERE active = true
+    """;

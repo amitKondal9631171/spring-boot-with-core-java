@@ -1,0 +1,135 @@
+Arrays & Simple Lists (1–20)
+    Sum of array elements.
+    Simple Array Sum (HackerRank classic).
+    Find max and min in an array.
+    Reverse an array in-place.
+    Left rotate an array by k positions.
+    Right rotate an array by k positions.
+    Find second largest element.
+    Find missing number in 1..n given n−1 elements.
+    Find duplicate number where only one number repeats.
+    Check if an array is sorted (non-decreasing).
+    Merge two sorted arrays into a single sorted array.
+    Remove duplicates from a sorted array (in-place, return new length).
+    Count occurrences of a given value.
+    Move all zeros to end of array maintaining order.
+    Two-sum (return indices for target sum) — easy variant.
+    Find the pair with maximum sum in an array.
+    Kadane’s algorithm (max subarray sum) — easy form.
+    Intersection of two arrays (unique results).
+    Union of two arrays (unique results).
+    Count pairs with given difference k (simple hash approach).
+
+Strings (21–40)
+    Reverse a string.
+    Check palindrome string.
+    Count vowels and consonants.
+    Remove duplicate characters from a string (preserve order).
+    First non-repeating character in a string.
+    Anagram check for two strings.
+    Check if one string is rotation of another.
+    Find longest word in a sentence.
+    Convert string to integer (simple atoi) — handle sign.
+    Replace spaces with %20 (URLify).
+    Count words in a sentence.
+    Check if two strings are anagrams using frequency map.
+    Check if string contains only digits.
+    Remove all spaces from a string.
+    Find most frequent character.
+    Compress string (basic run-length encoding).
+    Reverse words in a sentence (order of words reversed).
+    Check if string is a valid palindrome ignoring non-alphanumeric.
+    Longest common prefix of array of strings.
+    Convert snake_case to camelCase (or vice versa).
+
+Math / Number Theory / Bit tricks (41–60)
+    Check if a number is prime (simple trial division).
+    Print first N Fibonacci numbers (iterative).
+    Factorial (iterative) and handle small N.
+    Reverse digits of an integer.
+    Check palindrome number.
+    Sum of digits.
+    Count set bits (popcount) of an integer.
+    Check power of two.
+    GCD (Euclidean algorithm).
+    LCM of two numbers.
+    Sieve of Eratosthenes — print primes up to N (small N).
+    Check Armstrong number (narcissistic) for given N.
+    Count trailing zeros in factorial (small).
+    Convert decimal to binary (string).
+    Hamming distance between two integers.
+    Swap two numbers without temporary variable.
+    Check whether two numbers are co-prime.
+    Sum of first N natural numbers and formula verification.
+    Check if N is perfect square (integer).
+    Rotate bits by k positions (simple case).
+
+Maps / Hashing / Frequency (61–75)
+    Count frequency of elements in array.
+    Top K frequent elements (K small).
+    Group anagrams (simple grouping).
+    Find first repeating element (smallest index).
+    Longest substring with unique chars (sliding window easy).
+    Check if two arrays have same elements (multiset equal).
+    Check if ransom note can be constructed from magazine words.
+    Word frequency count from a paragraph (ignore punctuation).
+    Pair sum count using hash map (count pairs, order not important).
+    Find element that appears odd number of times (others even).
+    Longest consecutive sequence (array integers) — easy variant.
+    Most common element in array (mode).
+    Detect duplicates within k distance (sliding window + set).
+    Frequency map to build histogram / print counts sorted.
+    Find majority element (Boyer–Moore) — easy verification form.
+
+Sorting & Searching (76–85)
+    Binary search in sorted array (index or −1).
+    Insertion sort for small arrays.
+    Merge sort skeleton (understand divide & conquer).
+    Find kth smallest using partial sort (k small).
+    Sort array of 0s,1s,2s (Dutch national flag).
+    Find median of two small sorted arrays (easy case).
+    Count inversions in O(n log n) for small N (or naive).
+    Find first missing positive integer (easy approach).
+    Search in rotated sorted array — easy variant.
+    Find closest pair (small N, brute force acceptable).
+
+Stacks / Queues / Deques (86–95)
+    Implement stack push/pop using array.
+    Implement queue using two stacks (basic).
+    Valid parentheses (balanced parentheses).
+    Evaluate postfix expression (simple ops).
+    Next greater element (stack approach).
+    Sliding window maximum — small window, brute OK.
+    Implement simple circular queue.
+    Implement min stack (getMin in O(1)).
+    Reverse words using stack.
+    Implement queue using linked list.
+
+LinkedList / Basic Trees (96–105)
+    Reverse singly linked list (iterative).
+    Detect cycle in linked list (Floyd’s).
+    Merge two sorted linked lists.
+    Remove Nth node from end (two pointers).
+    Find middle of linked list.
+    Convert sorted array to balanced BST (small N).
+    Preorder traversal (recursive) of tree — small example.
+    Compute tree height (basic recursion).
+    Count leaf nodes (simple).
+    Level order traversal using queue (BFS small).
+
+Misc / Practical / File / Parsing (106–120)
+    Parse CSV line to fields (split with quotes simple).
+    Read lines and print longest line length.
+    Implement simple logger rotation logic (count files).
+    Parse simple key:value pairs into map.
+    Merge k sorted lists (k small).
+    Simulate editor undo/redo with stacks (simple ops).
+    Small regex validation (email basic).
+    Generate all subsets of small set (power set for n ≤ 10).
+    Simple permutation generator for small n.
+    Count islands in 2D grid (small grid brute force).
+    Flood fill (small grid).
+    Simple scheduler: next run time for cron-like minute/hour (basic).
+    Simulate ticket queue with priority levels (small).
+    Simple LRU cache behavior simulation (small size).
+    Binary string addition (without BigInteger).

@@ -86,6 +86,7 @@ public class ACNBController {
 
 
     }
+
     @GetMapping("/testing-gatling")
     public String testingGatling(){
         System.out.println(Thread.currentThread().getName() + " received the request...........");

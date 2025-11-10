@@ -7,13 +7,14 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
-public class Employee extends School {
+public class Employee {
 
-    Integer empId;
-    String firstName;
-    String department;
-    Integer salary;
+    private Integer empId;
+    private  String firstName;
+    private String department;
+    private  Integer salary;
+
+
 }

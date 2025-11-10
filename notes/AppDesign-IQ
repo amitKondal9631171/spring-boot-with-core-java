@@ -4,6 +4,7 @@ I start off with the 4 Principles of Simple Design.
     Minimize Duplication
     Maximize Clarity / Readability
     Keep it Small
+    Use of latest features
 
 What are the modern programming practices which lead to very good applications?
     1) Unit Testing and Mocking

@@ -6,14 +6,14 @@ By default,
 How JVM Generates Default serialVersionUID
     If you don’t declare it manually, the JVM (actually the serialver tool / ObjectStreamClass) computes it using a SHA-1 hash of the class’s structural details.
     Specifically, it considers:
-    Class name
-    Modifiers (public, abstract, final, etc.)
-    Implemented interfaces
-    Field names & types
-    Excluding private static and private transient fields
-    Method signatures (including constructors, static initializers)
-    Excluding private methods
-    Inheritance hierarchy
+        Class name
+        Modifiers (public, abstract, final, etc.)
+        Implemented interfaces
+        Field names & types
+        Excluding private static and private transient fields
+        Method signatures (including constructors, static initializers)
+        Excluding private methods
+        Inheritance hierarchy
 
     The resulting hash is then truncated to a 64-bit long → that’s your serialVersionUID.
 

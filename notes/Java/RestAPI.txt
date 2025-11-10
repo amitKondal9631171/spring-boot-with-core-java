@@ -101,10 +101,6 @@ HTTP response
 What is a resource?
     In REST, A resource is an object with a label and accessible on the server.
 
-What is caching in the REST API?
-    REST API stores a copy of a server response in a particular location of computer memory to
-    retrieve the server response fast in the future. This method is temporary and called "catching."
-
 What’s a real-world example of a REST API?
     Public REST APIs are harnessed by weather apps to display weather information and share the
     related data.
@@ -137,4 +133,19 @@ How do you keep REST APIs secure?
     API Server Validation
     TSl/SSL Encryption
     Rate-limiting for DDoS attacks
-    sensitive information such as username, password, or authentication token should not be visible in URIs
+    sensitive information such as username, password, or authentication token should not be visible in URIs.
+
+
+What are the main characterstic of microservice for cloud environment:
+    1. Containerized & Orchestrated
+    2. Independently Deployable
+    4. Scalable
+    5. Resilient & Fault Tolerance
+    6. Observable: Cloud requires metrics, logs, and traces across distributed services.
+    7. Independent Data Stores
+    8. Secure & Isolated
+
+
+
+
+

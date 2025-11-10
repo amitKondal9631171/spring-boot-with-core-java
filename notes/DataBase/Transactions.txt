@@ -1,0 +1,6 @@
+@Transaction is enough to handle transactions or what else is required ?
+    What @Transactional Does
+        In Spring (and JEE too), putting @Transactional on a method/class:
+        Starts a transaction before method execution.
+        Commits transaction if method completes successfully.
+        Rolls back transaction if an unchecked exception (RuntimeException) occurs.

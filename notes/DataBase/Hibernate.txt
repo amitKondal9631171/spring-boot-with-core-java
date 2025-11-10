@@ -1,0 +1,32 @@
+In TM need to take case 4 properties:
+ACID:
+Atomicity: all the operations executed successfully
+Consistency: system must be in consistent.
+             Like in a bank If A -> transfer money to -> b then -> total balance in the bank must be -> same.
+Isolation: Transaction visibility to the other transactions
+Durability: Any change from the transaction must be persisted
+
+When to use JPA and JDBC
+ JDBC: when we don't need to track the object. Object oriented approach is not required.
+ JPA: when we need to track the object behaviour. Object oriented approach is required.
+
+Persist / Save
+    Persist():
+        1. Syntax: public void persist(Object object) throws HibernateException.
+        2. It does not returns generated Id after saving. Its return type is void.
+        3. Persist method can be used only within the transaction.
+        4. session.persist() for a detached object will throw PersistentObjectException as it is not allowed.
+        5. Persist method takes less time to execute.
+
+    Save():
+        1. Syntax: public Serializable save(Object object) throws HibernateException.
+        2. The return type of the save method is java.io.Serializable. It returns the generated Id after saving the record.
+        3. It can save the changes to the database outside of the transaction. i.e. Save method can be used inside or outside the transaction.
+        4. Session.save() for a detached object will create a new row in the table.
+        5. Save method takes more time to execute.
+
+States of Entity Instances
+    Any entity instance in our application appears in one of the three main states in relation to the Session persistence context:
+        transient — This instance isn't, and never was, attached to a Session. This instance has no corresponding rows in the database; it's usually just a new object that we created to save to the database.
+        persistent — This instance is associated with a unique Session object. Upon flushing the Session to the database, this entity is guaranteed to have a corresponding consistent record in the database.
+        detached — This instance was once attached to a Session (in a persistent state), but now it’s not. An instance enters this state if we evict it from the context, clear or close the Session, or put the instance through serialization/deserialization process.

@@ -28,7 +28,7 @@ public class FailFastAndSafe {
 
         listTest.add(123); //after iterator we are adding element which gives concurrent exception
 
-        while (itr.hasNext()){ //infinite loop without moving the cursor to next position
+        while (itr.hasNext()){ //we are iterating after adding element so, will get exception
                 itr.next();
         }
         

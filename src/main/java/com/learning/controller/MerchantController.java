@@ -1,6 +1,9 @@
 package com.learning.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learning.config.RetryConfig;
+import com.learning.service.ThirdPartyService;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
+import org.springframework.retry.support.RetrySynchronizationManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +27,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
 import java.io.StringReader;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -42,8 +47,16 @@ public class MerchantController {
 
     @Autowired
     private RetryConfig retryConfig;
-    public MerchantController(RestTemplate restTemplate) {
+
+    @Autowired
+    private final ThirdPartyService thirdPartyService;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    public MerchantController(RestTemplate restTemplate, ThirdPartyService thirdPartyService) {
         this.restTemplate = restTemplate;
+        this.thirdPartyService = thirdPartyService;
     }
 
     @PostMapping(value = "/merchant/payment")
@@ -52,8 +65,8 @@ public class MerchantController {
         //Read card details from front end
         JSONObject obj = new JSONObject(httpRequest);
         JSONObject parentJSON = obj.getJSONObject("fields");
-        String name =   (String) parentJSON.get("name");
-        String cardHolder =   (String) parentJSON.get("card_holder");
+        String name = (String) parentJSON.get("name");
+        String cardHolder = (String) parentJSON.get("card_holder");
         String cardNumber = (String) parentJSON.get("card_number");
         String cardCvv = (String) parentJSON.get("cvv");
 
@@ -73,8 +86,8 @@ public class MerchantController {
         requestPayload = requestPayload.replace("CardCvv", cardCvv);
 
         HttpRequest eMerchantRequest = HttpRequest.newBuilder()
-                .header("Authorization","Basic MmIxMmVlZDAyNTg3MTVkM2UyNzY0ZGY3NzlhYWUwOTUwYTI0MzJhNjo2MmQ1ZTFiZmMzYzhmYTQ5N2QyOGUwMzAxMjUxN2FmYTU4YzVkOTQ4")
-                .header("Content-Type","text/xml")
+                .header("Authorization", "Basic MmIxMmVlZDAyNTg3MTVkM2UyNzY0ZGY3NzlhYWUwOTUwYTI0MzJhNjo2MmQ1ZTFiZmMzYzhmYTQ5N2QyOGUwMzAxMjUxN2FmYTU4YzVkOTQ4")
+                .header("Content-Type", "text/xml")
                 .uri(URI.create("https://staging.gate.emerchantpay.net/process/e57bc00ffb24889855e00e8dc3c6bdfa1669d49a"))
                 .POST(HttpRequest.BodyPublishers.ofString(requestPayload))
                 .build();
@@ -84,10 +97,21 @@ public class MerchantController {
         Document doc = convertStringToXMLDocument(eMerchantResponse.body());
         NodeList nodeList = doc.getElementsByTagName("payment_response");
 
-       String responseStatus = name.equals("") ? nodeList.item(5).getNodeValue()  : "200";
+        String responseStatus = name.equals("") ? nodeList.item(5).getNodeValue() : "200";
 
         return responseStatus;
     }
+
+    @GetMapping(value = "/test")
+    public String processPayment() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        BigDecimal value = new BigDecimal("0.000338689");
+
+        String json = mapper.writeValueAsString(value);
+        System.out.println(json);
+        return json;
+    }
+
 
     private static Document convertStringToXMLDocument(String xmlString) {
         //Parser that produces DOM object trees from XML content
@@ -109,25 +133,9 @@ public class MerchantController {
     }
 
     @GetMapping("/merchant/retry-api")
-    @Retryable(
-            value = { HttpServerErrorException.class },
-            maxAttempts = MAX_ATTEMPTS,
-            backoff = @Backoff(delay = DELAY),
-            listeners = "retryListener"  // We'll add a custom retry listener
-    )
-    public ResponseEntity<String> callThirdPartyApi() throws URISyntaxException {
-        System.out.println("Attempting to call third-party API...");
-        long startTime = System.currentTimeMillis();
-        try {
-            String response = restTemplate.getForObject(new URI("http://localhost:3434/get"), String.class);
-            return ResponseEntity.ok(response);
-        } finally {
-            Long lastExecutionTime = retryConfig.executionTimeHolder.get();
-            System.out.println("execution last time: "+ lastExecutionTime);
-            long executionTime = System.currentTimeMillis() - startTime;
-            // Store the execution time in a ThreadLocal for the retry listener to access
-            retryConfig.executionTimeHolder.set(executionTime);
-        }
+      public ResponseEntity<String> callThirdPartyApi() throws URISyntaxException {
+        thirdPartyService.callThirdPartyApi();
+        return ResponseEntity.ok("Third-party API called successfully");
     }
 
     @Recover

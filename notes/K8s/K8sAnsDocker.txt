@@ -51,9 +51,66 @@ Kubernetes Kind Hierarchy:
         PersistentVolume (PV) → Cluster storage resource
         PersistentVolumeClaim (PVC) → Pod’s request for storage
     3. Networking
-        Service → Provides stable IP & DNS, load balances traffic to Pods
-        Ingress → Manages external HTTP/HTTPS access to Services
         NetworkPolicy → Controls traffic flow between Pods
+        Service / LoadBalance → Provides stable IP & DNS, load balances traffic to Pods, This is for single service only
+
+                    # Service for myapp
+                    apiVersion: v1
+                    kind: Service
+                    metadata:
+                      name: myapp-service
+                    spec:
+                      selector:
+                        app: myapp
+                      ports:
+                        - port: 80
+                          targetPort: 8080
+
+                    ---
+                    # Service for shop
+                    apiVersion: v1
+                    kind: Service
+                    metadata:
+                      name: shop-service
+                    spec:
+                      selector:
+                        app: shop
+                      ports:
+                        - port: 80
+                          targetPort: 8080
+
+
+        Ingress → Manages external HTTP/HTTPS access to multiple Services
+
+                       ---
+                            # Ingress routing both services via a single LB
+                            apiVersion: networking.k8s.io/v1
+                            kind: Ingress
+                            metadata:
+                              name: example-ingress
+                            spec:
+                              rules:
+                                - host: myapp.example.com
+                                  http:
+                                    paths:
+                                      - path: /
+                                        pathType: Prefix
+                                        backend:
+                                          service:
+                                            name: myapp-service
+                                            port:
+                                              number: 80
+                                - host: shop.example.com
+                                  http:
+                                    paths:
+                                      - path: /
+                                        pathType: Prefix
+                                        backend:
+                                          service:
+                                            name: shop-service
+                                            port:
+                                              number: 80
+
     4. Cluster & Namespace Management
         Namespace → Virtual cluster within a cluster for isolation
         Node → Worker machine running Pods
