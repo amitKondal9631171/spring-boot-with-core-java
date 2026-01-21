@@ -199,3 +199,47 @@ How to Handle Race Conditions:
     "Day 9": [
         "Learn ThreadLocal, volatile keyword, and Java Memory Model.",
        ]
+
+
+
+ | Workload             | Recommended              |
+ | -------------------- | ------------------------ |
+ | CPU-bound            | Fixed thread pool        |
+ | I/O-bound            | Cached or bounded custom |
+ | Sequential           | Single thread            |
+ | Scheduled            | Scheduled executor       |
+ | Parallel computation | ForkJoinPool             |
+ | Production service   | Custom / Spring executor |
+
+
+
+Project Loom is one of those rare Java changes that quietly rewires your mental model. It doesn’t make CPUs faster, and it doesn’t make blocking disappear
+    — it makes blocking cheap.
+
+Before Loom: why blocking was expensive
+    Classic Java threads (now called platform threads) map roughly 1:1 to OS threads.
+
+If a platform thread blocks:
+    the OS thread blocks
+    memory is tied up (stack ~1–2 MB)
+    context switches are expensive
+    scalability collapses around ~1–2k threads
+
+So we invented:
+    async callbacks
+    reactive streams
+    non-blocking I/O
+    thread pools + backpressure
+    Not because we loved them — because we were cornered.
+
+Loom introduces virtual threads.
+    A virtual thread is a Java thread that is not permanently tied to an OS thread.
+
+Think of it as:
+    A lightweight continuation
+    Scheduled by the JVM
+    Mounted and unmounted from OS threads
+
+
+
+

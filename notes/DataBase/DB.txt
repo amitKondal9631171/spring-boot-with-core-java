@@ -107,8 +107,6 @@ ACID:
         That transaction is killed with a deadlock error.
         In Hibernate/Spring, this bubbles up as LockAcquisitionException (or SQL error code like ORA-00060 in Oracle, 40P01 in Postgres).
 
-
-
 Exception Translation
     One of the biggest powers of @Repository.
     Spring’s PersistenceExceptionTranslationPostProcessor intercepts exceptions from JDBC/Hibernate/JPA and translates them into Spring’s unified DataAccessException hierarchy.

@@ -35,3 +35,23 @@ public class AvoidConcurrentException {
     }
 
 }
+
+/**
+     * ConcurrentHashMap allows safe concurrent read and write operations without locking the entire map. It achieves this using:
+         * Fine-grained locking (in JDK 7 and earlier)
+         * Lock-free and CAS (Compare-And-Set) operations (in JDK 8 and later)
+ *  Fail-safe iteration
+        Unlike HashMap, iterators of ConcurrentHashMap are weakly consistent:
+       They do not throw ConcurrentModificationException.
+ 
+ *
+ */
+
+
+
+
+
+
+
+
+

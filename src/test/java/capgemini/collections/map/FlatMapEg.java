@@ -1,6 +1,7 @@
 package capgemini.collections.map;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +25,9 @@ public class FlatMapEg {
         //Flat map is combination of map and mapper function.
         //In this example first it is filtering meaning performing map operation and then flattering the results.
          List<Integer> listofInts  = listOfListofInts.stream()
-                .flatMap(list -> list.stream().filter(item -> item > 2))
-                .collect(Collectors.toList());
+                //.flatMap(list -> list.stream().filter(item -> item > 2))
+                .flatMap(Collection::stream) //This is for to not to filter the Item
+                .toList();
 
         System.out.println("The Structure after flattening is : " +
                 listofInts);

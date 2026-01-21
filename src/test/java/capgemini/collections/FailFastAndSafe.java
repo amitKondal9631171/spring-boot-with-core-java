@@ -16,32 +16,54 @@ import java.util.*;
  * Now, while iterating list will validate for any modification by comparing both  modeCount & expectedModCount
  *  and if both are not same then it will throw concurrent modification exception.
  */
+
+/**
+ * Why fail fast:
+
+ Structural modification breaks iteration consistency
+     Collections like ArrayList, HashMap, etc., are not inherently thread-safe.
+    When you iterate, the iterator walks through an internal structure — an array or a linked list.
+     If another thread (or even the same thread) changes the structure (adds/removes elements), the iterator’s view of that structure becomes stale or invalid.
+     You could end up:
+          Skipping elements
+          Seeing duplicates
+    Reading invalid memory references
+    So Java designers chose: better to fail fast than behave unpredictably.
+
+ */
+
+/**
+ * What happens:
+     The iterator in the first thread holds an internal snapshot of the collection’s modCount (modification count).
+     The second thread changes the collection — say, adds or removes an element — which increments the collection’s modCount.
+     The next time the first thread’s iterator calls next(), it compares:
+     if (modCount != expectedModCount)
+         throw new ConcurrentModificationException();
+      — and boom 💥, you get a ConcurrentModificationException.
+ */
 public class FailFastAndSafe {
 
+    static void withMultipleThreads(){
+        List<String> list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+
+        new Thread(() -> {
+            for (String s : list) {
+                System.out.println(s);
+                try { Thread.sleep(50); } catch (InterruptedException e) {}
+            }
+        }).start();
+
+        new Thread(() -> {
+            try { Thread.sleep(100); } catch (InterruptedException e) {}
+            list.add("D"); // modifies while first thread iterates
+        }).start();
+
+    }
+
     public static void main(String[] args) {
-        List<Integer> listTest = new ArrayList<>(10);
-        listTest.add(1);listTest.add(21);listTest.add(31);listTest.add(41);
-        listTest.add(51);listTest.add(61);listTest.add(71);listTest.add(81);
-        listTest.add(91);listTest.add(101);
-
-        Iterator<Integer> itr = listTest.iterator();
-
-        listTest.add(123); //after iterator we are adding element which gives concurrent exception
-
-        while (itr.hasNext()){ //we are iterating after adding element so, will get exception
-                itr.next();
-        }
-        
-        Map<Integer,String> mapTest = new HashMap<>(10);
-
-        mapTest.put(1,"Amit");mapTest.put(2,"Seema");
-        mapTest.put(3,"Vikas");mapTest.put(4,"Arti");
-
-        Iterator<Map.Entry<Integer,String>> mapIterator = mapTest.entrySet().iterator();
-        mapTest.put(5,"Kondal");
-
-        while(mapIterator.hasNext()){
-
-        }
+        withMultipleThreads();
     }
 }

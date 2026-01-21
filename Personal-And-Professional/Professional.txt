@@ -1,15 +1,24 @@
 
-Roles & Responsibilities:
 
-Signed up:
-Oracle
-Amdocs
-ICE
-EY
-BOA - Pending
+My name is Amit Kondal. I completed my B.Tech in Computer Science from Guru Nanak Dev University, Amritsar.
+
+I began my career at Bayatree Infocom Pvt. Ltd. as a Software Engineer, where I worked extensively on core Java, multithreading, and database migration.
+    My responsibilities included understanding client requirements, implementing features, handling deployments, and preparing technical documentation.
+
+After that, I moved to Fintek Software Services as a Senior Software Engineer in the trade and finance domain.
+    Since it was a smaller organization, I gained strong end-to-end requirement analysis, design, development, and delivery.
+    I also strengthened my experience with the Spring ecosystem.
+
+My next role was at Tech Mahindra as a Tech Lead in the banking domain. Here, I worked closely with clients and various cross-functional teams.
+    I gained hands-on experience with microservices architecture and tools like OpenShift, Jenkins, Kibana, and Datadog.
+    I was responsible for leading development and helping deploy applications in cloud environments.
+
+Currently, I’m working at Capgemini India as a Senior Consultant, again in the banking domain.
+    I work directly with clients and the architecture team, gather and refine requirements, design and implement solutions, and support junior team members.
+    I’ve also expanded my experience in microservices and Azure cloud.
+
+Overall, I bring strong end-to-end exposure across monolithic, modular, scalable, distributed & concurrent microservices, with experience leading development.
 
 
-Skilled, dedicated & quick learner with having 11 years of rich experience in development, testing, deployment and application maintenance . Worked in various domain like Heath care, Trade & Finance & Banking. Having decent knowledge of Core java, spring MVC, Spring boot, Rest API, Hibernate, jUnits, CI/CD, Client discussions & Team management.
-Looking for opportunity where I can use my expertise for the growth of organization and achieve good positions in the same.
 
 

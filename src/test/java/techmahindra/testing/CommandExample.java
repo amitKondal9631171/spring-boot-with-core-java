@@ -6,13 +6,12 @@ import java.util.function.Function;
 
 public class CommandExample
 {
-
-
     public static double calculateWeight() {
         double weight = 0;
         // Calculate weight
         return weight;
     }
+
     public static List<Double> calculateOnShipments(
             List<CommandExample> l, Function<CommandExample, Double> f) {
         List<Double> results = new ArrayList<>();
@@ -21,6 +20,7 @@ public class CommandExample
         }
         return results;
     }
+
     public static void main(String[] args) {
         List<CommandExample> l = new ArrayList<CommandExample>();
         // Using a lambda expression

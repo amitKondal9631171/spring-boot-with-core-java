@@ -17,13 +17,15 @@ public class RemoveElement {
         list.add("SIX");
         list.add("SEVEN");
 
+
+        list.remove(1);
         //Printing the elements of list
-        System.out.println(list);      //Output : [ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN]
+        System.out.println(list);      //Output : [ONE, THREE, FOUR, FIVE, SIX, SEVEN]
 
         //Removing the elements from the head of the LinkedList
         list.poll();
         list.pollFirst();
-        list.remove();
+
         list.removeFirst();
 
         //Printing the elements of list

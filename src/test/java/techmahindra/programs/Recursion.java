@@ -15,12 +15,12 @@ public class Recursion {
 
         System.out.println("Processed **************\n\n");
         output = factorial(n-1) * n;
-        System.out.println("Factorial of 5 is: "+ output);
+        System.out.println("calculation purpose how recursion works: "+ output);
         return output;
     }
 
     public static void main(String[] args) {
-         factorial(5);
+        System.out.println("Factorial of 5 is: "+ factorial(5));
 
 
     }

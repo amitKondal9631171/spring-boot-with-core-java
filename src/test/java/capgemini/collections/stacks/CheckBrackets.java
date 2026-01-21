@@ -1,6 +1,7 @@
 package capgemini.collections.stacks;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class CheckBrackets {
 
@@ -11,13 +12,13 @@ public class CheckBrackets {
 
         String input = "[{()}]";
 
-        Stack<Character> stack =  new Stack<>();
+        Deque<Character> stack = new ArrayDeque<>();
 
         boolean balancedOrNot = false;
 
         char[] brackets = input.toCharArray();
 
-        for(Character x : brackets){
+        for(char x : brackets){
 
             if (x == '(' || x == '[' || x == '{') {
                 stack.push(x);

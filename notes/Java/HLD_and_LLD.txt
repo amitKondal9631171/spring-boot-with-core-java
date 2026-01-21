@@ -9,7 +9,7 @@
         Technology and platform decisions are often finalized here.
         Abstract — not code-specific.
 
-     Contents of HLD
+    Contents of HLD
         Architecture diagram (e.g., microservices, layers, tiers).
         Module interactions (APIs, message queues, databases).
         Tech stack decisions (Java, Python, AWS, etc.).

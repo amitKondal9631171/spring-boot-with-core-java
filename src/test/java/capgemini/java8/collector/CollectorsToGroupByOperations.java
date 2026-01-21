@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class CollectorsToGroupByOperations {
     static List<Employee> empList = Arrays.asList(
             new Employee(1, "Amit", "IT", 1000),
-            new Employee(2, "Rohit", "IT", 2000),
+            new Employee(2, "Rohit", "IT", 1000),
             new Employee(3, "Sita", "HR", 3000)
     );
 
@@ -54,7 +54,7 @@ public class CollectorsToGroupByOperations {
         Map<String, Double> avgDepSalary = empList.stream()
                 .collect(
                         Collectors.groupingBy(
-                                Employee::getDepartment, //Group employees by department.
+                                employee -> employee.getDepartment(), //Group employees by department.
                                 Collectors.averagingDouble(Employee::getSalary) //Average the salary.
                         )
                 );
@@ -63,8 +63,8 @@ public class CollectorsToGroupByOperations {
         Map<String, Long> countByDept = empList.stream()
                 .collect(
                         Collectors.groupingBy(
-                                Employee::getDepartment, //Group employees by department.
-                                Collectors.counting() //Count the number of employees.
+                                employee -> employee.getDepartment(), //Group employees by department.
+                                Collectors.counting() //Count the number of records.
                         )
                 );
         System.out.println("count by dept: " + countByDept);
@@ -78,5 +78,17 @@ public class CollectorsToGroupByOperations {
         System.out.println("Partition by salary greater than 1000: " + partitionMap.get(true));
         System.out.println("Partition by salary less than 1000: " + partitionMap.get(false));
 
+
+        System.out.println("Sum of all salaries: "+ empList.stream().mapToInt(Employee::getSalary).sum());
+
+        System.out.println("Average of all salaries: "+ empList.stream().mapToInt(Employee::getSalary).average());
+
+        System.out.println("Min of all salaries: "+ empList.stream().mapToInt(Employee::getSalary).min());
+
+
+        System.out.println("Distinct salaries: " );
+            empList.stream().mapToInt(Employee::getSalary).distinct().forEach(System.out::println);
+
+        System.out.println("Distinct salaries sum: " + empList.stream().mapToInt(Employee::getSalary).distinct().sum());
     }
 }

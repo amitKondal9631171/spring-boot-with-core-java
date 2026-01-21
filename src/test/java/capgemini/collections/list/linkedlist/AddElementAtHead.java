@@ -34,7 +34,7 @@ public class AddElementAtHead {
      * add(), addFirst(), addLast() come from the Deque interface
      * offer(), offerFirst(), offerLast() come from the Queue interface
  * They provide the same functionality but are named differently for interface compatibility
- *
+
  * Behavior on Failure
  *  add() methods throw an exception if the operation fails (e.g., capacity restrictions)
  *  offer() methods return false if the operation fails (more queue-like behavior)
@@ -42,7 +42,7 @@ public class AddElementAtHead {
  *  addXxx() follows List/Collection interface naming
  *  offerXxx() follows Queue interface naming
  * Both sets exist to maintain consistency with their respective interfaces
- *
+
  * Common Use Cases
  *  Use add()/addLast() when working with LinkedList as a List
  *  Use offer()/offerLast() when using LinkedList as a Queue

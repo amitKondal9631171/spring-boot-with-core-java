@@ -19,15 +19,16 @@ public class ReductionOperation {
         BinaryOperator<Employee> maxBy = (e1, e2) -> e1.getSalary() > e2.getSalary() ? e1 : e2;
 
         //reduce is a way to take a stream of elements and combine them step by step into a single result, using an operation you define.
-        empList.stream().reduce( maxBy ).ifPresent(System.out::println); // Max salary employee reduce = squish many elements → one.
+        empList.stream().reduce( maxBy ).ifPresent(emp -> System.out.println(emp.getFirstName())); // Max salary employee reduce = squish many elements → one.
 
         //Min salary employee
         BinaryOperator<Employee> minBy = (e1, e2) -> e1.getSalary() < e2.getSalary() ? e1 : e2;
-        empList.stream().reduce( minBy ).ifPresent(System.out::println); // Min salary employee
+        empList.stream().reduce( minBy ).ifPresent(emp -> System.out.println(emp.getFirstName())); // Min salary employee
 
         Employee maxSalaryEmp = empList.stream()
                 .max(Comparator.comparingInt(Employee::getSalary))
                 .get();
+
         System.out.println(maxSalaryEmp.getSalary());
 
         List<String> words = List.of("Spring", "Boot", "Rocks");

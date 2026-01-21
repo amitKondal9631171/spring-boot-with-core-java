@@ -11,9 +11,7 @@ public class DeadLockEnabledResource {
     void addResource(DeadLockEnabledResource resource) {
 
         synchronized (this) {
-            System.out.println("Processing resource in "+ this.resourceName + " inside add resource function");
-            //notifyAll();
-            //now r2 is calling by passing r1 which is already holing lock on r2
+            System.out.println("Processing resource "+ this.resourceName + " inside add resource function");
             resource.updateResource(resource);
         }
 
@@ -22,10 +20,7 @@ public class DeadLockEnabledResource {
     void updateResource(DeadLockEnabledResource resource) {
 
         synchronized (this) {
-            System.out.println("Processing resource in "+ this.resourceName + " inside update resource function");
-            //notifyAll();
-
-            //now r1 is calling by passing r2 as parameter which is holding lock on r1
+            System.out.println("Processing resource "+ this.resourceName + " inside update resource function");
             resource.addResource(resource);
         }
 

@@ -1,5 +1,8 @@
 package capgemini.collections.list.linkedlist;
+import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Queue;
+
 public class AsQueueStackAndLinkedList {
 
     public static void main(String[] args) {
@@ -8,7 +11,7 @@ public class AsQueueStackAndLinkedList {
         // 1️⃣ LinkedList as STACK (LIFO)
         // --------------------------
         System.out.println("=== LinkedList as STACK (LIFO) ===");
-        LinkedList<String> stack = new LinkedList<>();
+        Deque<String> stack = new LinkedList<>();
 
         // PUSH - add elements to top
         stack.push("A");
@@ -29,7 +32,7 @@ public class AsQueueStackAndLinkedList {
         // 2️⃣ LinkedList as QUEUE (FIFO)
         // --------------------------
         System.out.println("\n=== LinkedList as QUEUE (FIFO) ===");
-        LinkedList<String> queue = new LinkedList<>();
+        Queue<String> queue = new LinkedList<>();
 
         // ENQUEUE - add to tail
         queue.offer("A");

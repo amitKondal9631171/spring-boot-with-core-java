@@ -1,17 +1,13 @@
 package capgemini.entities;
 
-import lombok.Data;
-import javax.validation.constraints.NotNull;
+public class Student implements Comparable<Student> {
 
-@Data
-public class Student implements Comparable<Student>{
-
-    int rollNumber;
+    Integer rollNumber;
     String name;
 
-    public Student(int rollNumber, String name){
-        this.rollNumber=rollNumber;
-        this.name=name;
+    public Student(int rollNumber, String name) {
+        this.rollNumber = rollNumber;
+        this.name = name;
     }
 
     @Override
@@ -20,4 +16,19 @@ public class Student implements Comparable<Student>{
         return Integer.compare(o.getRollNumber(), this.getRollNumber());
     }
 
+    public Integer getRollNumber() {
+        return rollNumber;
+    }
+
+    public void setRollNumber(Integer rollNumber) {
+        this.rollNumber = rollNumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

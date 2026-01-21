@@ -1,0 +1,173 @@
+
+volatile → visibility only (“everyone sees the latest value”) , not atomicity
+synchronized → mutual exclusion (“one at a time, please”) , atomicity
+AtomicReference → lock-free, optimistic updates (“try, and retry if you lose”)
+
+
+Concurrency means:
+    Multiple tasks are in progress during the same time window.
+
+    Example:
+            Handling 10,000 HTTP requests
+            Each request waits on DB, network, disk
+            CPU keeps switching between tasks
+            You can have concurrency on one single CPU core.
+    Concurrency is about:
+            structure
+            coordination
+            correctness
+            managing shared resources
+
+Multithreading means:
+    Using multiple threads to execute tasks.
+    Use threads to achieve concurrency or parallelism.
+
+Parallelism
+    Multiple tasks executing at the exact same time.
+
+    Requires:
+            multiple cores
+            or multiple CPUs
+
+Asynchronous answers when you get the result. --> “I start the work now, but I’ll give you the result later.”
+Non-blocking answers what happens to the thread while waiting. --> “While waiting, the thread is free to do other work.”
+
+The one-line rule to remember
+    Asynchronous frees the caller.
+    Non-blocking frees the thread.
+
+@Async
+public CompletableFuture<String> fetchData() {
+    // blocks the thread here
+    return CompletableFuture.completedFuture(
+        restTemplate.getForObject("http://service/api", String.class)
+    );
+}
+    What’s happening:
+        Caller thread returns immediately
+        Another thread is used
+        That thread blocks during the HTTP call
+    So:
+        Asynchronous ✅
+        Non-blocking ❌
+        This is how most enterprise Java systems work today.
+
+Non-blocking (about threads)
+    No thread sits / waits for I/O socket.
+    The OS notifies readiness (epoll/kqueue)
+    A small number of threads handle many requests
+    Callbacks / continuations run only when data is ready
+
+    Example (non-blocking I/O):
+    Mono<String> response = webClient.get()
+                                     .uri("/api")
+                                     .retrieve()
+                                     .bodyToMono(String.class);
+
+
+    What’s happening:
+        No thread waits on the socket
+        OS notifies when data is ready [Using events loops]
+        A thread is assigned only when there is work
+
+    So:
+        Non-blocking ✅
+        Can be async or sync at API level
+
+| Async | Non-blocking | Example                        |
+| ----- | ------------ | ------------------------------ |
+| ❌     | ❌            | Normal method call             |
+| ✅     | ❌            | `@Async` + `RestTemplate`      |
+| ❌     | ✅            | Event loop handling internally |
+| ✅     | ✅            | Reactive (`WebClient`, Netty)  |
+
+
+Throughput vs scalability
+    Asynchronous
+        Improves responsiveness
+        Helps hide latency
+        Still limited by thread count
+    Non-blocking
+        Enables massive scalability
+        10k–100k concurrent connections
+        Fewer threads, more complexity
+
+With Loom:
+    try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+        executor.submit(() -> restTemplate.getForObject(url, String.class));
+    }
+
+    This:
+        Blocks
+        But blocks cheaply
+        Scales far better than platform threads
+        This is not non-blocking.
+        It’s cheap blocking.
+
+
+Callable<T> (Java 5 era)
+    Purpose:
+        “Run a task on another thread and give me a result later.”
+    It is:
+        A task definition
+        Meant for thread pools
+        Synchronous in style
+
+    Callable<String> task = () -> {
+        Thread.sleep(1000);
+        return "Hello";
+    };
+
+    You submit it to an executor:
+        Future<String> future = executor.submit(task);
+        String result = future.get(); // blocks
+
+    Key idea:
+        You submit work
+        You block to get the result
+        No chaining.
+
+    Error handling (huge difference)
+        Callable
+        try {
+            future.get();
+        } catch (ExecutionException e) {
+            Throwable cause = e.getCause();
+        }
+
+    Errors are:
+            Wrapped
+            Deferred
+            Ugly to compose
+
+CompletableFuture<T> (Java 8 era)
+    Purpose:
+        “Represent a value that will exist in the future and let me react to it.”
+
+    It is:
+        A promise
+        A pipeline
+        Event-driven
+
+    CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> "Hello");
+
+    You don’t block; you attach behavior:
+            future.thenApply(s -> s + " World")
+              .thenAccept(System.out::println);
+
+    Key idea:
+            You compose
+            You react
+            Blocking is optional
+            chaining, Can run on same or different thread, Can be async or sync, Can handle errors inline.
+
+    CompletableFuture
+    future
+      .exceptionally(ex -> "fallback")
+      .thenAccept(System.out::println);
+
+
+    Errors are:
+            First-class
+            Composable
+            Part of the pipeline

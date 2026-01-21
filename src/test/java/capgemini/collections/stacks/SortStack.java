@@ -1,11 +1,48 @@
 package capgemini.collections.stacks;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Stack;
 
 public class SortStack {
 
     public static void main(String[] args) {
 
+        usingStreamsIncreasing();
+        usingStreamsDecreasing();
+        customLogic();
+
+    }
+
+    private static void usingStreamsIncreasing() {
+        Stack<Integer> input = new Stack<Integer>(); //LIFO
+        input.add(34);
+        input.add(3);
+        input.add(31);
+        input.add(98);
+        input.add(92);
+        input.add(23);
+
+        List<Integer> sortedStack = input.stream().sorted().toList();
+
+        System.out.println("Using Streams"+ sortedStack);
+    }
+
+    private static void usingStreamsDecreasing() {
+        Stack<Integer> input = new Stack<Integer>(); //LIFO
+        input.add(34);
+        input.add(3);
+        input.add(31);
+        input.add(98);
+        input.add(92);
+        input.add(23);
+
+        List<Integer> sortedStack = input.stream().sorted(Comparator.reverseOrder()).toList();
+
+        System.out.println("Using Streams"+ sortedStack);
+    }
+
+    private static void customLogic() {
         Stack<Integer> input = new Stack<Integer>(); //LIFO
         input.add(34);
         input.add(3);

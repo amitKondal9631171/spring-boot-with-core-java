@@ -23,3 +23,31 @@ What is a stream, and how does it differ from a collection?
 Java 17 is the latest LTS(Long Term Support) version of the Java programming language,
     released on September 14, 2021. If you're currently using Java 11, it may be time to
     consider migrating to Java 17 to take advantage of its new features and improvements.
+
+
+ Java passes a copy of the value.
+     The key question is: what is the value?
+     For primitives → the value is the number itself
+     For objects → the value is the reference (memory address)
+     So Java is:
+     pass-by-value, where the value might be a reference
+
+
+In Java 8 and later, a HashMap converts its internal storage from a linked list to a Red-Black Tree within specific buckets to optimize performance when many keys collide at
+    the same index.
+    1. Performance Optimization (Worst-Case)
+        The primary reason for this switch is to improve search time in heavily populated buckets.
+        Linked List: Searching through a long linked list has a time complexity of O(n), meaning performance degrades linearly as the number of collisions increases.
+        Red-Black Tree: A balanced binary search tree reduces this complexity to O(log n). This ensures that even in the case of extreme collisions, retrieval remains fast.
+    2. Security Against DoS Attacks
+        This change was largely security-driven to prevent Denial-of-Service (DoS) attacks.
+        The Threat: Attackers could intentionally craft keys (like specific HTTP headers) that produce identical hash codes.
+        The Impact: In earlier versions of Java, this would force all entries into a single O(n) linked list, causing the CPU to spike during lookups and effectively crashing
+                    the application. Using a tree mitigates this by maintaining a predictable O(log n) performance limit.
+    3. Treeification Thresholds
+        The conversion does not happen immediately because tree nodes are roughly twice the size of regular nodes and have more overhead for small amounts of data. It is
+                triggered based on these constants:
+        TREEIFY_THRESHOLD (8): A bucket is converted to a tree once it contains more than 8 elements.
+        UNTREEIFY_THRESHOLD (6): If elements are removed and the count drops below 6, the tree is converted back into a linked list to save memory.
+        MIN_TREEIFY_CAPACITY (64): The map will only treeify a bucket if the total number of buckets in the map is at least 64. If it's smaller, it will simply resize the
+                                    map instead.

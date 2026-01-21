@@ -8,7 +8,7 @@ public class Operations {
 
     public static void main(String[] args) {
 
-        FunctionalOperation additionOperation = (int a, int b) -> {
+        FunctionalOperation additionOperation = (a, b) -> {
             System.out.println("Addition of give numbers "+ ( a + b ));
         };
 

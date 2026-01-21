@@ -48,13 +48,7 @@ class VehicleInfo {
      * return vcl.getNumber(); as no need to add instance of check
      */
     public double vehicleNumber(Vehicle vcl) {
-        if (vcl instanceof Car) {
-            return vcl.getNumber();
-        }
-        if (vcl instanceof Bike) {
-            return vcl.getNumber();
-        }
-        return 0.0;
+        return vcl.getNumber();
     }
 }
 
@@ -71,11 +65,11 @@ public class OpenClosedPrinciple {
 
     public static void main(String[] args) {
 
-        Vehicle car = new Car();
+        Car car = new Car();
         car.setNumber(123);
-        Vehicle bike = new Bike();
+        Bike bike = new Bike();
         bike.setNumber(456);
-        Vehicle truck = new Truck();
+        Truck truck = new Truck();
         truck.setNumber(789);
 
         VehicleInfo info = new VehicleInfo();

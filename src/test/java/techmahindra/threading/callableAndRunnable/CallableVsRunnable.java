@@ -7,13 +7,9 @@ import java.util.concurrent.*;
  */
 public class CallableVsRunnable {
 
-    private static Callable<String> stringCallable = () -> {
-        return "return from callable block";
-    };
+    private static Callable<String> stringCallable = () -> "return from callable block";
 
-    private static Runnable runnable = () -> {
-        System.out.println("Inside the runnable block");
-    };
+    private static Runnable runnable = () -> System.out.println("Inside the runnable block");
 
     public static void main(String[] args) {
 

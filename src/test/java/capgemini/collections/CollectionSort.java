@@ -3,6 +3,7 @@ package capgemini.collections;
 import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CollectionSort {
 
@@ -22,27 +23,17 @@ public class CollectionSort {
         mapValues.put(1,"Seema");
         Set<Map.Entry<Integer, String>> mapSet = mapValues.entrySet();
 
-        List<Map.Entry<Integer, String>> entryList = new ArrayList<Map.Entry<Integer, String>>(mapSet);
+        //decresing key
+        List<Map.Entry<Integer, String>> list = mapSet.stream().sorted(Map.Entry.comparingByKey((o1, o2) -> o2-o1)).toList();
+        System.out.println(list);
 
-        Collections.sort(entryList , (v1, v2) -> {
+        //increasing key
+        list = mapSet.stream().sorted(Map.Entry.comparingByKey((o1, o2) -> o1-o2)).toList();
+        System.out.println(list);
 
-            return v1.getValue().compareTo(v2.getValue());
+        list = mapSet.stream().sorted(Map.Entry.comparingByKey()).toList();
+        System.out.println(list);
 
-        });
-
-        System.out.println("Sorted by value: " + entryList);
-
-        Collections.sort(entryList , (v1, v2) -> {
-
-            return v1.getKey().compareTo(v2.getKey());
-
-        });
-
-        System.out.println("Sorted by value: " + entryList);
-        
-        stopWatch.stop();
-
-        System.out.println("Total time taken in MS: "+stopWatch.getTime());
     }
 
 }

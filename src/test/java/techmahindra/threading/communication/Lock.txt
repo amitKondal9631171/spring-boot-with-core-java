@@ -133,9 +133,9 @@ How it Works — Step by Step
 | **Condition loop**              | Always check the condition in a loop with `while` to handle **spurious wakeups**.                  |
 
 
-| Mistake                                  | Issue                                                 |
-| ---------------------------------------- | ----------------------------------------------------- |
 | Calling `wait()` without synchronization | `IllegalMonitorStateException`                        |
+| ---------------------------------------- | ----------------------------------------------------- |
+| Mistake                                  | Issue                                                 |
 | Using `if` instead of `while`            | Risk of missing correct state due to spurious wakeups |
 | Forgetting to `notify`                   | Waiting threads may block forever                     |
 | Deadlocks                                | If locks are acquired in inconsistent order           |

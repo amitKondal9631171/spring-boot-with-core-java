@@ -7,6 +7,52 @@ class Counter {
     }
 }
 
+
+/**
+ * A race condition is what happens when multiple threads access shared data, and the final result depends on who gets there first.
+
+ Picture two threads updating the same bank balance.
+    Balance starts at 100.
+Thread A:
+    reads balance → 100
+      plans to add 50
+
+Thread B:
+    reads balance → 100
+    plans to subtract 30
+ If they run one after the other, no problem.
+  But if they interleave:
+      A reads 100
+      B reads 100
+      A writes 150
+      B writes 70
+      Final balance: 70
+
+  The +50 vanished into the void.
+
+  No exception. No error. Just wrong.
+   That’s a race condition.
+
+ Why it happens
+     Race conditions exist because of three facts:
+     Threads run independently
+     They share memory
+     Operations you think are “one step” are actually many steps (read → compute → write)
+     The CPU doesn’t care about your business logic. It only sees instructions.
+
+ How we prevent them
+     By enforcing mutual exclusion or safe visibility.
+        Conceptually:
+             Only one thread modifies shared state at a time
+            Or the state is immutable
+            Or updates are atomic
+        In Java, that translates to tools like:
+            synchronized blocks
+            Locks
+            `Atomic variables
+
+ Thread-safe data structures
+ */
 public class RaceConditionExample {
 
     public static void main(String[] args) throws InterruptedException {

@@ -20,7 +20,7 @@ public class FindAnyOrFirst {
          * with sequential streams findAny() will “always pick the first” but with parallel streams it will pick any element.
          * It will pick first because streams are processed in encounter order i.e. in sequential streams it will process elements in the order they are present in the stream.
          */
-        empList.stream().findAny().ifPresent(System.out::println);
+        Employee ds = empList.stream().findAny().orElse(null);//ifPresent(System.out::println);
 
 
         /**

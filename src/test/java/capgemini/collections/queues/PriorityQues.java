@@ -1,6 +1,7 @@
 package capgemini.collections.queues;
 
 import java.util.PriorityQueue;
+import java.util.Queue;
 
 /*
     What is Heap?
@@ -37,16 +38,15 @@ public class PriorityQues {
              * And elements are removed in ascending order from the queue.
          */
         // Creating a priority queue by passing comparator
-        PriorityQueue<Integer> numbers1 = new PriorityQueue<>( Integer::compare );
+        Queue<Integer> numbers1 = new PriorityQueue<>( );
         numbers1.add(4);
         numbers1.add(1);
         numbers1.add(6);
         numbers1.add(2);
-        System.out.println("Queue elements: " + numbers1);
-        System.out.println("First element : " + numbers1.poll());
-        System.out.println("Sec element : " + numbers1.poll());
-        System.out.println("Third element : " + numbers1.poll());
-        System.out.println("Fourth element : " + numbers1.poll());
+
+        for(int value : numbers1){
+            System.out.println("Queue elements: " + value);
+        }
 
     }
 }

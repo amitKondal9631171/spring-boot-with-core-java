@@ -1,0 +1,117 @@
+Answers in PDF attached PDF.
+
+Core Spring Boot Concepts:
+
+    What is Spring Boot and why was it introduced?
+
+    How is Spring Boot different from Spring Framework?
+
+    What are Spring Boot starters?
+
+    What is @SpringBootApplication and what does it include internally?
+
+    How does Spring Boot auto-configuration work?
+
+    How does Spring Boot decide which beans to auto-configure?
+
+    What is spring.factories / AutoConfiguration.imports used for?
+
+    How do you disable a specific auto-configuration?
+
+    What is embedded server support in Spring Boot?
+
+    How does Spring Boot simplify dependency management?
+
+Configuration & Properties:
+
+    Difference between application.properties and application.yml
+
+    How does Spring Boot load external configuration?
+
+    What is @ConfigurationProperties vs @Value?
+
+    What is Spring Profile and how is it used?
+
+    How do you override properties in different environments?
+
+    What is the order of property resolution in Spring Boot?
+
+    How do you secure sensitive configuration values?
+
+REST & Web Layer:
+
+    Difference between @Controller and @RestController
+
+    What is @RequestMapping vs @GetMapping?
+
+    How does Spring Boot handle JSON serialization/deserialization?
+
+    What is @ResponseEntity used for?
+
+    How do you handle exceptions globally in Spring Boot?
+
+    What is @ControllerAdvice?
+
+    How do you validate request payloads in Spring Boot?
+
+Data & Persistence:
+
+    How does Spring Boot integrate with JPA/Hibernate?
+
+    What is Spring Data JPA?
+
+    Difference between CrudRepository, JpaRepository, and PagingAndSortingRepository
+
+    How does Spring Boot manage database connections?
+
+    What is HikariCP and why is it default?
+
+    How do you handle transactions in Spring Boot?
+
+Security:
+
+    How does Spring Boot integrate with Spring Security?
+
+    What is JWT authentication in Spring Boot?
+
+    How do you secure REST APIs?
+
+    Difference between authentication and authorization
+
+    How do you implement role-based access control?
+
+Microservices & Integration:
+
+    How does Spring Boot support microservices architecture?
+
+    What is Spring Cloud and how does it relate to Spring Boot?
+
+    How do you implement service-to-service communication?
+
+    How does Spring Boot work with Kafka or RabbitMQ?
+
+    What is circuit breaker support in Spring Boot?
+
+Testing:
+
+    How do you test Spring Boot applications?
+
+    Difference between @SpringBootTest and @WebMvcTest
+
+    What is @MockBean used for?
+
+    How do you test REST APIs in Spring Boot?
+
+Actuator, Deployment & Ops
+
+    What is Spring Boot Actuator?
+
+    What are health checks and why are they important?
+
+    How do you monitor Spring Boot applications?
+
+    How do you externalize logging in Spring Boot?
+
+    How do you deploy a Spring Boot application?
+
+    What are common Spring Boot performance issues and how do you fix them?

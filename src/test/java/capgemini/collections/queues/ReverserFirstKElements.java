@@ -1,7 +1,7 @@
 package capgemini.collections.queues;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
+import java.util.stream.IntStream;
 
 public class ReverserFirstKElements {
 
@@ -31,7 +31,7 @@ public class ReverserFirstKElements {
 
     public static void main(String[] args) {
 
-        Queue<Integer> queue = new LinkedList<>();
+        Queue<Integer> queue = new ArrayDeque<>();
         queue.add(10);
         queue.add(20);
         queue.add(30);
@@ -47,6 +47,31 @@ public class ReverserFirstKElements {
         //System.out.println(queue.peek()); //will return 10
         queue = reverseFirstK(queue, k);
         System.out.println(queue);
+
+        //=====//
+
+        List<Integer> list = new ArrayList<>();
+        list.add(10);
+        list.add(20);
+        list.add(30);
+        list.add(40);
+        list.add(50);
+        list.add(60);
+        list.add(70);
+        list.add(80);
+        list.add(90);
+        list.add(100);
+
+        List<Integer> result =
+                IntStream.range(0, list.size())
+                        .mapToObj(i ->
+                                i < k
+                                        ? list.get(k - 1 - i)
+                                        : list.get(i)
+                        )
+                        .toList();
+
+        System.out.println(result);
     }
 
 }

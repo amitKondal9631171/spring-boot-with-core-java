@@ -12,7 +12,7 @@ class MonitorExample {
 
     public synchronized void sendSignal() {
         ready = true;
-        notifyAll(); // wake up all waiting threads
+        //notifyAll(); // wake up all waiting threads
         System.out.println(Thread.currentThread().getName() + " sent the signal!");
     }
 

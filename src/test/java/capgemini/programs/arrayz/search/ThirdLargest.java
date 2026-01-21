@@ -1,6 +1,8 @@
 package capgemini.programs.arrayz.search;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ThirdLargest {
@@ -26,6 +28,13 @@ public class ThirdLargest {
         }
 
         System.out.println("First: "+ first + ", Sec: "+ second + ", Third: "+ third);
+
+        Optional<Integer> thirdLargest = Arrays.stream(inputArray).boxed()
+                .sorted(Comparator.reverseOrder())
+                .skip(2)
+                .findFirst();
+
+        System.out.println("Third largest using streams: "+ thirdLargest);
 
     }
 

@@ -14,13 +14,13 @@ public class ArrayOperations {
         Integer[] arr = {1, 2, 3, 4, 5};
 
 
-        List<Integer> list = IntStream.range(0, arr.length - 1)
+        List<Integer> reverseArray = IntStream.range(0, arr.length)
                 .mapToObj(i -> arr[arr.length - 1 - i])
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList());
-        System.out.println("With array processing: " + list);
 
-        list = Arrays.stream(arr)
+                .toList();
+        System.out.println("reverse array processing: " + reverseArray);
+
+        List<Integer> list = Arrays.stream(arr)
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
         System.out.println("with list processing: " + list);
@@ -31,6 +31,17 @@ public class ArrayOperations {
                 .findFirst();
 
         System.out.println("Second highest from array: " + secondHighest.get());
+
+        int  n = 3;
+
+        List<Integer> result =
+                IntStream.range(0, list.size())
+                        .mapToObj(i ->
+                                i < n
+                                        ? list.get(n - 1 - i)
+                                        : list.get(i)
+                        )
+                        .toList();
     }
 
 }

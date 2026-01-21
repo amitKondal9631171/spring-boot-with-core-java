@@ -25,7 +25,7 @@ public class MethodHiding extends Parent {
     }
 
     //static binding is also known as early binding. It depends on the type of reference variable.
-    public static void main(String[] args) {
+    public static void main(String[] args){
 
 
         //Static methods are bonded during compile time using types of reference variables not object.

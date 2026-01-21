@@ -12,10 +12,12 @@ public class ArmstrongNumber {
 
     }
 
-    //Must revise example includs % & / maths operation
+    //Must revise example includes % & / maths operation
     public static void main(String[] args) {
 
         int isArmStrong = 547483;
+        double counter = Math.log10(isArmStrong);
+        System.out.println(counter);
         int power = String.valueOf(isArmStrong).length();
         int sumOfDigits = 0, orignalValue = isArmStrong;
         while( isArmStrong > 0 ){

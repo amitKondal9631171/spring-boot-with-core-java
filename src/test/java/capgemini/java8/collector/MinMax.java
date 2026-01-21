@@ -19,11 +19,11 @@ public class MinMax {
     public static void main(String[] args) {
 
          //Find the minimum salary.
-         int minSalary = empList.stream().collect(Collectors.minBy(Comparator.comparingInt(Employee::getSalary))).get().getSalary();
+         int minSalary = empList.stream().min(Comparator.comparingInt(Employee::getSalary)).get().getSalary();
          System.out.println(minSalary);
 
          //Find the maximum salary.
-         int maxSalary = empList.stream().collect(Collectors.maxBy(Comparator.comparingInt(Employee::getSalary))).get().getSalary();
+         int maxSalary = empList.stream().max(Comparator.comparingInt(Employee::getSalary)).get().getSalary();
          System.out.println(maxSalary);
 
          //Find employees with minimum salary.

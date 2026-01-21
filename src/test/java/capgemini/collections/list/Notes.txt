@@ -63,3 +63,64 @@ Why is there no TreeList implementation of the List interface?
 | **Read**                          | Very fast                              | Slightly slower (but snapshot-safe)  |
 | **Write (add/remove)**            | Very fast                              | Slower (copies array on every write) |
 | **Iteration during modification** | `ConcurrentModificationException` risk | Safe — iterates over snapshot        |
+
+ConcurrentModificationException:
+
+    This happens when you modify a collection while iterating over it using an iterator (like in an enhanced for loop or while using .iterator())
+        and the collection does not support structural modification during iteration.
+
+    Think of it as Java catching you mid-surgery on the data structure.
+
+    Typical Cause
+
+    List<String> list = new ArrayList<>();
+    list.add("A");
+    list.add("B");
+
+    for (String s : list) {   // Uses iterator internally
+        list.remove(s);       // Structural modification during iteration
+    }
+    // Throws ConcurrentModificationException
+
+
+    Why?
+    Java collections maintain a modCount (modification count).
+    When the iterator is created, it stores expectedModCount.
+    If the collection is structurally modified outside the iterator → mismatch → ConcurrentModificationException.
+
+    How to avoid
+    Use iterator’s own remove:
+
+    Iterator<String> it = list.iterator();
+    while (it.hasNext()) {
+        if (it.next().equals("A")) {
+            it.remove();
+        }
+    }
+    Or use concurrent collections like CopyOnWriteArrayList, ConcurrentHashMap.
+
+UnsupportedOperationException:
+
+    This means the collection does not support the operation at all, regardless of iteration.
+    It’s about capability, not concurrency.
+
+    Example
+    You create a fixed-size or unmodifiable list, e.g.:
+
+    List<String> list = List.of("A", "B", "C"); // Immutable list
+    list.add("D"); // Throws UnsupportedOperationException
+
+
+    Or:
+
+    List<String> fixedList = Arrays.asList("X", "Y", "Z");
+    fixedList.remove("X"); // UnsupportedOperationException (fixed-size)
+
+
+    Why?
+    The underlying collection implementation decides not to allow modification.
+
+One-line Interview Answer:
+    ConcurrentModificationException occurs when a collection is structurally modified during iteration using a fail-fast iterator.
+    UnsupportedOperationException occurs when the collection itself does not support the operation, like modifying immutable or fixed-size collections.
+

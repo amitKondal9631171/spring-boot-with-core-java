@@ -18,10 +18,10 @@ class DeadlockExample {
     }
 
     public static void main(String[] args) {
-         DeadlockExample lock1 = new DeadlockExample();
-         DeadlockExample lock2 = new DeadlockExample();
+        DeadLockEnabledResource lock1 = new DeadLockEnabledResource("Object 1");
+        DeadLockEnabledResource lock2 = new DeadLockEnabledResource("Object 2");
 
-        new Thread(() -> lock1.method1(lock2)).start();
-        new Thread(() -> lock2.method2(lock1)).start();
+        new Thread(() -> lock1.addResource(lock2)).start();
+        new Thread(() -> lock2.updateResource(lock1)).start();
     }
 }
