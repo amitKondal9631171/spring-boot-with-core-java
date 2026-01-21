@@ -1,0 +1,22 @@
+Sorting Efficiency:
+The two main criteria to judge which algorithm is better than the other have been:
+    Time taken to sort the given data.
+    Memory Space required to do so.
+
+
+Different Sorting Algorithms
+There are many different techniques available for sorting, differentiated by their efficiency and space requirements.
+    Following are some sorting techniques which we will be covering in next few tutorials.
+        Bubble Sort : compare the elements with one by one.
+        Insertion Sort
+        Selection Sort : select the lowest value from array and replace with starting value.
+        Quick Sort
+        Merge Sort: Merge Sort follows the rule of Divide and Conquer to sort a given set of numbers/elements, recursively, hence
+                    consuming less time. Selection Sort and Insertion Sort, both of which
+                    have a worst-case running time of O(n2). As the size of input grows, insertion and selection sort can take a long
+                    time to run. Merge sort , on the other hand, runs in O(n*log n) time in all the cases.
+        Heap Sort
+
+The time complexity of:
+    Merge sort is always O(n log n),
+    Quicksort varies between O(n log n) in the best case to O(n2) in the worst case.

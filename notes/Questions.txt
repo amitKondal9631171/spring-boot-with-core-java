@@ -1,0 +1,59 @@
+Round 1 & 2 – Technical Deep Dive
+
+1. You’ve deployed an app to Azure Kubernetes Service (AKS) and it fails health checks randomly. How do you debug this end-to-end?
+    I debug random AKS health failures by correlating Kubernetes events, probe configuration, resource pressure, application logs, and Azure infrastructure metrics,
+        while ensuring readiness reflects dependency health and liveness only reflects unrecoverable states.
+
+
+2. In a canary deployment to production, half the traffic returns 502, while others succeed. Walk us through your troubleshooting approach.
+    I isolate the issue to the canary by controlling traffic, identify whether the 502 originates at the gateway or pod, compare configuration and resources between versions,
+        validate readiness and dependency compatibility, and use metrics to confirm the root cause before deciding to rollback or fix forward.
+
+
+**Spring profiling:
+        1) Spring profiling can mean environment-based configuration using profiles,
+        2) Performance profiling using JVM tools.”
+
+**Logging:
+    “Logback Classic is the native SLF4J implementation and default in Spring Boot, offering stable performance and simple configuration"
+    Logback Classic is the SLF4J-compatible logging implementation commonly used in Spring Boot for reliable, performant application logging.
+    [ App ]
+       ↓
+    [ Agent ] [Fluient Bit / datadog agent]
+       ↓
+    [ Storage / Index ]
+       ↓
+    [ Dashboard ]
+
+3. CI/CD pipeline takes 40 mins to deploy a small change. What would you do to optimize it?
+
+4. You see high CPU usage in one pod, but logs look clean. What next?
+    When logs are clean but CPU is high, I move to behavior-based debugging—checking throttling, traffic skew, thread dumps, GC activity, retries, and live profiling to
+        identify hot paths that logs won’t reveal.
+
+
+5. You’re asked to design a highly available logging system for 100+ microservices across 3 regions. What tools and architecture would you suggest?
+    Pushing logs to Kafka means using Kafka as a durable, decoupling buffer between log producers and log storage.
+    App → stdout/log4j → log agent → Kafka → log storage → dashboards
+
+6. Production app works fine for internal users but fails for external ones (403 error). How will you isolate the issue?
+    “I’d isolate whether the 403 is returned by the gateway, ingress, or application by tracing the request path, then compare authentication context, authorization rules,
+        and security policies between internal and external traffic to find where identity or policy diverges.
+
+    Trace one request end-to-end
+            Pick one failing external request and trace it through:
+            Gateway logs
+            Ingress logs
+            App logs
+            Security decision logs
+
+
+10. A user reports 10-second delays every 15 minutes in an app running on AKS. No code changes happened. How would you begin RCA?
+    I’d start by validating the periodic latency pattern, correlating it with infrastructure and JVM metrics, and then isolate whether the spikes align with GC,
+        logging flushes, dependency refreshes, or node-level tasks—focusing on time-based correlations rather than code changes.
+
+12. How would you set up an automated rollback strategy in Kubernetes for failed deployments?
+
+14. How do you handle zero-downtime database migrations in a distributed application?
+
+15. What’s your approach to disaster recovery for stateful apps running on containers?

@@ -1,0 +1,126 @@
+
+
+Why is there no TreeList implementation of the List interface?
+    Basically you need to understand what is the purpose of these implementation like both
+        these TreeMap and Treeset are implementation of SortedSet and SortedMap is used for
+        sorting purpose but we have Collections.sort(List) which can be implied on List for
+        sorting hence not TreeList is not required in List.
+    Because a list is an index-based data structure, and trees are no index-based data
+        structures. That's the most basic and clear reason.
+
+
+🔹 1. Underlying Data Structure
+        ArrayList → Dynamic array (resizable array).
+        LinkedList → Doubly-linked list (each node has references to prev & next).
+🔹 2. Access Time (Read/Search)
+        ArrayList → O(1) for random access (get(index)), since it’s an array.
+        LinkedList → O(n) for access, because you must traverse nodes sequentially.
+    👉 If you need frequent reads, use ArrayList.
+🔹 3. Insertion/Deletion
+    ArrayList
+        Adding at end → Amortized O(1).
+        Adding/removing at middle/start → O(n) (because elements must shift).
+      LinkedList
+        Adding/removing at start or middle (when iterator is available) → O(1).
+        Finding the right index before insertion still takes O(n).
+         👉 If you need frequent insertions/deletions in the middle/start, use LinkedList.
+🔹 4. Memory Usage
+        ArrayList → Less memory overhead (just elements).
+        LinkedList → More memory overhead (each node stores data + 2 pointers).
+🔹 5. Iteration
+        ArrayList → Better cache locality → faster iteration.
+        LinkedList → Slower iteration due to scattered memory references.
+🔹 6. Use as Queue/Stack
+        ArrayList → Not efficient for queue/stack operations (except add() at end).
+        LinkedList → Implements Deque → can be used as both Queue (FIFO) and Stack (LIFO) efficiently.
+🔹 7. Thread Safety
+        Both are not synchronized. If you need thread safety, use Collections.synchronizedList() or CopyOnWriteArrayList.
+
+
+ Rule of Thumb:
+    ArrayList → Best for search-heavy use cases.
+    LinkedList → Best for insert/delete-heavy use cases.
+
+ 4️⃣ Summary
+            Approach	                                            Why / Why Not
+     Deque<Integer> stack = new LinkedList<>();	            Works, but slower and uses more memory
+     Deque<Integer> stack = new ArrayDeque<>();	            Preferred, faster and cleaner
+     Stack<Integer> stack = new Stack<>();	                Outdated; Stack is synchronized and slower
+
+
+| Feature                     | `Collections.unmodifiableList(list)`   | `List.of(...)`                           |
+| --------------------------- | -------------------------------------- | ---------------------------------------- |
+| **Immutability**            | ❌ Not true immutability (wrapper only) | ✅ Fully immutable                        |
+| **Reflects Source Changes** | ✅ Yes                                  | ❌ No                                     |
+| **Null Support**            | ✅ Allowed                              | ❌ Not allowed                            |
+| **Thread Safety**           | ❌ No (depends on underlying list)      | ✅ Yes (immutable by nature)              |
+| **Java Version**            | Java 5+                                | Java 9+                                  |
+| **Performance**             | Slightly slower due to wrapper check   | Faster due to direct immutable structure |
+
+
+| Operation                         | **ArrayList**                          | **CopyOnWriteArrayList**             |
+| --------------------------------- | -------------------------------------- | ------------------------------------ |
+| **Read**                          | Very fast                              | Slightly slower (but snapshot-safe)  |
+| **Write (add/remove)**            | Very fast                              | Slower (copies array on every write) |
+| **Iteration during modification** | `ConcurrentModificationException` risk | Safe — iterates over snapshot        |
+
+ConcurrentModificationException:
+
+    This happens when you modify a collection while iterating over it using an iterator (like in an enhanced for loop or while using .iterator())
+        and the collection does not support structural modification during iteration.
+
+    Think of it as Java catching you mid-surgery on the data structure.
+
+    Typical Cause
+
+    List<String> list = new ArrayList<>();
+    list.add("A");
+    list.add("B");
+
+    for (String s : list) {   // Uses iterator internally
+        list.remove(s);       // Structural modification during iteration
+    }
+    // Throws ConcurrentModificationException
+
+
+    Why?
+    Java collections maintain a modCount (modification count).
+    When the iterator is created, it stores expectedModCount.
+    If the collection is structurally modified outside the iterator → mismatch → ConcurrentModificationException.
+
+    How to avoid
+    Use iterator’s own remove:
+
+    Iterator<String> it = list.iterator();
+    while (it.hasNext()) {
+        if (it.next().equals("A")) {
+            it.remove();
+        }
+    }
+    Or use concurrent collections like CopyOnWriteArrayList, ConcurrentHashMap.
+
+UnsupportedOperationException:
+
+    This means the collection does not support the operation at all, regardless of iteration.
+    It’s about capability, not concurrency.
+
+    Example
+    You create a fixed-size or unmodifiable list, e.g.:
+
+    List<String> list = List.of("A", "B", "C"); // Immutable list
+    list.add("D"); // Throws UnsupportedOperationException
+
+
+    Or:
+
+    List<String> fixedList = Arrays.asList("X", "Y", "Z");
+    fixedList.remove("X"); // UnsupportedOperationException (fixed-size)
+
+
+    Why?
+    The underlying collection implementation decides not to allow modification.
+
+One-line Interview Answer:
+    ConcurrentModificationException occurs when a collection is structurally modified during iteration using a fail-fast iterator.
+    UnsupportedOperationException occurs when the collection itself does not support the operation, like modifying immutable or fixed-size collections.
+

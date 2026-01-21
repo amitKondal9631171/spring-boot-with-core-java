@@ -1,0 +1,12 @@
+Java inner or nested classes are classes which are declared inside the class.
+We use inner classes to logically group classes and interfaces in one place so that they can be easily readable and maintainable.
+Inner classes can access all the members and methods of outer class.
+
+
+Types:
+Member Inner Class:	A class created within class and outside method.
+Static Nested Class: A static class created within class.
+Anonymous Inner Class:	A class created for implementing interface or extending class.
+                        Its name is decided by the java compiler.
+Local Inner Class:	A class created within method.
+Nested Interface:	An interface created within class or interface.

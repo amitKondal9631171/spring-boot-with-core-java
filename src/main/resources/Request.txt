@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<payment_transaction>
+	<transaction_type>authorize3d</transaction_type>
+	<transaction_id>TransactionID</transaction_id>
+	<usage>40208 concert tickets</usage>
+	<remote_ip>52.208.124.201</remote_ip>
+	<amount>0</amount>
+	<currency>GBP</currency>
+	<card_holder>CardHolder</card_holder>
+	<card_number>CardNumber</card_number>
+	<expiration_month>12</expiration_month>
+	<expiration_year>2025</expiration_year>
+	<cvv>CardCvv</cvv>
+	<crypto>true</crypto>
+	<notification_url>http://www.example.com/failure</notification_url>
+	<return_success_url>http://www.example.com/notification</return_success_url>
+	<return_failure_url>http://www.example.com/success</return_failure_url>
+	<customer_email>travis@example.com</customer_email>
+	<billing_address>
+		<first_name>Travis</first_name>
+		<last_name>Pastrana</last_name>
+		<address1>Muster Str. 12</address1>
+		<zip_code>10178</zip_code>
+		<city>Los Angeles</city>
+		<state>CA</state>
+		<country>US</country>
+	</billing_address>
+	<fx_rate_id>123</fx_rate_id>
+	<threeds_v2_params>
+		<control>
+			<device_type>browser</device_type>
+			<challenge_window_size>full_screen</challenge_window_size>
+			<challenge_indicator>no_preference</challenge_indicator>
+		</control>
+		<purchase>
+			<category>account_funding</category>
+		</purchase>
+		<merchant_risk>
+			<shipping_indicator>verified_address</shipping_indicator>
+			<delivery_timeframe>electronic</delivery_timeframe>
+			<reorder_items_indicator>first_time</reorder_items_indicator>
+			<pre_order_purchase_indicator>merchandise_available</pre_order_purchase_indicator>
+			<pre_order_date>31-12-2030</pre_order_date>
+			<gift_card>true</gift_card>
+			<gift_card_count>99</gift_card_count>
+		</merchant_risk>
+		<card_holder_account>
+			<creation_date>31-12-2019</creation_date>
+			<update_indicator>current_transaction</update_indicator>
+			<last_change_date>31-12-2019</last_change_date>
+			<password_change_indicator>no_change</password_change_indicator>
+			<password_change_date>31-12-2019</password_change_date>
+			<shipping_address_usage_indicator>current_transaction</shipping_address_usage_indicator>
+			<shipping_address_date_first_used>31-12-2019</shipping_address_date_first_used>
+			<transactions_activity_last_24_hours>2</transactions_activity_last_24_hours>
+			<transactions_activity_previous_year>10</transactions_activity_previous_year>
+			<provision_attempts_last_24_hours>1</provision_attempts_last_24_hours>
+			<purchases_count_last_6_months>5</purchases_count_last_6_months>
+			<suspicious_activity_indicator>no_suspicious_observed</suspicious_activity_indicator>
+			<registration_indicator>guest_checkout</registration_indicator>
+			<registration_date>31-12-2019</registration_date>
+		</card_holder_account>
+		<threeds_method>
+			<callback_url>https://www.example.com/threeds/threeds_method/callback</callback_url>
+		</threeds_method>
+		<browser>
+			<accept_header>*/*</accept_header>
+			<java_enabled>false</java_enabled>
+			<language>en-GB</language>
+			<color_depth>32</color_depth>
+			<screen_height>900</screen_height>
+			<screen_width>1440</screen_width>
+			<time_zone_offset>-120</time_zone_offset>
+			<user_agent>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36</user_agent>
+		</browser>
+	</threeds_v2_params>
+	<remember_card>true</remember_card>
+</payment_transaction>

@@ -1,0 +1,32 @@
+1) What are Design Patterns?
+    Design patterns are solutions to general that software developers faced during software development.
+2) What is Gang of Four (GOF)?
+    In 1994, four authors Erich Gamma, Richard Helm, Ralph Johnson and John Vlissides published a book
+    titled Design Patterns - Elements of Reusable Object-Oriented Software which initiated the concept of
+    Design Pattern in Software development. These authors are collectively known as Gang of Four (GOF).
+3)  Name types of Design Patterns?
+    Creational Patterns -  (Means how to create a object) These design patterns provide a way to create objects while hiding the creation logic,
+                            rather than instantiating objects directly using new operator. This gives program more
+                             flexibility in deciding which objects need to be created for a given use case.
+    Structural Patterns - (Means how to relate objects) Structural design patterns are concerned with how classes and objects can be composed, to form larger structures.
+                            The structural design patterns simplifies the structure by identifying the relationships.
+    Behavioral Patterns - (Means how to communicate between objects) These design patterns are specifically concerned with communication between objects.
+
+4) What is Factory pattern?
+        This type of design pattern comes under creational pattern as this pattern provides one of the best ways
+        to create an object.
+    In Factory pattern, we create object without exposing the creation logic to the client and refer to
+    newly created object using a common interface.
+
+5)  What are the difference between a static class and a singleton class?
+    A static class can not be a top level class.
+    All members of a static class are static but for a Singleton class it is not a requirement.
+    A static class get initialized when it is loaded so it can not be lazily loaded where a singleton class can be lazily loaded.
+    A static class object is stored in stack whereas singleton class object is stored in heap memory space.
+6)  Can we create a clone of a singleton object?
+    Yes
+7) How to prevent cloning of a singleton object?
+    Throw exception within the body of clone() method.
+8) What is the benefit of Factory pattern?
+    Factory pattern encapsulates the implementation details and underlying implementation can be changed without any
+    impact on caller api.

@@ -1,0 +1,28 @@
+| Scenario                           | Why Singleton Fits                                                                              |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------- |
+| **Configuration Manager**          | Centralized configuration loaded once and shared globally.                                      |
+| **Logger Service**                 | One logging instance to ensure consistent logging across the application.                       |
+| **Thread Pools / ExecutorService** | Only one instance should manage thread scheduling to avoid resource duplication.                |
+| **Database Connection Pool**       | Manages and reuses connections efficiently without creating multiple pools.                     |
+| **Caching Layer**                  | A single cache manager avoids inconsistent cache states.                                        |
+| **Registry / Service Locator**     | Provides a centralized object registry for dependency lookups.                                  |
+| **Factories**                      | When only one factory instance is needed to manage object creation.                             |
+| **Hardware or Resource Managers**  | Like printer drivers, memory managers, or GPU interfaces where hardware control must be unique. |
+
+
+
+Why Use Singleton:
+    ✅ Controlled Access → Only one instance is created and reused.
+    ✅ Lazy Initialization → Creates the instance only when needed (saves resources).
+    ✅ Global Access → Provides a single, well-known entry point.
+    ✅ Thread Safety (with proper implementation) → Avoids concurrency issues when synchronized properly.
+
+When NOT to Use Singleton
+    ❌ Stateful Classes
+    If the class holds mutable state, global access can lead to race conditions and debugging nightmares.
+
+    ❌ Testing Scenarios
+    Singletons can make unit testing harder if not designed with test hooks (e.g., dependency injection).
+
+    ❌ Scalability Problems
+    If your app scales to distributed systems (like microservices), a single in-memory instance won’t be shared across nodes. You’ll need external state storage like Redis, Zookeeper, or a database.

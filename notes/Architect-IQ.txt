@@ -1,0 +1,22 @@
+Architect Interview Questions
+
+- Responsibilities
+    Creating a clean architecture based on sound principles.
+    Architecture covering all Non Functional Requirements.
+    Having good review processes in place for Architecture, Design and Code.
+    Ensuring teams are as productive as they can be.
+    Right tools.
+    Ensuring teams are following the best engineering practices.
+    Ensuring clear communication about architecture with business and technical teams.
+
+How do you ensure that the Code Quality is maintained?
+    1) Analysis tool like Sonar is the best bet today.
+    2) Have good peer review practices in place.
+    3) Unit Testing, If a programmer can write a simple and understandable unit test,
+        he can definitely write good code.
+
+How do you ensure the team is following sound engineering practices ?
+    How often is code committed?
+    How often is code released?
+    How often is code deployed?
+    Are they immediately fixing the issues?

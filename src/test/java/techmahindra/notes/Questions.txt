@@ -1,0 +1,92 @@
+Maven:
+	maven compile vs install
+	what are the phases in maven
+	
+Jira:
+	What is story point
+    study full Jira
+	
+Hibernate:
+	Criteria
+	Projection
+	Restrictions
+	Cache
+
+Java:
+	order on entity : comparable and comparator also write lambda expression for this
+	Interface default method multiple inheritance:
+			need to override default method which have same signature in parent interfaces and give the funtionality.
+			In overridden method we can call the parent method by using: ParentClass.super.method();
+	HashMap implementation
+	Mockito
+	RestControllers, GetMapping, PostMapping, RequestBody
+	How to Create an immutable class in Java?
+		To create an immutable class in Java, you have to do the following steps.
+		Declare the class as final so it can’t be extended.
+		Make all fields private so that direct access is not allowed.
+		Don’t provide setter methods for variables.
+		Make all mutable fields final so that its value can be assigned only once.
+		Initialize all the fields via a constructor performing deep copy.
+		Perform cloning of objects in the getter methods to return a copy rather than returning the actual object reference.
+			
+Spring-Hibernate Connection:
+	1) Define datasource
+	2) Inject data source to Hibernate session factory with all hbm mapped objects.
+	3) session factory to Hibernate transaction manager.
+	
+Active MQ:
+	1) Active mq is a JMS client used to handle the messaging services.
+	2) Queue: add the messages in the queue which are consumed by the consumers for the queue. It is one to one connection 
+				means single producer will have single consumer.
+    3) Topic: messages will be added to the queue and will be handled by the number of configured consumers.
+			  Topic queue will be consumed by the multiple configured subscriber.
+	4) Synchronous/Asynchronous: messages will be added to the queue by using Syn/Asynchronous. In Syn mode producer will wait for the ack send by the consumer.
+								 In Asynchronous no ack will be send back by the consumer. used for fast processing.
+	5) Configuration:
+		i) connection with active mq
+		ii) inject connection into jms template
+		iii) configure queue with the jms template.
+		iv) write queue listener to listen the queue.
+		v) Adaptor to convert the request to object
+		v) Create channels
+		    --> Error Channel handle errors
+			--> Message processor: to convert the request json to object.
+	6) we are using default open wire protocol for active mq messaging.
+	    https://www.youtube.com/watch?v=cyRX5rpt-4c
+
+A Java Classloader is of three types:
+	BootStrap ClassLoader: A Bootstrap Classloader is a Machine code which kick starts the operation when the JVM calls it.
+							It is not a java class. Its job is to load the first pure Java ClassLoader. Bootstrap ClassLoader loads 
+							classes from the location rt.jar. Bootstrap ClassLoader does’t have any parent ClassLoaders.
+							It is also called as the Primordial ClassLoader.
+	Extension ClassLoader: The Extension ClassLoader is a child of Bootstrap ClassLoader and loads the extensions of core java classes from the 
+							respective JDK Extension library. It loads files from jre/lib/ext directory or any other directory pointed by the 
+							system property java.ext.dirs.
+	System/Application ClassLoader: It loads the Application type classes found in the environment
+						variable CLASSPATH, -classpath or -cp command line option. The Application ClassLoader is a child class of 
+						Extension ClassLoader.
+
+	| Part                 | Location      | Role                                                      |
+    | -------------------- | ------------- | --------------------------------------------------------- |
+    | Bootstrap (rt.jar)   | Office HQ     | Core employees (essential classes)                        |
+    | ExtensionClassLoader | Branch Office | Optional staff (extensions) you can hire/remove as needed |
+    | System ClassLoader   | Your project  | Your team (application classes)                           |
+
+
+The question is: why javax.xml.* is considered “optional” or loaded by the Extension (Platform) ClassLoader, not the Bootstrap ClassLoader.
+
+1️⃣ Historical Context
+    In early Java versions (Java 1.2 → 1.8), the core Java classes (like java.lang.*, java.util.*) were essential for the JVM and shipped in rt.jar.
+    Some libraries, like javax.xml.*, javax.crypto.*, or JDBC drivers, were not strictly required for running the JVM.
+    Your JVM could function perfectly without XML parsing, for example.
+    These “optional” APIs were packaged in separate JARs under lib/ext (like jaxp.jar, xml-apis.jar) and loaded by the ExtensionClassLoader.
+
+2️⃣ Why Optional?
+    Not mandatory for JVM startup
+    java.lang, java.util, java.io → required to run any Java program
+    javax.xml → only needed if your program uses XML parsing
+    Could be updated independently
+        You might want to upgrade XML libraries without touching the JVM core.
+    Keeping them separate allowed JVM vendors and users to replace/update implementations easily.
+    Supports modularity and extensions
+    The JVM design allowed users to add/remove optional APIs via the lib/ext folder.

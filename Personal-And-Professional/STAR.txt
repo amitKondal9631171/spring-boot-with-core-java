@@ -1,0 +1,18 @@
+Situation:
+	At Tech Mahindra, I was responsible for managing the deployment of multiple microservices across different environments, while coordinating between
+	    internal teams and the client. The project required smooth communication, timely updates, and error-free deployments to meet client expectations.
+Task:
+	I needed to ensure all deployments were completed on schedule, maintain coordination across multiple teams, provide leadership for my own team, and act as the
+	    point of contact for status updates in the absence of the scrum master.
+Action:
+	Led my team by distributing tasks effectively and providing end-of-day updates to the scrum master.
+	Coordinated with different internal teams and facilitated cross-team calls to track the status of all service deployments.
+	Worked closely with the client to ensure successful deployments in all environments.
+	Took initiative to provide updates to lead scrum managers when our scrum master was unavailable, ensuring continuity of communication and reporting.
+	Maintained alignment between technical teams and client expectations through proactive status tracking and problem resolution.
+Result:
+	Successfully deployed all microservices across the required environments without critical issues.
+	Streamlined communication between teams and the client, which reduced deployment delays and improved transparency.
+	As a result, we were able to complete the deployments on schedule with minimal issues, and the client and leadership gave very positive feedback.
+    I also learned the importance of proactive communication and structured coordination in complex multi-team projects.
+    Received excellent feedback from both internal leadership and the client upon leaving the company, highlighting effective leadership and coordination.

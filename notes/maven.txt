@@ -1,0 +1,10 @@
+What is a Maven plugin?
+    What is a Plugin? "Maven" is really just a core framework for a collection of Maven Plugins.
+        In other words, plugins are where much of the real action is performed,
+        plugins are used to: create jar files, create war files, compile code, unit test code,
+        create project documentation, and on and on.
+
+What are the two types of Maven plugins?
+    Introduction. In Maven, there are two kinds of plugins, build and reporting: Build plugins
+    are executed during the build and configured in the <build/> element. Reporting plugins are
+    executed during the site generation and configured in the <reporting/> element.

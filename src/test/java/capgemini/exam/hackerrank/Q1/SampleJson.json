@@ -1,0 +1,52 @@
+{
+  "data": [{
+    "FName": "api-06",
+    "addresses": [
+      {
+        "city": "Kangra",
+        "state": "HP",
+        "country": "India",
+        "address": "Samela"
+      },
+      {
+        "city": "Chandigarh",
+        "state": "UT",
+        "country": "India",
+        "address": "Sector 17"
+      }
+    ]
+  },{
+    "FName": "api-07",
+    "addresses": [
+      {
+        "city": "Kangra",
+        "state": "HP",
+        "country": "India",
+        "address": "Samela"
+      },
+      {
+        "city": "Chandigarh",
+        "state": "UT",
+        "country": "India",
+        "address": "Sector 17"
+      }
+    ]
+  },{
+    "FName": "api-07",
+    "addresses": [
+      {
+        "city": "Kangra",
+        "state": "HP",
+        "country": "India",
+        "address": "Samela"
+      },
+      {
+        "city": "Chandigarh",
+        "state": "UT",
+        "country": "India",
+        "address": "Sector 17"
+      }
+    ]
+  }
+  ]
+}

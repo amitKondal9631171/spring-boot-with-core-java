@@ -1,0 +1,151 @@
+REST API is also known as RESTful web services that follow the REST architecture.
+
+Cache-control headers are used to control catching and to attain caching ability.
+       The most commonly used cache-control headers are public, private, and No-Store.
+
+REST:
+    RE representational means data representation format like xml/json
+    S: state means data
+    T: transfer data b/w parties
+
+Must read before interview:
+
+https://amplication.com/blog/rest-apis-what-why-and-how
+5 Key Principles of REST APIs:
+
+   Uniform Interface: This is a fundamental principle for the design of any REST ful API.
+                       There should be a uniform and standard way of interacting with a given server for
+                       all client types.
+
+   Rest APIs are stateless: REST architecture mandates that the server will not store anything related
+                            to a session. The server should process and complete each request independently.
+                            Each client request should contain all of the information necessary for
+                            understanding, processing, and completing it. Clients can do this
+                            via query parameters, headers, URIs, request body, etc.
+
+   Cacheable: Every response sent by the server should contain information regarding its cache ability.
+               Simply, the clients should be able to determine whether or not this response can be cached from
+               their side, and if so, for how long. If a response is cacheable, the client has the right to return
+               the data from its cache for an equivalent request and specified period, without sending another
+               request to the server. A well-managed caching mechanism greatly improves the availability and
+               performance of an API by completely or partially eliminating some of the client-server interactions.
+               However, this increases the chances of users receiving stale data.
+
+   Client-Server Design Pattern: REST architecture imposes the client-server design pattern.
+                                  In REST, a client is an entity that requests a resource.
+                                  A server is an entity responsible for storing these resources,
+                                        having business logic, and sending the response to the client.
+   Layered System: An application with layered architecture is composed of various hierarchical layers.
+                   Each layer has information from only itself, and no other layer.
+                   There can be multiple intermediate layers between the client and server.
+                   You can design your REST APIs with multiple layers, each having tasks such as
+                   security, business logic, and application, all working together to fulfill client requests.
+
+
+What is the definition of messaging in terms of REST ful web services?
+    In REST API web services, when a REST client wants to send a message to the server,
+        it can be sent in an HTTP request form, and the same applies to the server.
+        This kind of communication is called messaging in REST.
+
+Explain 'Addressing' in REST ful web services.
+    The process of locating various types of resources with the help of a URL on the REST server is
+    known as ‘addressing’ in REST ful web services.
+
+Why are REST services easily scalable?
+    REST services are scalable due to the statelessness that they do not store data on the server even
+    though they are requested and do not require much communication.
+
+What are Idempotent methods?
+    Idempotent methods are known to return the same outcome even after the same request has
+    been made multiple times.
+
+How can REST ful web services be tested?
+    The REST ful web services can be tested with the help of tools such as Swagger and Postman,
+    which enable users to inspect query parameters, response headers, and headers,
+    documentation of the endpoints, and conversion of endpoints to XML and JSON.
+
+What are payloads in REST ful web services?
+    Payloads are the request data passed through the POST or GET method and found in the message’s
+    body of an HTTP request in REST ful web services.
+
+What is the maximum payload size that can be sent in POST methods?
+    Theoretically, there is no such maximum limit for payload size that can be sent in POST methods.
+    However, payloads with larger sizes can consume larger bandwidth. Thus the server could take more
+    time to proceed with the request.
+
+In REST APIs, which markup languages are used to represent the resources?
+    The resources in REST APIs are represented with the help of XML (extensible markup language)
+    and JSON (JavaScript Object Notation).
+
+Differentiate POST and PUT methods.
+    POST Method:
+        POST can create a resource on the server.
+        POST is not idempotent.
+        POST responses are cacheable.
+
+    PUT Method:
+        PUT is used to replace a resource at a specific URI with another resource.
+        PUT is idempotent that it will only result in one resource even after calling it multiple times.
+        PUT responses are not cacheable.
+
+The main parts of an HTTP response
+    The main parts of the HTTP response are the HTTP version, Status, HTTP Response Header,
+    and HTTP Response body.
+
+HTTP response
+    100: Information
+    200: Success
+    400: Client error: error caused by the user
+    500: Server error: user did everything correctly and it's the server itself who caused the problem.
+
+What is a resource?
+    In REST, A resource is an object with a label and accessible on the server.
+
+What’s a real-world example of a REST API?
+    Public REST APIs are harnessed by weather apps to display weather information and share the
+    related data.
+    Airlines use APIs to expose the flight times and prices to allow travel and ticketing sites for
+    businesses.
+    Public transportation services use APIs to make their data publicly open to make it available
+    for mapping and navigation apps in real-time.
+
+Disadvantages of RESTful web services?
+    RESTful web services are stateless and do not maintain session simulation responsibility as the
+    client side does not provide a particular session id for it.
+    REST is not able to impose the security restriction inherently. However, it inherits them with
+    the help of implementing protocols. Thus, the integration of SSL/TLS authentication needs to be
+    done very carefully for better security measures of the REST APIs.
+
+Advantages of REST
+    HTTP makes the implementation of REST easy.
+    REST fits in the existing infrastructure of the web, thus the web application can easily implement
+        the REST. XML and JSON web technologies make REST easy to learn.
+    The client and server communication is stateless, thus the integration is easy to build and
+        scalable, and manageable with respect to time.
+    The REST architecture can adapt to a huge variety of cases due to its flexibility.
+    The lightweight architecture of REST makes it easy to build the applications faster as compared to
+        other types of APIs.
+    REST can be tested easily in the browser with the help of API testing tools.
+
+How do you keep REST APIs secure?
+    REST APIs can be kept secure with the help of safety measures such as
+    Authentication and authorization
+    API Server Validation
+    TSl/SSL Encryption
+    Rate-limiting for DDoS attacks
+    sensitive information such as username, password, or authentication token should not be visible in URIs.
+
+
+What are the main characterstic of microservice for cloud environment:
+    1. Containerized & Orchestrated
+    2. Independently Deployable
+    4. Scalable
+    5. Resilient & Fault Tolerance
+    6. Observable: Cloud requires metrics, logs, and traces across distributed services.
+    7. Independent Data Stores
+    8. Secure & Isolated
+
+
+
+
+

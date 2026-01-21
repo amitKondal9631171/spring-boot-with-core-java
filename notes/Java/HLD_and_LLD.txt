@@ -1,0 +1,95 @@
+1️⃣ High-Level Design (HLD)
+    Definition:
+    HLD is the blueprint of the system, showing how different modules/components interact to achieve the required functionality.
+    Think of it as the “architect’s drawing” of a building.
+
+    Key Characteristics
+        Focuses on system architecture.
+        Describes overall components, modules, and data flow.
+        Technology and platform decisions are often finalized here.
+        Abstract — not code-specific.
+
+    Contents of HLD
+        Architecture diagram (e.g., microservices, layers, tiers).
+        Module interactions (APIs, message queues, databases).
+        Tech stack decisions (Java, Python, AWS, etc.).
+        Non-functional requirements: scalability, security, performance.
+
+2️⃣ Low-Level Design (LLD)
+    Definition:
+    LLD is the detailed design of each module, explaining how to implement what was planned in HLD.
+    Think of it as the “engineer’s detailed plan” — every small pipe, wire, and circuit.
+
+    Key Characteristics
+        Focuses on class diagrams, database schema, and logic flow.
+        Deals with algorithms, design patterns, and method-level details.
+        Code-oriented — very close to actual implementation.
+
+    Contents of LLD
+        Class diagrams with relationships (UML).
+        API contracts (method signatures, request/response objects).
+        Sequence diagrams.
+        Error handling and logging design.
+        Database tables with relations.
+        Detailed flow of each functionality.
+
+| Aspect              | **HLD**                                      | **LLD**                                   |
+| ------------------- | -------------------------------------------- | ----------------------------------------- |
+| **Focus**           | Big picture, system structure                | Detailed, module-level logic              |
+| **Level of Detail** | Abstract                                     | Detailed                                  |
+| **Audience**        | Architects, senior engineers, stakeholders   | Developers, QA, DevOps                    |
+| **Output**          | Architecture diagrams, tech stack, data flow | Class diagrams, API contracts, DB schemas |
+| **Tools**           | Lucidchart, Draw\.io, Visio                  | UML, ER diagrams, Sequence diagrams       |
+| **Time of Use**     | Early in design phase                        | Before actual coding starts               |
+
+
+
+
+Low-level design refers to the process of refining and detailing the high-level design specifications into more detailed and specific instructions for software or system implementation. It typically involves breaking down the high-level components into smaller modules, defining data structures, specifying algorithms, and addressing other technical details. Here are some key aspects and steps involved in low-level design:
+
+Module Decomposition:
+	Identify the major modules/components from the high-level design.
+	Break down these modules into smaller, manageable units.
+
+Data Structures:
+	Define the data structures that will be used within each module.
+	Specify the format and organization of data.
+
+Algorithms:
+	Specify the algorithms that will be used within each module.
+	Detail the step-by-step procedures for processing data or performing specific tasks.
+
+Interface Design:
+	Define the interfaces between modules, including input and output parameters.
+	Ensure that data flow and communication between modules are well-defined.
+
+Database Design:
+	If applicable, design the database schema, tables, and relationships.
+	Specify how data will be stored, retrieved, and manipulated.
+
+Error Handling:
+	Identify potential errors and exceptions that may occur during module execution.
+	Develop error-handling mechanisms and recovery procedures.
+
+Resource Management:
+	Manage resources such as memory, file handles, and network connections.
+	Ensure efficient utilization of resources and handle resource allocation and de allocation.
+
+Security Considerations:
+	Address security concerns at the module level, including data encryption, access controls, and authentication mechanisms.
+
+Optimization:
+	Optimize algorithms and code for performance and efficiency.
+	Consider factors such as time complexity and space complexity.
+
+Testing Strategy:
+	Plan for unit testing and integration testing at the module level.
+	Define test cases to ensure the correctness of each module's functionality.
+
+Documentation:
+	Document the low-level design details comprehensively.
+	Create code comments, API documentation, and other necessary documentation for future reference.
+
+Coding Standards:
+	Adhere to coding standards and guidelines established for the project or organization.
+	Ensure consistency in coding style across modules.

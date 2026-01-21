@@ -1,0 +1,57 @@
+divide-and-conquer programming approach:
+    In divide and conquer approach, the problem in hand, is divided into smaller
+    sub-problems and then each problem is solved independently. When we keep on dividing the sub problems into even
+    smaller sub-problems, we may eventually reach a stage where no more division is possible.
+    Those "atomic" smallest possible sub-problem (fractions) are solved.
+
+    Merge Sort --> O( n * log(n) )
+    Quick Sort
+    Binary Search
+
+Dynamic programming approach: is similar to divide and conquer in breaking down the problem into smaller
+                              and yet smaller possible sub-problems.
+                              But unlike, divide and conquer, these sub-problems are not solved independently.
+Rather, results of these smaller sub-problems are remembered and used for similar or overlapping sub-problems.
+Dynamic programming is used where we have problems, which can be divided into similar sub-problems, so that their results can be re-used.
+
+The following computer problems can be solved using dynamic programming approach −
+    Fibonacci number series
+
+Data Object: Data Object represents an object having a data.
+Data Type: Data type is a way to classify various types of data such as integer, string, etc.
+Types of Data Type:
+    Built-in Data Type : Those data types for which a language has built-in support are known as Built-in Data types.
+                        For example, most of the languages provide the following built-in data types:
+                        Integers
+                        Boolean (true, false)
+                        Floating (Decimal numbers)
+                        Character and Strings
+    Derived Data Type: Which are implemented by the user by using built-in data types.
+                        For example −
+                        List
+                        Array
+                        Stack
+                        Queue
+Basic Operations:
+  The data in the data structures are processed by certain operations.
+  The particular data structure chosen largely depends on the frequency of the operation that needs to be performed on the data structure.
+      Insertion
+      Updation
+      deletion
+      search
+      traverse
+      sorting
+
+Linear search is a very simple search algorithm. In this type of search, a sequential search is
+    made over all items one by one.
+    Every item is checked and if a match is found then that particular item is returned, otherwise the search continues till the end
+    of the data collection.
+
+
+| Feature          | Bubble Sort                            | Selection Sort                               |
+| ---------------- | -------------------------------------- | -------------------------------------------- |
+| **How it works** | Swaps adjacent elements                | Selects min element, swaps once              |
+| **Swaps**        | Many swaps                             | At most (n-1) swaps                          |
+| **Best case**    | O(n) (if optimized)                    | O(n²) always                                 |
+| **Stability**    | Stable ✅                               | Not stable ❌                                 |
+| **Use case**     | Good for small lists, teaching sorting | Fewer swaps (useful where swap cost is high) |

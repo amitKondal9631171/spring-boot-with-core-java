@@ -1,0 +1,7 @@
+When it occurs:
+    Threads are waiting indefinitely for each other due to circular locking.
+
+Fix:
+    Maintain consistent lock ordering.
+    Use tryLock() with timeout from ReentrantLock.
+    Use tools like Java VisualVM or Thread dumps to debug.

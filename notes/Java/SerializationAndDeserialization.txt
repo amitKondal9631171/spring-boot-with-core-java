@@ -1,0 +1,33 @@
+By default,
+    JVM generates serialVersionUID from class metadata (class name, fields, methods, modifiers, interfaces).
+    That means even a minor class change alters it, which is why best practice is to declare it explicitly for stability.
+
+
+How JVM Generates Default serialVersionUID
+    If you don’t declare it manually, the JVM (actually the serialver tool / ObjectStreamClass) computes it using a SHA-1 hash of the class’s structural details.
+    Specifically, it considers:
+        Class name
+        Modifiers (public, abstract, final, etc.)
+        Implemented interfaces
+        Field names & types
+        Excluding private static and private transient fields
+        Method signatures (including constructors, static initializers)
+        Excluding private methods
+        Inheritance hierarchy
+
+    The resulting hash is then truncated to a 64-bit long → that’s your serialVersionUID.
+
+
+| Feature / Aspect                     | **JVM Native Serialization**                              | **Protobuf (Protocol Buffers)**                                        |
+| ------------------------------------ | --------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Format**                           | Java-specific binary                                      | Language-neutral compact binary                                        |
+| **Language Support**                 | Only Java                                                 | Multi-language (Java, C++, Python, Go, etc.)                           |
+| **Performance**                      | Slow (reflection + metadata)                              | Fast (compiled schema → direct read/write)                             |
+| **Size / Efficiency**                | Large (class info, field names included)                  | Very small & efficient                                                 |
+| **Backward / Forward Compatibility** | Weak (minor changes break if serialVersionUID mismatched) | Strong (fields can be optional, new fields ignored by old clients)     |
+| **Schema**                           | No explicit schema                                        | Requires `.proto` schema definition                                    |
+| **Security**                         | Vulnerable to deserialization attacks                     | Safer; no arbitrary code execution                                     |
+| **Ease of Use**                      | Easy (just `implements Serializable`)                     | Requires schema compilation, code generation                           |
+| **Nested Objects**                   | Handled automatically                                     | Handled efficiently via schema (nested messages)                       |
+| **Use Cases**                        | Legacy Java apps, RMI, caching                            | Modern microservices, cross-platform messaging, gRPC, Kafka streaming  |
+| **Human Readability**                | Not readable                                              | Not directly readable (binary), but can be converted to JSON for debug |

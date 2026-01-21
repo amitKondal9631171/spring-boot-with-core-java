@@ -1,0 +1,76 @@
+
+Constructors: are special type methods without any return type. Constructor name is always same as the class name.
+               Constructor can have any no. of parameters use to define the initial state of the object before application
+               start using it.
+               If we don't create constructor then JVM will create default constructor.
+               Constructor is used to initialize the object state.
+
+In Object oriented language we have four major principals:
+
+    1) Abstraction: process to expose the essential details of an entity, while hiding the implementation,
+                    to reduce the complexity to the user.
+    2) Encapsulation: is a process of bundling data and operations / functions together in an entity.
+    3) Inheritance: is used to derive a new data type from existing one to accomplish parent child relationship.
+    4) Polymorphism: lets an entity to behave differently depending upon the different context.
+
+Abstraction: is a process of exposing essential details and hiding the implementation from the user to reduce the complexity.
+             eg: when we drive our car we only have steering, breaks, accelerator etc to drive a car without knowing the
+             internal working of the car.
+
+             It can be seen in two types:
+             Data Abstraction: is a way to create complex data types from multiple smaller data types.
+                                E.g: Employee class can be complex object using different small association.
+                                public class{
+                                    //Address, Department, Role different small associations.
+                                }
+             Operation Abstraction: hide the sequence of actions for a complex task inside a single method.
+
+Encapsulation: is a process of bundling data and operations on data together is an entity with access control.
+                It is used for:
+                Information hiding: is done using access control(public, private, protected).
+                Implementation hiding: is achieved through interfaces.
+
+Inheritance: before java 1.8 multiple inheritance was not possible. But in java 1.8 it is possible using Interfaces and default methods.
+            --> Overriding method access specifier must be of same or upper scope of access specifier we can not decrease the scope of accessibility.
+
+Polymorphism: lets an entity to behave differently depending upon the different context.
+              e.g: '+' operator is used to add two numbers as well as to concatenate two strings. Based on the type of variable,
+              operator changes it behaviour. It is known as operator overloading.
+              Java only support + operator overloading.
+              Types:
+              Compile time Polymorphism: in this compiler binds the methods to the objects during compile.
+              It is also known as static or early binding.
+              It is achieved with method overloading
+              n Java, it is achieved with the use of method overloading. In method overloading, the method parameters can vary with a number, order, or the types of parameter.
+
+              Runtime polymorphism: call to overridden method is resolved dynamically during runtime.
+                                    Also, known as dynamic binding or dynamic method dispatch.
+
+
+Coupling: defines how loosely class is defined meaning how independent from other tasks.
+            E.g must be loosely defined means it should have single responsibility like Email Validator class must have the
+            functionality to validate the email similarly email sender class should only have the functionality to send the email.
+Cohesion:  defines class/module should have all the requirements to full fill the particular functionality.
+            e.g email sender should have all the requirements to send email including smtp settings , email address etc.
+Association: defines the relationship between the object.
+             types:
+                one-to-one
+                one-to-many
+                many-to-one
+                many-to-many
+
+Aggregation: defines the type of association in which both entities can exist individually.
+             like in teacher and student relationship if we delete student or teacher then both can exist individually.
+Composition: defines the type of association in which objects don't have there own life cycle.
+              like we have list of questions and there answers and if we delete the question then answer don't have their individual
+              life cycle.
+
+
+
+
+
+
+
+
+
+

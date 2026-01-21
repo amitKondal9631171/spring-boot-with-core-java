@@ -1,0 +1,342 @@
+
+Kubernetes Cluster
+├── Control Plane (Master Node)
+│   ├── API Server (kube-apiserver)
+│   │     - Central hub for all requests
+│   │     - Validates & stores objects in etcd
+│   ├── etcd
+│   │     - Key-value store for cluster state
+│   ├── Controller Manager (kube-controller-manager)
+│   │     - Ensures desired state of objects (Deployments, ReplicaSets, Jobs)
+│   ├── Scheduler (kube-scheduler)
+│   │     - Assigns Pods to Nodes based on resources and constraints
+│   └── Cloud Controller Manager (optional)
+│         - Integrates with cloud provider (nodes, load balancers, storage)
+│
+├── Worker Nodes
+│   ├── kubelet
+│   │     - Communicates with API Server
+│   │     - Ensures containers in Pods are running
+│   ├── kube-proxy
+│   │     - Handles Service networking & load balancing
+│   └── Pods
+│         ├── Container(s)
+│         │     - Runs the actual application
+│         ├── ConfigMaps / Secrets (optional)
+│         │     - Provides configuration / sensitive data
+│         └── Volumes / PersistentVolumes (optional)
+│               - Provides persistent storage to Pods
+
+
+Kubernetes Kind Hierarchy:
+
+    1. Workload Resources (Run Applications)
+        Pod → Smallest deployable unit; runs 1+ containers
+        Deployment → Manages Pods via ReplicaSets; supports scaling & rolling updates
+        ReplicaSet → Ensures specified number of Pods exist (usually managed by Deployment)
+        StatefulSet → Pods with stable identity & storage (for databases, etc.)
+        DaemonSet → Runs a Pod on every node (logging, monitoring agents)
+        Job → Run Pods to completion (batch tasks)
+        CronJob → Run Jobs on a schedule
+
+    2. Configuration & Storage
+        ConfigMap → Key-value configuration for Pods
+        Secret → Sensitive data for Pods (passwords, tokens)
+            | Feature   | ConfigMap     | Secret                |
+            | --------- | ------------- | --------------------- |
+            | Data type | Non-sensitive | Sensitive             |
+            | Storage   | etcd (plain)  | etcd (base64 encoded) |
+            | Use cases | Config values | Passwords, tokens     |
+
+        PersistentVolume (PV) → Cluster storage resource
+        PersistentVolumeClaim (PVC) → Pod’s request for storage
+    3. Networking
+        NetworkPolicy → Controls traffic flow between Pods
+        Service / LoadBalance → Provides stable IP & DNS, load balances traffic to Pods, This is for single service only
+
+                    # Service for myapp
+                    apiVersion: v1
+                    kind: Service
+                    metadata:
+                      name: myapp-service
+                    spec:
+                      selector:
+                        app: myapp
+                      ports:
+                        - port: 80
+                          targetPort: 8080
+
+                    ---
+                    # Service for shop
+                    apiVersion: v1
+                    kind: Service
+                    metadata:
+                      name: shop-service
+                    spec:
+                      selector:
+                        app: shop
+                      ports:
+                        - port: 80
+                          targetPort: 8080
+
+
+        Ingress → Manages external HTTP/HTTPS access to multiple Services
+
+                       ---
+                            # Ingress routing both services via a single LB
+                            apiVersion: networking.k8s.io/v1
+                            kind: Ingress
+                            metadata:
+                              name: example-ingress
+                            spec:
+                              rules:
+                                - host: myapp.example.com
+                                  http:
+                                    paths:
+                                      - path: /
+                                        pathType: Prefix
+                                        backend:
+                                          service:
+                                            name: myapp-service
+                                            port:
+                                              number: 80
+                                - host: shop.example.com
+                                  http:
+                                    paths:
+                                      - path: /
+                                        pathType: Prefix
+                                        backend:
+                                          service:
+                                            name: shop-service
+                                            port:
+                                              number: 80
+
+    4. Cluster & Namespace Management
+        Namespace → Virtual cluster within a cluster for isolation
+        Node → Worker machine running Pods
+        ClusterRole / Role → Define permissions
+        ClusterRoleBinding / RoleBinding → Assign permissions to users or service accounts
+        ServiceAccount → Identity for Pods to access API
+    5. Control Plane Components (Technically not “kind” but part of hierarchy)
+        API Server → Exposes Kubernetes API
+        etcd → Stores cluster state
+        Controller Manager → Ensures desired state
+        Scheduler → Assigns Pods to Nodes
+
+What is a Kubernetes Cluster?
+    A Kubernetes cluster is a set of machines (nodes) that work together to run containerized applications.
+    It abstracts the infrastructure, so you don’t need to worry about individual servers.
+    A cluster has two main components:
+        API Server → main entry point for all commands.
+        Scheduler → decides which node runs which Pod.
+        Controller Manager → maintains desired state (replicas, deployments).
+        etcd → stores cluster configuration and state.
+
+What is a Node ?
+    A Machine, like any Windows or Linux system.
+
+    What makes Node a Kubernetes node isn’t the OS itself, but tha it has these installed:
+        Kubelet → talks to the control plane and manages Pods.
+        Container Runtime → Docker, containerd, or CRI-O to run containers.
+        Kube-proxy → handles networking for Pods
+            Handle networking and route traffic to the correct Pods.
+            It makes Services in Kubernetes work, so you don’t need to know the IP of each Pod.
+            Pods have dynamic IPs:
+                    When a Pod is created, it gets an IP.
+                    If the Pod dies and a new one is created, it gets a different IP.
+                    Services provide a stable virtual IP (ClusterIP) to reach Pods.
+                    Kube-Proxy maps this stable Service IP → actual Pod IPs.
+                    Without Kube-Proxy, clients would need to track Pod IPs manually, which is impossible at scale.
+
+            "Kube-Proxy provides networking and routing so that Services with stable IPs can reliably reach Pods, even though Pod IPs are dynamic and can change over time."
+
+
+What is a Pod?
+    A Pod is the smallest deployable unit in Kubernetes.
+    It represents one or more tightly coupled containers that run together on the same node.
+    Containers in a Pod share:
+        Network namespace (same IP + port space)
+        Storage volumes
+        Lifecycle (they’re scheduled, started, stopped together)
+    Why Pods (not just containers)?
+        Kubernetes doesn’t deal with raw containers directly because:
+        Sometimes, you need helper/sidecar containers (e.g., a logging or monitoring agent) to run alongside your main app.
+        By grouping containers into a Pod, K8s can treat them as one unit of deployment.
+    Pod Lifecycle
+        You define a Pod (via YAML/Deployment).
+        Scheduler assigns the Pod to a Node.
+        Kubelet on that node pulls images, runs containers.
+        If Pod fails, K8s can restart or reschedule it.
+
+    "A Pod is the smallest deployable unit in Kubernetes, grouping one or more containers that share networking, storage, and lifecycle, so they can work closely together as a single application component."
+
+Pod vs Image vs Container:
+     👉Image
+            A blueprint/template for a container.
+            Contains:
+                Application code
+                Runtime (Java, Python, Node.js, etc.)
+                Libraries & dependencies
+            Immutable (doesn’t change once built).
+
+        e.g. nginx:1.25 → an image stored in DockerHub.
+
+    👉Container
+        A running instance of an image.
+        Lightweight, isolated environment.
+        Runs the actual application process.
+        Example: From nginx:1.25 image → running nginx web server as a container.
+
+    👉Pod
+        A Kubernetes wrapper around one or more containers.
+        Adds Kubernetes features:
+                Shared network IPt
+                Shared storage (volumes)
+                Lifecycle management (restart, reschedule, scaling)
+
+
+"A Deployment manages Pods and keeps a fixed number of replicas running, while a HorizontalPodAutoscaler works on top of a Deployment (or ReplicaSet/StatefulSet)
+    to automatically adjust replica count between min and max based on real-time metrics."
+
+
+What is a Dockerfile?
+    A text file that contains a set of instructions for building a Docker image.
+    Think of it like a recipe 📝 → when you run docker build, Docker reads the Dockerfile line by line and builds the image layer by layer.
+
+    # Base image
+            FROM openjdk:17
+            # Copy files into the image
+            COPY app.jar /app.jar
+            # Set environment variables
+            ENV JAVA_OPTS="-Xms512m -Xmx1024m"
+            # Set working directory
+            WORKDIR /
+            # Command to run when container starts
+            CMD ["java", "-jar", "/app.jar"]
+
+
+Docker lifecycle:
+    Write Dockerfile.
+    Build image:
+        docker build -t myapp:1.0 .
+    Run container:
+        docker run -p 8080:8080 myapp:1.0
+
+
+"A Kubernetes Service is an abstraction that provides stable access to a set of Pods. It uses label selectors to map to Pods dynamically, maintains an endpoints list,
+    and load balances traffic among all matched Pods. When Pods scale up or down, the Service automatically updates its endpoints, providing seamless access and
+    scaling without clients needing to know individual Pod IPs."
+
+
+"In Kubernetes, kind defines the type of resource in a YAML manifest. Common kinds include Pods, Deployments, Services, StatefulSets, ConfigMaps, Secrets, Jobs, and
+    CronJobs, each serving a specific role for managing workloads, configuration, storage, networking, and security."
+
+The Core Idea
+    Every YAML you apply in Kubernetes has a kind.
+    Kubernetes uses the API server to interpret this kind and perform actions on the cluster.
+        How It Works
+        You run:
+        kubectl apply -f deployment.yaml
+        kubectl talks to API Server (https://<master-ip>:6443).
+        API Server validates YAML and stores object in etcd.
+        Relevant controller watches the object → acts on Pods, scaling, etc.
+        Scheduler assigns Pods to worker nodes → kubelet runs containers.
+
+
+
+
+| Kind                            | Purpose / Use Case                                                                    |
+| ------------------------------- | ------------------------------------------------------------------------------------- |
+| **Pod**                         | Smallest deployable unit; runs 1+ containers.                                         |
+| **Deployment**                  | Manages ReplicaSets & Pods; supports scaling, rolling updates, rollback.              |
+| **ReplicaSet**                  | Ensures a specified number of Pods are running; mostly managed by Deployment.         |
+| **StatefulSet**                 | For stateful applications; preserves Pod identity & storage across restarts.          |
+| **DaemonSet**                   | Runs a Pod on **every node** (or selected nodes). Good for logging/monitoring agents. |
+| **Job**                         | Run Pods **once** until completion; good for batch tasks.                             |
+| **CronJob**                     | Run Jobs **on a schedule** (like cron).                                               |
+| **Service**                     | Provides stable IP/DNS & load balancing for a set of Pods.                            |
+| **ConfigMap**                   | Store non-sensitive config data (key-value) for Pods.                                 |
+| **Secret**                      | Store sensitive data (passwords, tokens) for Pods.                                    |
+| **Ingress**                     | Manages external HTTP/HTTPS access to Services.                                       |
+| **Namespace**                   | Virtual cluster within a cluster; isolates resources.                                 |
+| **PersistentVolume (PV)**       | Represents storage resource in cluster.                                               |
+| **PersistentVolumeClaim (PVC)** | Pod’s claim to PV for storage.                                                        |
+| **NetworkPolicy**               | Controls network traffic rules between Pods.                                          |
+
+
+
+| Feature    | Node                                   | Cluster                                         |
+| ---------- | -------------------------------------- | ----------------------------------------------- |
+| Definition | Single machine in Kubernetes           | Collection of nodes managed together            |
+| Components | kubelet, kube-proxy, container runtime | Control Plane + Nodes                           |
+| Purpose    | Run Pods and containers                | Run and manage the entire workload, scaling, HA |
+| Management | Managed by Control Plane               | Managed as a whole via API Server               |
+
+
+What is the Control Plane?
+    "The Control Plane in Kubernetes is the brain of the cluster, managing cluster state, scheduling Pods, and ensuring desired state is maintained.
+        It consists of the API Server, etcd, Controller Manager, Scheduler, and optionally Cloud Controller Manager."
+    The Control Plane is the brain of the Kubernetes cluster.
+    It manages the entire cluster: decides what runs where, monitors state, and ensures the desired state is maintained.
+    Runs on master node(s) (can be single-node or HA with multiple masters).
+
+    | Component                                          | Role                                                                                        |
+    | -------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+    | **API Server (`kube-apiserver`)**                  | Central hub; exposes Kubernetes API; validates and stores objects in **etcd**.              |
+    | **etcd**                                           | Persistent key-value store; stores all cluster state.                                       |
+    | **Controller Manager (`kube-controller-manager`)** | Watches resources and ensures desired state (e.g., Deployment controller, Node controller). |
+    | **Scheduler (`kube-scheduler`)**                   | Assigns Pods to Nodes based on resource availability and constraints.                       |
+    | **Cloud Controller Manager**                       | Integrates with cloud provider for node management, load balancers, storage, etc.           |
+
+
+How It Works (Flow)
+    User applies a YAML (kubectl apply -f deployment.yaml)
+    API Server receives and validates the request → stores in etcd
+    Controller Manager observes the desired state → creates/updates Pods, ReplicaSets, Services
+    Scheduler assigns Pods to available worker nodes
+    kubelet on nodes ensures containers run correctly
+
+Control Plane (Master Node)
+   ├── API Server       --> central hub for all requests
+   ├── etcd             --> stores cluster state
+   ├── Controller Manager --> ensures desired state
+   └── Scheduler       --> assigns Pods to Nodes
+
+Worker Nodes
+   └── Node 1, Node 2, ...
+        ├── kubelet      --> runs containers in Pods
+        ├── kube-proxy   --> handles Service networking
+        └── Pods         --> smallest deployable units (containers inside)
+
+Pods
+   └── Containers      --> actual applications running
+
+
+| Aspect                                          | Vanilla Kubernetes                                                            | OpenShift (OCP)                                                 |
+| ----------------------------------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| **Create / Manage Pods, Deployments, Services** | Use YAML files (`kind: Pod`, `kind: Deployment`, etc.) and `kubectl` commands | Can still use YAML and `oc` CLI; GUI provides visual management |
+| **Security / RBAC / Users**                     | Manual setup with Role, RoleBinding, ServiceAccount                           | GUI + built-in secure defaults, easier project/user management  |
+| **CI/CD / Builds**                              | Must integrate Jenkins, Tekton, ArgoCD manually                               | Built-in pipelines (S2I, image streams), managed via GUI or CLI |
+| **Monitoring / Logging**                        | Must deploy Prometheus, Grafana, EFK manually                                 | Pre-configured dashboards and metrics integrated                |
+| **Routing / Ingress**                           | Manual ingress controllers, LoadBalancer setup                                | Built-in routers, service exposure, automated DNS and TLS       |
+
+
+Features Unique to OpenShift (Not in Vanilla Kubernetes):
+
+| Feature                               | Description                                                                                         |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| **Source-to-Image (S2I) Builds**      | Build container images directly from source code without writing Dockerfiles.                       |
+| **Image Streams**                     | Manage container image lifecycle; automatically track image updates and trigger deployments.        |
+| **Integrated CI/CD Pipelines**        | Out-of-the-box pipelines for automated build, test, and deployment.                                 |
+| **Built-in Web Console**              | Full GUI to manage Projects, Pods, Deployments, Builds, Routes, and Logs.                           |
+| **Built-in Routers & Route Objects**  | Handles external traffic to services with automatic DNS and TLS management.                         |
+| **Enhanced Security Defaults**        | Restricts running containers as root; secure default policies (e.g., Security Context Constraints). |
+| **OperatorHub**                       | Pre-packaged Operators for deploying complex apps/services in a standardized way.                   |
+| **Cluster-wide Logging & Monitoring** | Prometheus + Grafana + EFK stack pre-integrated for metrics and logs.                               |
+| **Enterprise Support & Upgrades**     | Red Hat provides patches, updates, and official support; production-ready SLAs.                     |
+| **Multi-tenancy via Projects**        | Logical separation of teams/projects with RBAC integrated by default.                               |
+
+
+"Companies often use OpenShift, Rancher, VMware Tanzu, or managed Kubernetes services like EKS, GKE, and AKS as alternatives.
+    These platforms provide enterprise features such as monitoring, CI/CD, security, multi-cluster management, and vendor support,
+    reducing operational overhead compared to vanilla Kubernetes."

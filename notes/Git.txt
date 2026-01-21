@@ -1,0 +1,1 @@
+Trunk-based development ( TBD ) requires developers to commit and integrate changes daily

@@ -1,0 +1,93 @@
+LinkedList can be used as List, Queue and Stack because of how it is designed internally and the interfaces it implements.
+
+Let’s unpack slowly and clearly.
+
+1) The Key Reason
+
+    LinkedList implements multiple interfaces:
+
+    public class LinkedList<E>
+        implements List<E>, Deque<E>, Queue<E>
+
+
+    So it behaves like:
+
+    A List (ordered sequence, index-based access)
+
+    A Queue (FIFO operations)
+
+    A Stack (LIFO operations, using Deque methods)
+
+This is not accidental. Java designers intentionally made LinkedList flexible for multiple use-cases.
+
+2) How Its Internal Structure Makes This Possible
+
+    A LinkedList is a doubly linked list:
+
+     null <- [Node] <-> [Node] <-> [Node] -> null
+
+
+    Each node stores:
+
+    data
+
+    pointer to previous node
+
+    pointer to next node
+
+    This allows:
+
+    Fast insertions/removals at the head and tail → O(1)
+
+    Allows traversal in both directions
+
+This flexibility is why it can behave differently depending on how you use it.
+
+    3) As a List
+
+    Because it implements List<E>, you get:
+
+    list.add("A");
+    list.add("B");
+    list.get(1);   // supports index access
+    list.remove(0);
+
+
+Key behavior: Maintains insertion order.
+But index lookups are slow → O(n), because it must traverse node by node.
+
+    4) As a Queue (FIFO)
+
+    Because it implements Queue<E>, we use queue-style operations:
+
+    Queue<String> queue = new LinkedList<>();
+    queue.offer("A"); // add to tail
+    queue.offer("B");
+    queue.poll();      // remove from head → returns "A"
+
+
+Why efficient?
+Removing from head in linked list is O(1).
+
+    5) As a Stack (LIFO)
+
+    Using Deque methods:
+
+    Deque<String> stack = new LinkedList<>();
+    stack.push("A"); // insert at head
+    stack.push("B");
+    stack.pop();     // remove from head → returns "B"
+
+
+    Here, head is top of stack → push & pop are O(1).
+
+    6) Quick Summary Table
+    Role	Interface Used	Methods Used	Performance	Why Works
+    List	List	add(), get(), remove()	Insert/remove O(1) (ends), get O(n)	Maintains order
+    Queue	Queue	offer(), poll()	O(1)	Head = dequeue, Tail = enqueue
+    Stack	Deque	push(), pop()	O(1)	Head acts as stack top
+    Final Understanding (In One Line)
+
+LinkedList is multi-purpose because:
+    It is a doubly linked data structure, making head/tail operations cheap.
+    It implements List, Queue, and Deque, so it can switch behaviors based on method usage.

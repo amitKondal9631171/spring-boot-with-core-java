@@ -1,0 +1,204 @@
+
+****Thread enters a synchronized block or synchronized method, it acquires the intrinsic lock (monitor) associated with the object being synchronized on.
+
+***Need locks in multithreading to protect shared resources and ensure safe, predictable behavior when multiple threads access or modify the same data.
+    Yes, wait(), notify(), and notifyAll() are used strictly for inter-thread communication, and they must be used on an object that is shared among multiple threads.
+        wait, notify, and notifyAll must be called on a shared object — typically something like a shared queue, list, or buffer.
+        Example:
+            Producer thread puts data into a buffer.
+            Consumer thread takes data from the buffer.
+            They synchronize access to the same shared object.
+
+1️⃣ Purpose
+    wait() → Makes the current thread pause and release the lock until another thread signals it.
+    notify() → Wakes up one waiting thread.
+    notifyAll() → Wakes up all waiting threads on the same monitor.
+
+1️⃣ To Ensure Thread Safety:
+    Imagine two threads accessing the same bank account balance at the **SAME TIME***:
+    class BankAccount {
+        int balance = 100;
+
+        void withdraw(int amount) {
+            balance = balance - amount;
+        }
+    }
+    Without Lock:
+        Thread A reads balance = 100
+        Thread B reads balance = 100
+        Both subtract 50
+        Final balance = 50 ❌ (Should have been 0)
+
+    With Lock (synchronized):
+        Thread A acquires the lock → updates balance → releases the lock.
+        Thread B acquires lock after A releases → updates safely.
+        Final balance = 0 ✅
+
+2️⃣ To Prevent Data Inconsistency
+    When threads read and write shared variables simultaneously, you can get:
+    Dirty reads → One thread reads stale data.
+    Lost updates → Updates from one thread overwrite another.
+    Locks serialize access, ensuring one thread completes its update before another starts.
+
+
+3️⃣ To Avoid Instruction Reordering Issues
+    The JVM and CPU can reorder operations for optimization.
+    For example:
+    flag = true;
+    data = 42;
+    Without a LOCK or VOLATILE, another thread might see flag = true but still see data = 0 due to reordering.
+    Locks establish happens-before relationships, guaranteeing visibility of updated values.
+
+4️⃣ To Support Coordination
+    Locks are needed for advanced thread coordination mechanisms like:
+    wait() / notify() / notifyAll()
+    Condition objects with ReentrantLock
+    These rely on holding a lock before signaling other threads.
+
+5️⃣ To Handle Atomic Operations
+    Even simple-looking operations like:
+        counter++;
+    are not atomic. It actually translates to:
+        Read value.
+        Increment.
+        Write back.
+
+    With locks:
+    Only one thread at a time can perform the full sequence, keeping the value consistent.
+
+6️⃣ To Prevent Race Conditions
+    A race condition occurs when output depends on the timing of threads.
+    Locks force deterministic behavior regardless of how threads are scheduled.
+
+
+| **Need**                   | **What Lock Solves**               |
+| -------------------------- | ---------------------------------- |
+| Data corruption            | Only one thread modifies at a time |
+| Stale or inconsistent data | Ensures memory visibility          |
+| Lost updates               | Serializes write operations        |
+| Unpredictable behavior     | Creates order and predictability   |
+
+
+
+Every Java object implicitly has:
+    A monitor (lock) → used to enforce synchronized blocks/methods
+    A wait-set → a list of threads waiting for a signal
+
+How it Works — Step by Step
+🔹 (a) Entering a synchronized block
+        When a thread enters a synchronized block on object obj:
+            It tries to acquire the monitor lock of obj.
+            If lock is available, it enters.
+            If lock is taken, it waits until lock becomes free.
+
+🔹 (b) Calling wait()
+    When a thread calls:
+
+        synchronized(obj) {
+            obj.wait();
+        }
+
+    Internally:
+        Thread must hold the monitor of obj (enforced by JVM). ***
+        The thread:
+            Releases the monitor lock.
+            Moves into the wait-set (a queue) of that object.
+            Enters the WAITING state.
+            Another thread can now acquire the lock and make updates.
+
+🔹 (c) Calling notify()
+        When another thread does:
+            synchronized(obj) {
+                obj.notify();
+            }
+        Internally:
+            JVM picks one random thread from obj’s wait-set.
+            Moves it from WAITING → BLOCKED (ready to reacquire lock).
+            The awakened thread will not proceed immediately; it must reacquire the monitor lock to continue.
+
+ 🔹 (d) Calling notifyAll()
+         Similar to notify() but wakes all threads in the wait-set.
+         They will compete for the lock, one at a time.
+ 🔹 (e) Exiting the synchronized block
+         When the current thread exits the synchronized block, the lock is released.
+         One of the waiting threads can acquire it and resume execution.
+
+
+
+| Concept                         | Rule                                                                                               |
+| ------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **Lock ownership**              | A thread must **own the object's lock** before calling `wait`, `notify`, or `notifyAll`.           |
+| **Wait releases lock**          | `wait()` **releases the monitor** and puts thread into object's wait-set.                          |
+| **Notify doesn’t release lock** | `notify` only signals a waiting thread but doesn't release the lock until synchronized block ends. |
+| **Condition loop**              | Always check the condition in a loop with `while` to handle **spurious wakeups**.                  |
+
+
+| Calling `wait()` without synchronization | `IllegalMonitorStateException`                        |
+| ---------------------------------------- | ----------------------------------------------------- |
+| Mistake                                  | Issue                                                 |
+| Using `if` instead of `while`            | Risk of missing correct state due to spurious wakeups |
+| Forgetting to `notify`                   | Waiting threads may block forever                     |
+| Deadlocks                                | If locks are acquired in inconsistent order           |
+
+
+
+When a thread enters a loop, it does not "block" other threads.
+    Instead:
+        The thread will keep running until the CPU scheduler decides to context switch it out.
+        If there are other threads in RUNNABLE state, the scheduler may pause the current thread and run another one in parallel (time-sliced).
+        So yes, multiple threads appear to run in parallel, but on a single-core CPU it's just rapid switching, while on multi-core CPUs truly simultaneous execution happens.
+        yield() just increases the chance another thread will get CPU time, but it doesn’t guarantee it.
+
+| **Aspect**                | **`yield()`**                       | **`sleep()`**                       |
+| ------------------------- | ----------------------------------- | ----------------------------------- |
+| **State Change**          | Stays in **RUNNABLE**               | Goes to **TIMED\_WAITING**          |
+| **Guarantee of Pause**    | No guarantee                        | Guaranteed for given time           |
+| **Who Decides Execution** | Scheduler only                      | Scheduler after sleep time ends     |
+| **Use Case**              | Just hinting for better CPU sharing | To pause execution for a fixed time |
+
+
+
+| Feature                  | `synchronized`          | `ReentrantLock`               |
+| ------------------------ | ----------------------- | ----------------------------- |
+| **Reentrancy**           | Yes                     | Yes                           |
+| **Lock Release**         | Automatic               | Manual (must call `unlock()`) |
+| **Try Without Blocking** | ❌ No                    | ✅ Yes (`tryLock()`)           |
+| **Interruptible**        | ❌ No                    | ✅ Yes                         |
+| **Fairness**             | ❌ No                    | ✅ Yes (optional)              |
+| **Condition Variables**  | Limited (`wait/notify`) | Advanced (`Condition`)        |
+
+
+| Feature                   | `wait`/`notify`              | `Condition`                            |
+| ------------------------- | ---------------------------- | -------------------------------------- |
+| Number of waiting queues  | One per object               | Multiple per lock                      |
+| Readability               | Harder                       | Cleaner                                |
+| Signal control            | `notify` wakes random thread | `signal` and `signalAll` for precision |
+| Timeout/Interrupt support | Limited                      | Advanced support                       |
+| Debugging                 | Hard                         | Easier                                 |
+
+Multiple Condition Variables
+    With wait/notify (intrinsic locks):
+    There’s only one wait set per monitor (lock object).
+    All threads waiting on the object are treated the same.
+    If you want separate signals for producers and consumers, you need complex custom logic.
+    With Condition:
+    You can create multiple condition queues from the same lock.
+    Example:
+    private final Condition notFull = lock.newCondition();
+    private final Condition notEmpty = lock.newCondition();
+    Producers wait on notFull, consumers wait on notEmpty — clean separation of concerns.
+
+
+2️⃣ Clearer, More Readable API
+    wait() and notify() require calls inside synchronized blocks and exception handling for InterruptedException.
+    With Condition, you have explicit lock acquisition and unlocking, making code cleaner and easier to reason about.
+
+With wait/notify (Intrinsic Locks)
+    Each object in Java has only one "wait set" — basically one queue of waiting threads.
+    If multiple threads call wait() on the same object, they all end up waiting in the same single queue.
+    When you call notify(), one random thread from this single queue wakes up.
+    This becomes problematic in cases where you have different conditions for threads.
+
+With Condition (ReentrantLock)
+    A single lock can create multiple condition queues, each acting like an independent waiting queue.
+    This lets you separate different wait conditions cleanly and explicitly.

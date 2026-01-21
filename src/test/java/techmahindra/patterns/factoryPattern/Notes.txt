@@ -1,0 +1,20 @@
+1️⃣ What is the Factory Design Pattern?
+    The Factory Design Pattern is a creational design pattern that hides object creation logic from the client.
+    Instead of creating objects using the new keyword directly, you delegate the creation process to a factory class or method.
+
+
+    | **Drawback**         | **Impact**                            |
+    | -------------------- | ------------------------------------- |
+    | Increased complexity | Adds boilerplate for simple creations |
+    | Harder maintenance   | Frequent modifications for new types  |
+    | Tight coupling       | Factory changes ripple to client code |
+    | Testing overhead     | Requires mocks for testing            |
+    | Performance hit      | Slight overhead in creation           |
+    | Limited flexibility  | Without DI or advanced patterns       |
+    | Overuse risk         | Leads to over-engineering             |
+
+
+When to Avoid Factory Pattern
+    When object creation is simple and unlikely to change.
+    When the system doesn’t need loose coupling for object instantiation.
+    In small projects where clarity and simplicity are more valuable than extensibility.

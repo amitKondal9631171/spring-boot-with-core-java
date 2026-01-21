@@ -1,0 +1,411 @@
+What do you understand by the term 'Spring Boot'?
+    Spring Boot is an open-source, java-based framework that provides support for Rapid Application Development
+    and gives a platform for developing stand-alone and production-ready spring applications with a need for
+    very few configurations.
+    Spring Boot helps to create stand-alone applications which can be started using java.jar
+    Auto-Configuration: Provides a way to automatically configure an application based on the dependencies present on the classpath.
+    Lessening the lines of code.
+
+
+In the life of a Spring Boot app, the class marked with @SpringBootApplication (and therefore @SpringBootConfiguration) is the first configuration class Spring uses
+    to bootstrap the context. So, your app class is literally the entry point for building the bean factory.
+    i) Creates an ApplicationContext
+
+
+When beans are combined together within the Spring container,
+    they are said to be wired or the phenomenon is called bean wiring.
+The Spring container should know what beans are needed and how the beans are dependent
+    on each other while wiring beans. This is given by means of XML / Annotations / Java code-based configuration.
+
+***https://www.baeldung.com/circular-dependencies-in-spring
+
+https://mkyong.com/spring/spring-bean-scopes-examples/
+
+When resolving @Autowired, Spring:
+    Checks by type first.
+
+    If multiple beans → tries to match by name.
+        @Component("v8Engine")
+        class Engine {}
+        @Component("v6Engine")
+        class Engine {}
+        @Component
+        class Car {
+            @Autowired
+            private Engine v8Engine;   // field name matches bean name → injects v8Engine
+        }
+
+    If still multiple → looks for @Primary bean.
+
+    If still ambiguous → needs @Qualifier to resolve.
+        @Component("dieselEngine")
+        class Engine {}
+        @Component("petrolEngine")
+        class Engine {}
+        @Component
+        class Car {
+            @Autowired
+            @Qualifier("dieselEngine")
+            private Engine engine;
+        }
+
+    If none match → exception.
+
+Use:
+    @Primary → for default bean
+    @Qualifier → to explicitly select another bean
+
+    @Service
+    @Primary
+    public class EmailMessageService implements MessageService {
+        public void send(String msg) { System.out.println("Email: " + msg); }
+    }
+
+
+What are the possible sources of external configuration?
+    Command-line properties – Spring Boot provides support for command-line arguments and converts these arguments to properties and then adds them to the set of environment properties.
+    Application Properties – By default, Spring Boot searches for the application properties file or its YAML file in the current directory of the application, classpath root, or config directory to load the properties.
+    Profile-specific properties – Properties are loaded from the application-{profile}.properties file or its YAML file. This file resides in the same location as that of the non-specific property files and the {profile} placeholder refers to an active profile or an environment.
+
+Can the default web server in the Spring Boot application be disabled?
+    Yes! application.properties is used to configure the web application type,
+    by mentioning spring.main.web-application-type=none
+
+Can you create a controller without using @Controller or @RestController annotations?
+    Yes!  by annotating the Spring MVC Controller classes using the @Component annotation.
+    In this case, the real job of request mapping to handler method is done using the
+    @RequestMapping annotation
+
+@Component vs @Bean
+    @Component auto detects and configures the beans using classpath scanning whereas @Bean explicitly declares a single bean, rather than letting Spring do it automatically.
+    @Component is a class level annotation whereas @Bean is a method level annotation and name of the method serves as the bean name.
+    @Component not to be used with the @Configuration annotation where as @Bean annotation has to be used within the class which is annotated with @Configuration.
+    We cannot create a bean of a class using @Component, if the class is outside spring container whereas we can create a bean of a class using @Bean even if the class is present outside the spring container.
+    @Component has different specializations like @Controller, @Repository and @Service whereas @Bean has no specializations.
+    You can use @Bean -annotated methods with any Spring @Component . However, they are most often used with @Configuration beans.
+
+URI (Uniform Resource Identifier)
+    mailto:amit@example.com → email address (not a web link, but still a URI
+
+URL (Uniform Resource Locator)
+    https://example.com/products/10 → protocol = https, host = example.com, path = /products/10.
+    👉 URL = URI + “locator mechanism” (protocol/host info).
+
+👉 Every URL is a URI, but not every URI is a URL.
+What are the differences between @RequestParam and @PathVariable annotations?
+    The @RequestParam is used to extract query parameters that is anything after “?” in the URL.
+        For example, if the given URL is
+                        http://localhost:8080/InterviewBit/Spring/SpringMVC/?format=json,
+                        then you can access the query parameter “format” using the
+                        ]
+
+    The @PathVariable is used to extract the data present as part of the URI itself.
+        e.g. :-> /student/{id} using the @PathVariable
+
+@ModelAttribute:
+“This object should be part of the model (data for the view). Also, if there’s incoming request data, bind it to this object.”
+@PostMapping("/register")
+public String registerUser(@ModelAttribute User user) {
+    // Spring binds request params -> User fields
+    // e.g., name=John&email=john@example.com
+    // user.setName("John"), user.setEmail("john@example.com")
+    return "success";
+}
+
+What is the importance of the web.xml in Spring MVC?
+    web.xml is also known as the Deployment Descriptor.
+    Web.xml is used for configuring the DispatcherServlet, defining servlets and their
+    mappings, filters. It is also used for configuring the ContextLoaderListener.
+    Whenever the application is deployed, a ContextLoaderListener instance is created by Servlet container like tomcat
+      which leads to a load of WebApplicationContext
+
+
+What is the importance of @Required annotation?
+    The annotation is used for indicating that the property of the bean should be
+    populated via auto wiring during the bean definition at the configuration time.
+
+Are singleton beans thread-safe?
+    No, the singleton beans are not thread-safe because the concept of thread-safety
+    essentially deals with the execution of the program and the singleton is simply a
+    design pattern meant for the creation of objects.
+
+How can you achieve thread-safety in beans?
+    The thread safety can be achieved by changing the scope of the bean to request,
+    session or prototype but at the cost of performance.
+    This is purely based on the project requirements.
+
+
+How is the dispatcher servlet instantiated?
+    The dispatcher servlet is instantiated by means of servlet containers such as
+    Tomcat. The Dispatcher Servlet should be defined in web.xml The DispatcherServlet
+    is instantiated by Servlet containers like Tomcat.
+     <!-- Define Dispatcher Servlet -->
+     <servlet>
+       <servlet-name>appServlet</servlet-name>
+       <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+       <init-param>
+         <param-name>contextConfigLocation</param-name>
+         <param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+       </init-param>
+       <load-on-startup>1</load-on-startup>
+     </servlet>
+
+
+To handle millions of requests per second, prioritize a distributed architecture with load balancing, caching, and horizontal scaling.
+While horizontal scaling refers to adding additional nodes, vertical scaling describes adding more power to your current machines.
+
+<context:annotation-config> = Scan and activate annotations in pre-registered beans.
+<context:component-scan> = Register Bean + Scan and activate annotations in package
+
+What do you understand by MultipartResolver?
+    The MultipartResolver is used for handling the file upload scenarios in the
+    Spring web application.
+
+Beans Supported by DispatcherServlet ?
+    HandlerMapping
+    ViewResolver
+    ThemeResolver
+
+How is the dispatcher servlet instantiated?
+    The DispatcherServlet is automatically instantiated and initialized by the Servlet
+    container during web application startup. It acts as the front controller for Spring MVC applications,
+    managing the entire request-response lifecycle.
+
+Differentiate between a Bean Factory and an Application Context.
+    BeanFactory
+        BeanFactory is the root interface for accessing a Spring bean container. It provides basic Inversion of Control (IoC) and Dependency Injection (DI) features.
+        BeanFactory is lazy-initiated, which means it only creates a bean when you call getBean() method.
+        It supports bean instantiation/wiring and allows you to read bean definitions and access them using the getBean() method.
+        BeanFactory is lighter and has less functionality compared to ApplicationContext.
+    ApplicationContext
+        ApplicationContext extends the BeanFactory interface and has all features of BeanFactory. It adds more enterprise-specific functionality.
+        It provides additional features such as easier integration with Spring’s AOP features, message resource handling (for use in internationalization), event propagation, and application-layer specific contexts such as WebApplicationContext for web applications.
+        The beans in ApplicationContext are singleton and are initiated at the time of loading the context, not when getBean() is called.
+        It supports internationalization for text messages, event propagation, and various contexts.
+        ApplicationContext also provides a way to resolve text messages, which is a useful feature for internationalization.
+
+
+
+What are Spring Interceptors?
+    Spring Interceptors are components in the Spring MVC framework that allow you to
+        intercept and process HTTP requests and responses.
+     They provide a way to perform pre-processing and post-processing tasks before and
+        after the actual request is handled by a controller or after the response is generated.
+    Step 1: define interceptor as component:
+        @Component
+        public class RequestInterceptor implements HandlerInterceptor
+
+
+Explain inner beans in Spring.
+    A bean can be declared as an inner bean only when it is used as a property of
+        another bean.
+
+    e.g.
+        @Component
+        public class OuterBean{
+
+          @Bean
+          private InnerBean getInnerBean(){
+            return new InnerBean();
+          }
+
+        }
+
+What are the limitations with auto wiring?
+    Primitive data type: Simple properties such as primitives, Strings and Classes can’t be autowired.
+    Overriding possibility: You can always specify dependencies using <constructor-arg> and <property>
+                settings which will override auto wiring.
+
+@Component: This marks a java class as a bean. It is a generic stereotype for any Spring-managed component.
+            The component-scanning mechanism of spring now can pick it up and pull it into the application
+            context.
+@Controller: This marks a class as a Spring Web MVC controller. Beans marked with it are automatically
+             imported into the Dependency Injection container.
+@Service: This annotation is a specialization of the component annotation. It dose not provide any additional
+            behavior over the @Component annotation. You can use @Service over @Component in service-layer
+            classes as it specifies intent in a better way.
+@Repository: This annotation is a specialization of the @Component annotation with similar use and
+            functionality. It provides additional benefits specifically for DAOs. It imports the DAOs into
+            the DI container and makes the unchecked exceptions eligible for translation into Spring
+            DataAccessException.
+
+
+What do you understand by @RequestMapping annotation ?
+    @RequestMapping annotation is used for mapping a particular HTTP request method
+        to a specific class method in controller that will be handling the respective request.
+    This annotation can be applied at both levels:
+        Class level : Maps the URL of the request
+        Method level: Maps the URL as well as HTTP request method
+
+Name the types of transaction management that Spring supports ?
+    Two types of transaction management are supported by Spring. They are:
+        Programmatic transaction management: In this, the transaction is managed with the help of programming.
+                                    It provides you extreme flexibility, but it is very difficult to maintain.
+        Declarative transaction management: In this, the transaction management is separated from the business code.
+                                    Only annotations or XML based configurations are used to manage the transactions.
+
+Authorization:
+    https://www.youtube.com/watch?v=udTU4kmii8A
+
+To create a custom endpoint in Spring Boot 2.x, you can use the @Endpoint annotation.
+
+What are the Spring Boot key components?
+
+Here are the key components of Spring Boot:
+    Auto-configuration: One of the most attractive features of Spring Boot is its ability to
+                        automatically configure your application based on the dependencies you’ve
+                        added to your project. For example, if you have a MySQL database driver on
+                        your classpath, Spring Boot auto-configures a DataSource.
+    Starter Dependencies: Spring Boot provides a set of starter projects to simplify your build
+                          configuration. These starters bring in all the dependencies you’ll need
+                          for a specific type of application. For instance, if you are developing
+                          a web application, you can add the spring-boot-starter-web dependency to
+                          your project, and it will include all necessary dependencies.
+    Embedded Servers: Spring Boot has embedded Tomcat, Jetty, and Undertow servers, meaning you
+                      don’t need to deploy WAR files. Your Spring Boot application can be a
+                      standalone application with an embedded server.
+    Actuator: The Spring Boot Actuator module provides production-ready features to help you
+                monitor and manage your application. It includes features like health checks,
+                metrics gathering, HTTP tracing, etc.
+    CLI (Command Line Interface): This is another key component of Spring Boot, which is optional.
+                The CLI allows you to develop Spring Boot applications using Groovy. It simplifies
+                the code structure by automatically adding all the necessary annotations and imports.
+
+Why Spring Boot over Spring?
+
+Due to the following reasons:
+    Simplicity & Speed: Spring Boot simplifies the bootstrapping and development process of
+                        Spring applications. It’s easier and quicker to set up a new Spring
+                        application with Spring Boot, which makes it ideal for beginners and
+                        for situations where speed of development is important.
+    Auto-configuration: Spring Boot offers ‘auto-configuration’ which takes the guesswork out
+                        of configuring Spring applications. It can automatically provide
+                        configuration properties based on what it sees on your application’s
+                        classpath. For example, if Spring Boot detects HSQLDB on your classpath,
+                        it will automatically configure an in-memory database for you.
+    Embedded Servers: Spring Boot applications can include an embedded servlet container
+                        (like Tomcat, Jetty, or Undertow), allowing them to be packaged as
+                        standalone executable JARs. This is very convenient for microservice
+                        architectures and for cloud-based deployment, as there is no need for
+                        external servlet containers.
+
+
+@SpringBootApplication is basically a convenience annotation in Spring Boot. It combines three commonly used annotations into one,
+    so you don’t have to write them separately every time. Under the hood, it contains:
+
+    @SpringBootConfiguration
+        A specialization of @Configuration.
+        Marks the class as a source of bean definitions (like a Java-based Spring configuration).
+    @EnableAutoConfiguration
+        Tells Spring Boot to automatically configure beans depending on the classpath contents and defined beans.
+        For example, if you have spring-boot-starter-web, it auto-configures DispatcherServlet, Tomcat, Jackson, etc.
+    @ComponentScan
+        Scans the package of the class annotated with @SpringBootApplication (and its subpackages) for @Component, @Service, @Repository, and @Controller beans,
+                then registers them in the Spring context.
+
+1️⃣ @Controller
+    Definition: Marks a class as a Spring MVC controller.
+    Purpose: Typically used to return views (like JSP, Thymeleaf, HTML pages) or handle web requests.
+    @Controller
+    public class MyController {
+
+        @RequestMapping("/hello")
+        public String hello(Model model) {
+            model.addAttribute("message", "Hello World");
+            return "hello"; // Returns view name "hello.jsp" or "hello.html"
+        }
+    }
+    Here, return "hello" does not return raw data.
+    Spring resolves the view name to render HTML.
+
+    2️⃣ @RestController
+        Definition: Introduced in Spring 4+. It’s a shortcut for:
+        @Controller + @ResponseBody
+        Purpose: Used in REST APIs, returns JSON/XML data directly instead of a view.
+        @ResponseBody automatically serializes the return object to JSON or XML using MessageConverters.
+
+
+| Feature          | `@Configuration`                         | `@EnableAutoConfiguration`                            |
+| ---------------- | ---------------------------------------- | ----------------------------------------------------- |
+| Belongs to       | Core Spring                              | Spring Boot                                           |
+| Purpose          | Define beans manually                    | Import beans automatically                            |
+| Control          | Explicit (you write `@Bean`)             | Implicit (Boot decides based on conditions)           |
+| Flexibility      | High but verbose                         | Fast setup, can exclude/override configs              |
+| Example Use Case | Custom service beans, fine-grained setup | Web server setup, DataSource, Jackson, Security, etc. |
+
+
+So you can think of it like this:
+    @Configuration → “I can define beans.”
+    @SpringBootConfiguration → “I am the main configuration class for a Boot app. Treat me specially.”
+
+
+| Aspect           | `prototype`                                | `request`                                      |
+| ---------------- | ------------------------------------------ | ---------------------------------------------- |
+| Where it works   | Core Spring (any app)                      | Web apps only (Servlet/WebFlux)                |
+| Lifetime         | New instance every time you `getBean()`    | New instance per HTTP request                  |
+| Destroy phase    | Not managed by Spring                      | Managed by Spring at end of request            |
+| Typical use case | Short-lived worker objects, stateful beans | Request-specific state (user session, headers) |
+|                  | Multi-threaded tasks:                      |
+|                  |  Each thread needs its own instance to     |
+|                  |   avoid race conditions.                   |
+
+
+Core (always available, even without web):
+    1) Singleton (default)
+            Only one instance per Spring container.
+            Cached and reused for the lifetime of the app.
+            Example: services, repositories, controllers.
+
+    2) Prototype
+              New instance every time you ask for it (getBean() or injection).
+              Spring doesn’t manage destruction.
+              Example: temporary workers, builders.
+Web-aware scopes (available in Servlet/WebFlux apps)
+    1) Request
+            One instance per HTTP request.
+            Destroyed at the end of the request.
+            Example: store request metadata, caching inside request.
+    2) Session
+               One instance per HTTP session (per user session).
+               Shared across multiple requests from the same user until session expires.
+               Example: shopping cart, user preferences.
+    3) Application
+               One instance per ServletContext (i.e., web app).
+                Shared by all sessions and requests in that web application.
+                Example: global app-level cache, metrics holder.
+
+
+
+| Feature / Aspect               | Spring Boot 2                   | Spring Boot 3                                  | Why a Lead Cares                                                            |
+| ------------------------------ | ------------------------------- | ---------------------------------------------- | --------------------------------------------------------------------------- |
+| **Java Version**               | Java 8+                         | Java 17+                                       | Modern language features, LTS, better performance                           |
+| **Spring Framework**           | Spring 5                        | Spring 6                                       | Jakarta EE 10 support, AOT compilation, native-image support                |
+| **Jakarta Namespace**          | `javax.*`                       | `jakarta.*`                                    | Mandatory for future-proofing apps, aligns with modern enterprise standards |
+| **Native Compilation**         | Limited / experimental          | Full GraalVM native-image support              | Faster startup, lower memory — ideal for cloud/microservices                |
+| **Observability**              | Micrometer (basic)              | Micrometer + OpenTelemetry, improved Actuator  | Better metrics, tracing, and logging for production-ready monitoring        |
+| **Configuration**              | Less strict                     | Stricter, supports `record`-based config       | Reduces misconfigurations, encourages immutable, type-safe configs          |
+| **Web / Reactive**             | WebFlux, basic reactive support | Improved WebFlux + RSocket                     | Non-blocking apps, scalable event-driven systems                            |
+| **Testing**                    | JUnit 4/5, basic slices         | Modern test slices, Testcontainers integration | Easier integration testing, more robust QA                                  |
+| **Deprecated/Removed Modules** | Some old modules                | Legacy modules removed                         | Cleaner, lighter dependencies, avoids security/performance issues           |
+
+“Upgrading to Spring Boot 3 allows us to leverage modern Java 17 features, better observability via Micrometer and OpenTelemetry, and native-image compilation for
+    faster startup. It aligns with modern enterprise standards. It enforces stricter configuration, reduces runtime errors, and supports reactive/event-driven
+    systems at scale. As a lead, it gives us a robust foundation for cloud-native, maintainable, and high-performance microservices.”
+
+“Spring Boot 3 supports GraalVM native images by AOT-processing reflection, proxies, and DI at build time. This allows us to compile the app into a native
+    executable with much faster startup and lower memory, ideal for cloud-native microservices that scale dynamically.”
+
+
+Faster understood but why less memory is because:
+    1. No JVM Heap Overhead
+            Regular JVM apps have:
+            Heap memory for objects
+            PermGen/Metaspace for class metadata
+            Garbage collector metadata
+            Native images compile all code ahead-of-time, so there’s no need for a full JVM heap at runtime.
+            Objects are laid out in static memory more efficiently, reducing GC overhead.
+    2. No JIT Warm-Up
+            JVM normally uses Just-In-Time (JIT) compilation:
+            Methods are interpreted first, then compiled to optimized machine code as they’re used.
+            JIT consumes memory for profiling, code caches, and optimization data.
+            Native image: code is already compiled to machine code → no JIT metadata or code caches → less memory usage.

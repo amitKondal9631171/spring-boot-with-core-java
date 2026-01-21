@@ -1,0 +1,57 @@
+Stream
+ ├── Intermediate Operations (lazy, return Stream)
+ │    ├── Transformations
+ │    │    ├── map(Function<T,R>)          → T -> R
+ │    │    ├── mapToInt / mapToLong / mapToDouble
+ │    │    ├── flatMap(Function<T, Stream<R>>)  → flatten nested streams
+ │    │
+ │    ├── Filtering
+ │    │    ├── filter(Predicate<T>)       → keep elements matching condition
+ │    │    ├── distinct()                 → remove duplicates
+ │    │
+ │    ├── Slicing / Limiting
+ │    │    ├── limit(n)                   → take first n elements
+ │    │    ├── skip(n)                    → skip first n elements
+ │    │
+ │    ├── Sorting
+ │    │    ├── sorted()                   → natural order
+ │    │    ├── sorted(Comparator)         → custom order
+ │
+ └── Terminal Operations (eager, consume Stream)
+      ├── Reduction
+      │    ├── reduce(BinaryOperator)      → combine elements
+      │    ├── sum / max / min             → for numeric streams
+      │
+      ├── Collection
+      │    ├── collect(Collectors.toList / Set / Map / groupingBy / joining)
+      │
+      ├── Matching
+      │    ├── allMatch / anyMatch / noneMatch
+      │
+      ├── Finding
+      │    ├── findFirst / findAny
+      │
+      └── Iteration / For-each
+           ├── forEach / forEachOrdered
+
+Why Streams Were Introduced
+    Simplify collection processing: Before Streams, we used loops and external iteration (for, for-each) — verbose and error-prone.
+    Functional programming style: Allows declarative programming — focus on what to do, not how to do it.
+    Readability & maintainability: Chains of operations (filter, map, reduce) express intent clearly.
+
+Drawbacks / Considerations
+    Overhead for small collections: Streams can be slower than simple loops for tiny datasets because of internal objects and pipeline creation.
+    Debugging difficulty: Harder to put breakpoints in chained operations.
+    Immutability requirement: Avoid modifying external state inside a stream (side effects).
+    *** Cannot reuse: Streams are consumed once — cannot traverse twice. ***
+
+“Streams were introduced to simplify data processing with a declarative, functional style and support easy parallelism.
+    They improve readability, composability, and allow bulk operations efficiently. However, they are not a silver bullet — for small collections or critical
+    low-level loops, traditional iteration may outperform, and parallel streams require careful handling to avoid race conditions.”
+
+
+| Method                  | Lazy or Eager? | Behavior                                        |
+| ----------------------- | -------------- | ----------------------------------------------- |
+| `orElse(T other)`       | **Eager**      | Always evaluates `other`, even if value present |
+| `orElseGet(Supplier)`   | **Lazy**       | Calls supplier only if value absent             |
+| `orElseThrow(Supplier)` | **Lazy**       | Throws exception only if value absent           |

@@ -1,0 +1,31 @@
+
+
+
+
+
+New Features:
+
+    Upgraded JVM Memory management with MetaSpace which increases the memory dynamically.
+               Removed Permanent Generation memory because it was not dynamic in nature.
+               Manually memory needs to manage.
+
+    Lambda expression − Adds functional processing capability to Java.
+
+    Method references − using functions as parameter.
+
+    Default method − Interface to have default method implementation.
+
+    New tools − New compiler tools and utilities are added like ‘jdeps’ to figure out dependencies.
+
+    Stream API − New stream API to facilitate pipeline processing.
+               - become easy to working with files.
+
+    Date Time API − Improved date time API.
+
+    Optional − Emphasis on best practices to handle null values properly.
+
+    resolved diamond problem using default method in interfaces
+    Optional − use to handle null values properly.
+
+    Till JDK 1.7, multiple inheritance was not possible in java through the use of classes. But from JDK 1.8 onwards,
+     multiple inheritance is possible via the use of interfaces with default methods.

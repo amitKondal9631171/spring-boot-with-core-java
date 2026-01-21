@@ -1,0 +1,36 @@
+1️⃣ Quick Recap of Adapter Pattern
+    The Adapter Pattern is a structural design pattern that allows objects with incompatible interfaces to work together by providing a wrapper that translates one interface into another.
+    Think of it as a translator between two systems.
+
+2️⃣ REST API Scenario
+    Imagine:
+    Your application is exposing a REST API to clients.
+    Internally, you need to consume a third-party service, but its API response/structure is different from what your API expects.
+    The Adapter bridges this difference without changing either the client contract or the third-party API.
+
+
+| Benefit             | Explanation                                                                   |
+| ------------------- | ----------------------------------------------------------------------------- |
+| **Decoupling**      | Your internal model and contract are independent of the third-party response. |
+| **Maintainability** | If the external API changes, only the Adapter layer needs updates.            |
+| **Reusability**     | The adapter can be reused across services wherever transformation is needed.  |
+| **Clean Code**      | Keeps transformation logic separate from business logic.                      |
+
+
+| **Drawback**           | **Impact**                         |
+| ---------------------- | ---------------------------------- |
+| Increased complexity   | Adds more classes and layers       |
+| Performance overhead   | Slight latency in calls            |
+| Maintenance challenges | Frequent updates when APIs change  |
+| Risk of misuse         | Leads to over-engineering          |
+| Hidden complexity      | Harder to debug or trace           |
+| Tight coupling         | Adapter depends heavily on adaptee |
+| Limited functionality  | Cannot enhance core logic          |
+| Harder testing         | Requires mocks for multiple layers |
+| Not future-proof       | Big API changes can break adapters |
+
+
+When to Avoid Adapter Pattern
+    When you can refactor the existing interface instead.
+    When simplicity is more important than compatibility.
+    When performance is critical and the extra layer introduces unacceptable overhead.

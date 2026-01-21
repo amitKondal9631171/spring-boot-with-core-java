@@ -1,0 +1,42 @@
+Common Types:
+Notation	    Name	            Example Use Case                    Simple term
+O(1)	    Constant time	        Accessing an array element          not time increase with increase of count. constant time for each value
+
+O(log n)	Logarithmic time	    Binary search                       means the amount of work grows very slowly as the input size increases. Instead of checking every item, you cut the problem in half each time.
+    Real-Life Analogy: Guessing a Number
+        Imagine you're guessing a number between 1 and 100:
+            You ask: “Is it greater than 50?”
+            Then: “Is it greater than 75?”
+            Then: “Is it greater than 88?”
+            Each time, you cut the range in half.
+            You’ll find the number in about 7 steps, not 100!
+        That’s O(log n) — super efficient!
+
+O(n)	    Linear time	            Looping through an array            means the amount of work grows directly with the size of the input. Looping through a list, searching unsorted data
+    Real-Life Analogy
+        Imagine you're checking names on a list:
+            If the list has 10 names, you check 10 times.
+            If it has 100 names, you check 100 times.
+        So, more input = more time, in a straight line.
+
+O(n log n)	Linearithmic time	    Merge sort, quicksort               combination of linear and logarithmic time, often seen in efficient sorting algorithms
+     Real-Life Analogy
+        Imagine you’re organizing books:
+            You go through each book (O(n))
+            For each book, you find the right spot in a sorted shelf (O(log n))
+        So total effort = n × log n
+
+O(n²)	    Quadratic time	        Nested loops (e.g., bubble sort)    means the amount of work grows with the square of the input size.
+    Real-Life Analogy
+        Imagine you're organizing a party and want to check how every guest interacts with every other guest:
+            For 10 guests → 10 × 10 = 100 interactions
+            For 100 guests → 100 × 100 = 10,000 interactions
+        That’s quadratic growth.
+
+O(2ⁿ)	    Exponential time	    Recursive Fibonacci                 means the amount of work doubles with each step as the input size increases.
+    Real-Life Analogy
+        Imagine a virus that spreads:
+            Day 1: 1 person infected
+            Day 2: 2 people
+            Day 3: 4 people
+            Day 4: 8 people

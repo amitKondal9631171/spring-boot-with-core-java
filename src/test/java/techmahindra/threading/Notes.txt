@@ -1,0 +1,245 @@
+The basic difference between preemptive and non-preemptive scheduling is that in preemptive scheduling
+the CPU is allocated to the processes for the limited time. While in Non-preemptive scheduling, the CPU is
+    allocated to the process till it terminates or switches to waiting state.
+
+yield() basically means that the thread is not doing anything particularly important and if any other
+    threads or processes need to be run, they should run. Otherwise, the current thread will continue to run.
+
+    Use of yield method:
+
+    Whenever a thread calls java.lang.Thread.yield method, it gives hint to the thread scheduler that it is ready to
+     pause its execution. Thread scheduler is free to ignore this hint.
+    If any thread executes yield method , thread scheduler checks if there is any thread with same or high priority
+     than this thread. If processor finds any thread with higher or same priority then it will move the current thread
+     to Ready/Runnable state and give processor to other thread and if not – current thread will keep executing.
+
+
+     Note:
+     Thread State Transition with yield()
+     When you call Thread.yield(), the current thread goes from:
+          RUNNING → RUNNABLE (Ready-to-run state)
+          The thread does not go to BLOCKED, WAITING, or TIMED_WAITING.
+          The scheduler may:
+             Immediately schedule another thread of equal or higher priority, OR
+          Sometimes reschedule the same thread if no other thread is ready.
+
+Both ExecutorService and ScheduledExecutorService are interfaces, with ScheduledExecutorService extending ExecutorService.
+    Executor service and schedule ExecutorService provides the functionality to execute the runnable and callable task
+    concurrently.
+ScheduledExecutorService is an extension of an ExecutorService, so it provides the same functionality with the
+                        addition of several methods that deal with scheduling execution.
+
+Sleep method takes the currently executing thread to sleep for defined time.
+Wait method takes the thread to wait for some resource until some other thread invoke notify method or the notifyAll method for same resource.
+    wait method is applied on the resource object.
+
+Synchronize method acquire lock on the object and block will block the block of statements. This means no other thread can
+    use any synchronized method in the whole object while the method is being run by one thread.
+
+Thread States:
+    New: When a new thread is created, it is in the new state.
+    Runnable: A thread that is ready to run is moved to a runnable state.
+               In this state, a thread might actually be running or it might be ready to run
+               at any instant of time. It is the responsibility of the thread scheduler to give
+               the thread, time to run.
+    Blocked / Waiting: When a thread is temporarily inactive.
+    Terminated: A thread terminates.
+
+DEADLOCK PREVENTION VS DEADLOCK AVOIDANCE
+    Deadlock prevention: is a technique used to ensure that deadlocks, which are situations
+                        where two or more processes are unable to proceed because each is waiting
+                        for the other to release a resource, do not occur.
+                        Aims to eliminate the possibility of deadlocks.
+                        Eliminate Mutual Exclusion
+                        Eliminate Hold and wait
+                        Eliminate Circular Wait
+                        Detection and Recovery: Another approach to dealing with deadlocks is to
+                                                detect and recover from them when they occur.
+                                                This can involve killing one or more of the processes
+                                                involved in the deadlock or releasing some of the .
+                                                resources they hold.
+    Deadlock avoidance: is another technique used to deal with deadlocks.
+                        Banker’s Algorithm:
+                                Inputs to Banker’s Algorithm
+                                    Max needs of resources by each process.
+                                    Currently, allocated resources by each process.
+                                    Max free available resources in the system
+                                The request will only be granted under the below condition
+                                    If the request made by the process is less than equal to the max needed for that process.
+                                    If the request made by the process is less than equal to the freely available resource in
+                                    the system.
+
+| Feature                  | `Executor`                   | `ExecutorService`                                    |
+| ------------------------ | ---------------------------- | ---------------------------------------------------- |
+| **Interface**            | Base abstraction             | Extension of `Executor`                              |
+| **Methods**              | Only `execute(Runnable)`     | `submit`, `invokeAll`, `invokeAny`, `shutdown`, etc. |
+| **Return Type**          | `void`                       | `Future<T>` for result tracking                      |
+| **Lifecycle Management** | ❌ No                        | ✅ Yes                                                |
+| **Use Case**             | Simple fire-and-forget tasks | Complex task management, results, and pooling        |
+
+
+How to Mitigate These Challenges:
+
+| Challenge          | Mitigation                                         |
+| ------------------ | -------------------------------------------------- |
+| Race Conditions    | Use `synchronized`, `Lock`, `Atomic` classes       |
+| Deadlocks          | Consistent lock ordering, try-lock with timeout    |
+| Memory Visibility  | Use `volatile` or proper synchronization           |
+| Debugging          | Use profilers like VisualVM, thread dumps, logging |
+| Performance Issues | Use thread pools wisely, avoid excessive locking   |
+| Testing            | Use stress tests, concurrency testing libraries    |
+| Resource Leaks     | Always `shutdown()` executors                      |
+
+
+| Feature                  | `synchronized`          | `ReentrantLock`               |
+| ------------------------ | ----------------------- | ----------------------------- |
+| **Reentrancy**           | Yes                     | Yes                           |
+| **Lock Release**         | Automatic               | Manual (must call `unlock()`) |
+| **Try Without Blocking** | ❌ No                    | ✅ Yes (`tryLock()`)           |
+| **Interruptible**        | ❌ No                    | ✅ Yes                         |
+| **Fairness**             | ❌ No                    | ✅ Yes (optional)              |
+| **Condition Variables**  | Limited (`wait/notify`) | Advanced (`Condition`)        |
+
+
+"Thread-0" java.lang.IllegalMonitorStateException: current thread is not owner
+
+A race condition occurs in multi-threaded programming when two or more threads access shared data simultaneously, and the final outcome depends on the timing of their execution.
+   This can lead to inconsistent, unexpected, or incorrect results because threads race each other to read or modify the same data.
+
+How to Handle Race Conditions:
+
+| **Approach**                      | **How It Fixes the Issue**                                                                       | **Example**                                                                     |
+| --------------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
+| **1. Use `synchronized`**         | Ensures only one thread can access the critical section at a time.                               | `java synchronized void increment() { counter++; } `                            |
+| **2. Use `ReentrantLock`**        | Provides explicit locking/unlocking, with more advanced features.                                | `java lock.lock(); try { counter++; } finally { lock.unlock(); } `              |
+| **3. Use Atomic Classes**         | Uses **lock-free, thread-safe** operations provided in `java.util.concurrent.atomic`.            | `java AtomicInteger counter = new AtomicInteger(); counter.incrementAndGet(); ` |
+| **4. Reduce Shared State**        | Avoid shared mutable variables wherever possible.                                                | Prefer local variables or immutable objects.                                    |
+| **5. Use Concurrent Collections** | Classes like `ConcurrentHashMap`, `CopyOnWriteArrayList`, etc., handle thread safety internally. | `map.putIfAbsent(key, value);`                                                  |
+
+
+
+
+"Day 1": [
+        "Review Thread lifecycle, states, and creation (Runnable, Callable, Future).",
+
+        Callable and Future are part of Java’s concurrency framework and are often used together when you want to run tasks in a separate thread and get a result back.
+
+            Callable
+                Callable is similar to Runnable but with two key differences:
+                 It returns a value.
+                 It can throw a checked exception.
+                "Study daemon threads and thread priorities with examples."
+
+                Future
+                      Future is like a promise that you’ll get a result later.
+                      It is returned when you submit a Callable to an ExecutorService.
+                Provides methods like:
+                get() → waits and retrieves the result.
+                isDone() → checks if the task is complete.
+                cancel() → cancels the task.
+    ],
+    "Day 2": [
+        "Deep dive into synchronized blocks and intrinsic locks.",
+        "Practice ReentrantLock usage with tryLock(), fairness, and interruptible locks."
+        ReentrantLock is a class in java.util.concurrent.locks package that provides a more flexible, explicit locking mechanism than the synchronized keyword (which uses intrinsic locks).
+            It’s called reentrant because:
+            A thread that already holds the lock can acquire it again without getting blocked.
+            | Feature                 | Description                                                                             |
+            | ----------------------- | --------------------------------------------------------------------------------------- |
+            | **Reentrancy**          | Same thread can acquire the lock multiple times without deadlock.                       |
+            | **Try Locking**         | `tryLock()` lets you attempt to acquire a lock **without blocking**.                    |
+            | **Interruptible**       | `lockInterruptibly()` allows a thread to be **interrupted while waiting** for the lock. |
+            | **Fairness**            | Can be created in **fair** mode (FIFO), ensuring first-come, first-served thread order.
+             |                          ReentrantLock fairLock = new ReentrantLock(true); // fairness = true
+
+            | **Condition Variables** | Provides `newCondition()` for advanced thread coordination, better than `wait/notify`.  |
+
+
+
+    ],
+    "Day 5": [
+        "Explore Semaphore and implement resource-limiting examples."
+    ],
+    "Day 6": [
+        "Deep dive into ExecutorService and ScheduledExecutorService.",
+        1️⃣ ExecutorService
+            A general-purpose thread pool for asynchronous execution of tasks.
+            Key Points:
+            Executes Runnable or Callable tasks immediately when submitted.
+            No built-in scheduling for delayed or periodic execution.
+            Good for one-time or on-demand tasks.
+
+        ScheduledExecutorService Key Features
+            `Can schedule tasks with:
+            Delay (run once after X time)
+            Fixed Rate (run periodically at exact intervals)
+            `Fixed Delay (run periodically but waits for previous execution to finish)
+
+            | Feature            | `ExecutorService`                   | `ScheduledExecutorService`                         |
+            | ------------------ | ----------------------------------- | -------------------------------------------------- |
+            | **Task Execution** | Immediate / on-demand               | Immediate + Delayed + Periodic                     |
+            | **Scheduling**     | ❌ Not supported                     | ✅ Supported                                        |
+            | **Use Case**       | Short-lived tasks, background jobs  | Cron jobs, periodic sync, timed tasks              |
+            | **Thread Pools**   | Fixed, Cached, SingleThreadExecutor | ScheduledThreadPool, SingleThreadScheduledExecutor |
+            | **Complexity**     | Simpler                             | Slightly advanced                                  |
+            | **Examples**       | Processing requests, data uploads   | Auto backups, log cleanup, status monitoring       |
+
+
+    ],
+    "Day 7": [
+        "Learn ForkJoinPool and parallelism concepts.",
+        | Feature         | `ExecutorService`            | `ForkJoinPool`                               |
+        | --------------- | ---------------------------- | -------------------------------------------- |
+        | **Use Case**    | Independent tasks            | Recursive, parallelizable tasks              |
+        | **Parallelism** | Limited, manually controlled | Work-stealing for better CPU usage           |
+        | **API**         | Simple submit/execute        | Requires `RecursiveTask` / `RecursiveAction` |
+        | **Performance** | Good for I/O-bound           | Excellent for CPU-bound divide-and-conquer   |
+
+    ],
+    "Day 9": [
+        "Learn ThreadLocal, volatile keyword, and Java Memory Model.",
+       ]
+
+
+
+ | Workload             | Recommended              |
+ | -------------------- | ------------------------ |
+ | CPU-bound            | Fixed thread pool        |
+ | I/O-bound            | Cached or bounded custom |
+ | Sequential           | Single thread            |
+ | Scheduled            | Scheduled executor       |
+ | Parallel computation | ForkJoinPool             |
+ | Production service   | Custom / Spring executor |
+
+
+
+Project Loom is one of those rare Java changes that quietly rewires your mental model. It doesn’t make CPUs faster, and it doesn’t make blocking disappear
+    — it makes blocking cheap.
+
+Before Loom: why blocking was expensive
+    Classic Java threads (now called platform threads) map roughly 1:1 to OS threads.
+
+If a platform thread blocks:
+    the OS thread blocks
+    memory is tied up (stack ~1–2 MB)
+    context switches are expensive
+    scalability collapses around ~1–2k threads
+
+So we invented:
+    async callbacks
+    reactive streams
+    non-blocking I/O
+    thread pools + backpressure
+    Not because we loved them — because we were cornered.
+
+Loom introduces virtual threads.
+    A virtual thread is a Java thread that is not permanently tied to an OS thread.
+
+Think of it as:
+    A lightweight continuation
+    Scheduled by the JVM
+    Mounted and unmounted from OS threads
+
+
+
+
